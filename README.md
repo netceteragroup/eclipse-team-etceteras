@@ -1,22 +1,9 @@
 Eclipse Team Etceteras
 ======================
 
-The Eclipse Team Etceteras projects offers free Eclipse plug-ins that ease the usage of the IDE in enterprises and teams. 
-
-## Remote Workspace Preferences Plug-in
-* Import an Eclipse preference file available over http
-* Simple variable substitution during the import to allow for localization of preferences
-* Autodetect unconfigured workspaces during start-up and prompt user to configure it
-
-## Remote Project Properties Plug-in
-* Configure Eclipse projects using a simple command file
-* Files (like CheckStyle configuration, ...) might be introduced into the project by a http transfer
-* Basic commands for file download, file removal and directory creation and removal are supported
-
-## Documentation
-* [Installation Guide](Installation)
-* [Release Notes](ReleaseNotes)
-* [Remote Workspace Preferences Plug-in User Guide](WorkspacePrefsUserGuide)
-* [Remote Project Properties Plug-in User Guide ](ProjectPropsUserGuide)
-* [Development Environment Set-up](DevenvSetup)
-* [Continuous Integration Statusasdasd](https://www.contrails.ch/hudson/job/ETE)
+The Eclipse Team Etceteras projects offers free Eclipse plug-ins that ease the usage of the IDE in enterprises 
+and teams. It consists of two plugins that can be installed separately:
+* The _Remote Workspace Preferences Plug-in_ extends Eclipse's existing preference import with the possibility
+to import EPF files over HTTP. Besides that it detects unconfigured workspaces.
+* The _Remote Project Properties Plug-in_ offers a very simple command file to configure projects. The available 
+commands inclide file download, file removal, directory creation and removal and nature addition and removal.
