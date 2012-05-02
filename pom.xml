@@ -9,7 +9,7 @@
 
   <name>Eclipse Team Etceteras</name>
   <description>The Eclipse Team Etceteras projects offers free Eclipse plug-ins that ease the usage of the IDE in enterprises and teams.</description>
-  <url>http://ete.kenai.com</url>
+  <url>https://github.com/pellaton/eclipse-team-etceteras</url>
   <inceptionYear>2010</inceptionYear>
   
   <packaging>pom</packaging>
@@ -37,10 +37,9 @@
   </modules>
   
   <scm>
-  	<url>http://kenai.com/projects/ete/sources/svn/show</url>
-  	<connection>scm:svn:http://svn.kenai.com/svn/ete~svn/ete</connection>
-  	<developerConnection>scm:svn:https://svn.kenai.com/svn/ete~svn/ete</developerConnection>
-  	<tag>trunk</tag>
+  	<url>https://github.com/pellaton/eclipse-team-etceteras</url>
+  	<connection>scm:git:https://pellaton@github.com/pellaton/eclipse-team-etceteras.git</connection>
+  	<developerConnection>scm:git:git@github.com:pellaton/eclipse-team-etceteras.git</developerConnection>
   </scm>
   
   <ciManagement>
@@ -49,8 +48,8 @@
   </ciManagement>
   
   <issueManagement>
-  	<system>JIRA</system>
-  	<url>http://kenai.com/jira/browse/ETE</url>
+  	<system>github</system>
+  	<url>https://github.com/pellaton/eclipse-team-etceteras/issues</url>
   </issueManagement>
   
   <distributionManagement>
