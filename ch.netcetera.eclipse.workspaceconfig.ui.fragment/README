@@ -1,0 +1,5 @@
+This fragment is an example of how to to provide a default configuration for
+the Remote Workspace Preferences plugin using the extension point introduced
+in version 3.0.0.
+
+As it contains some bogus example URLs it is not supposed to actually work!

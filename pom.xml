@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <groupId>ch.netcetera.eclipse</groupId>
+  <artifactId>ete-parent</artifactId>
+  <version>3.0.4-SNAPSHOT</version>
+
+  <name>Eclipse Team Etceteras</name>
+  <description>The Eclipse Team Etceteras projects offers free Eclipse plug-ins that ease the usage of the IDE in enterprises and teams.</description>
+  <url>http://ete.kenai.com</url>
+  <inceptionYear>2010</inceptionYear>
+  
+  <packaging>pom</packaging>
+  
+  <prerequisites>
+    <maven>3.0</maven>
+  </prerequisites>
+  
+  <modules>
+    <module>ch.netcetera.eclipse.common</module>
+    <module>ch.netcetera.eclipse.common.feature</module>
+    <module>ch.netcetera.eclipse.projectconfig.core</module>
+    <module>ch.netcetera.eclipse.projectconfig.feature</module>
+    <module>ch.netcetera.eclipse.projectconfig.ide</module>
+    <module>ch.netcetera.eclipse.projectconfig.net</module>
+    <module>ch.netcetera.eclipse.projectconfig.ui</module>
+    <module>ch.netcetera.eclipse.projectconfig.ui.fragment</module>
+    <module>ch.netcetera.eclipse.workspaceconfig.core</module>
+    <module>ch.netcetera.eclipse.workspaceconfig.feature</module>
+    <module>ch.netcetera.eclipse.workspaceconfig.ide</module>
+    <module>ch.netcetera.eclipse.workspaceconfig.net</module>
+    <module>ch.netcetera.eclipse.workspaceconfig.ui</module>
+    <module>ch.netcetera.eclipse.workspaceconfig.ui.fragment</module>
+    <module>com.kenai.ete.updatesite</module>
+  </modules>
+  
+  <scm>
+  	<url>http://kenai.com/projects/ete/sources/svn/show</url>
+  	<connection>scm:svn:http://svn.kenai.com/svn/ete~svn/ete</connection>
+  	<developerConnection>scm:svn:https://svn.kenai.com/svn/ete~svn/ete</developerConnection>
+  	<tag>trunk</tag>
+  </scm>
+  
+  <ciManagement>
+  	<system>Hudson</system>
+  	<url>https://www.contrails.ch/hudson/job/ETE/</url>
+  </ciManagement>
+  
+  <issueManagement>
+  	<system>JIRA</system>
+  	<url>http://kenai.com/jira/browse/ETE</url>
+  </issueManagement>
+  
+  <distributionManagement>
+    <repository>
+      <id>contrails-releases</id>
+      <url>https://contrails.ch/nexus/content/repositories/releases</url>
+    </repository>
+    <site>
+      <id>contrails-site</id>
+      <url>dav:https://contrails.ch/nexus/content/repositories/site</url>
+    </site>    
+  </distributionManagement>
+  
+  <developers>
+    <developer>
+      <id>pellaton</id>
+      <name>Michael Pellaton</name>
+      <email>michael.pellaton@gmail.com</email>
+      <timezone>+1</timezone>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+    <developer>
+      <id>marschall</id>
+      <name>Philippe Marschall</name>
+      <email>philippe.marschall@gmail.com</email>
+      <timezone>+1</timezone>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
+  </developers>
+  
+  <licenses>
+  	<license>
+  		<name>Eclipse Public License</name>
+  		<url>epl-v10.txt</url>
+  		<distribution>repo</distribution>
+  	</license>
+  </licenses>
+
+  <repositories>
+    <repository>
+      <id>galileo</id>
+      <layout>p2</layout>
+      <url>http://download.eclipse.org/releases/galileo</url>
+    </repository>
+  </repositories>
+
+  <build>
+   <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-compiler-plugin</artifactId>
+        <configuration>
+          <source>${source.version}</source>
+          <target>${target.version}</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <extensions>true</extensions>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <configuration>
+          <resolver>p2</resolver>
+          <pomDependencies>consider</pomDependencies>
+          <environments>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>linux</os>
+              <ws>gtk</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86</arch>
+            </environment>
+            <environment>
+              <os>macosx</os>
+              <ws>cocoa</ws>
+              <arch>x86_64</arch>
+            </environment>
+            <environment>
+              <os>win32</os>
+              <ws>win32</ws>
+              <arch>x86</arch>
+            </environment>
+          </environments> 
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <autoVersionSubmodules>true</autoVersionSubmodules>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <configuration>
+          <xmlOutput>true</xmlOutput>
+          <includeFilterFile>.fb-includes.xml</includeFilterFile>
+          <excludeFilterFile>.fb-excludes.xml</excludeFilterFile>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>findbugs</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>.checkstyle-config.xml</configLocation>
+        </configuration>
+      </plugin>
+    </plugins>
+    
+    <pluginManagement>
+      <plugins>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-compiler-plugin</artifactId>
+        <version>${tycho-version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>tycho-maven-plugin</artifactId>
+        <version>${tycho-version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.eclipse.tycho</groupId>
+        <artifactId>target-platform-configuration</artifactId>
+        <version>${tycho-version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <version>2.2.2</version>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>2.4.0</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>2.9.1</version>
+      </plugin>
+      </plugins>
+    </pluginManagement>
+   </build>
+  
+  <properties>
+    <tycho-version>0.14.1</tycho-version>
+    <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
+    <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+    <source.version>1.6</source.version>
+    <target.version>1.6</target.version>
+  </properties>
+  
+</project>

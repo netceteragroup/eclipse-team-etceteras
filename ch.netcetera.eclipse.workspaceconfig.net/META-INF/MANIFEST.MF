@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %bundle.name
+Bundle-Vendor: %bundle.provider
+Bundle-SymbolicName: ch.netcetera.eclipse.workspaceconfig.net
+Bundle-Version: 3.0.4.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Require-Bundle: ch.netcetera.eclipse.common;visibility:=reexport
+Bundle-ActivationPolicy: lazy
+Export-Package: ch.netcetera.eclipse.workspaceconfig.net
+Service-Component: OSGI-INF/WorkspacePreferenceClient.xml
+Bundle-Localization: plugin

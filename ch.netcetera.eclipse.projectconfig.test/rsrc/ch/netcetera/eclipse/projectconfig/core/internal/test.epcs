@@ -1,0 +1,8 @@
+# comment
+@ metadata value
+mkdir mkdir
+rmdir rmdir
+rm rm
+download overwrite file1 to file2 
+download file3 to file4
+unknown command

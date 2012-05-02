@@ -1,0 +1,31 @@
+# sample project configuration command (EPCS) file
+@ name test EPCS
+@ version 1.1
+
+# mkdir on not existing directory
+mkdir testdir
+
+# mkdir on existing directory
+mkdir existingdir
+
+# download file not existing in target
+download http://software.group.nca/ncaeclipse/test/test.file to testdir/test.file
+
+# download file existing in target (don't overwrite)
+download http://software.group.nca/ncaeclipse/test/test.file to test.file
+
+# download file existing in target (overwrite)
+download overwrite http://software.group.nca/ncaeclipse/test/test.file to test.file
+
+# download a local file 
+# Note: adapt to a valid local path to run the test and uncomment
+#download file:///home/mp/.workspace/ch.netcetera.eclipse.projectconfig/rsrc/text.properties to text.properties
+
+# delete file
+rm testdir/test.file
+
+# delete not existing file
+rm testdir/bla.file
+
+# delete directory
+rmdir testdir

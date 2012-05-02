@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<fragment>
+   <extension point="ch.netcetera.eclipse.workspace.defaultConfiguration">
+      <JavaSystemPropertyReplacement systemProperty="user.name">
+      </JavaSystemPropertyReplacement>
+      <EpfUrl url="http://some.host.tld/path/config.epf">
+      </EpfUrl>
+      <EpfUrlProvider class="ch.netcetera.eclipse.workspaceconfig.ui.fragment.OSArchEpfUrlProvider">
+      </EpfUrlProvider>
+      <NewWorkspaceDetection detectNewWorkspaces="false">
+      </NewWorkspaceDetection>
+   </extension>
+</fragment>

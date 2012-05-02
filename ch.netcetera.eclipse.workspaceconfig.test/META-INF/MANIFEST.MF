@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %bundle.name
+Bundle-SymbolicName: ch.netcetera.eclipse.workspaceconfig.test
+Bundle-Version: 3.0.4.qualifier
+Bundle-Vendor: %bundle.provider
+Require-Bundle: org.junit4;visibility:=reexport,
+ ch.netcetera.eclipse.workspaceconfig.core;visibility:=reexport
+Bundle-Localization: plugin
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

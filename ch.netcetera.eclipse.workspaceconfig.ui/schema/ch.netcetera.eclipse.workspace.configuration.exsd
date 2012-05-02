@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Schema file written by PDE -->
+<schema targetNamespace="ch.netcetera.eclipse.workspaceconfig.ui" xmlns="http://www.w3.org/2001/XMLSchema">
+<annotation>
+      <appInfo>
+         <meta.schema plugin="ch.netcetera.eclipse.workspaceconfig.ui" id="ch.netcetera.eclipse.workspace.defaultConfiguration" name="Remote Workspace Preferences Defaults Configuration"/>
+      </appInfo>
+      <documentation>
+         Configures the default values of the Remote Workspace Preferences plugin.
+      </documentation>
+   </annotation>
+
+   <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+         <documentation>
+            Configures the defaults of the Remote Workspace Preferences Plugin.
+         </documentation>
+      </annotation>
+      <complexType>
+         <choice minOccurs="1" maxOccurs="unbounded">
+            <element ref="EpfUrlProvider" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="EpfUrl" minOccurs="1" maxOccurs="unbounded"/>
+            <element ref="NewWorkspaceDetection" minOccurs="0" maxOccurs="1"/>
+            <element ref="JavaSystemPropertyReplacement" minOccurs="0" maxOccurs="unbounded"/>
+         </choice>
+         <attribute name="point" type="string" use="required">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="id" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="name" type="string">
+            <annotation>
+               <documentation>
+                  
+               </documentation>
+               <appInfo>
+                  <meta.attribute translatable="true"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="EpfUrlProvider">
+      <annotation>
+         <documentation>
+            Element which describes a class that provides default values for the EPF URL.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="class" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The name of the class.
+               </documentation>
+               <appInfo>
+                  <meta.attribute kind="java" basedOn=":ch.netcetera.eclipse.workspaceconfig.ui.preferences.api.IEpfUrlProvider"/>
+               </appInfo>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="EpfUrl">
+      <annotation>
+         <documentation>
+            The URL of the EPF file. The protocols &lt;code&gt;http&lt;/code&gt;, &lt;code&gt;https&lt;/code&gt; and &lt;code&gt;file&lt;/code&gt; are supported.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="url" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The URL of the EPF file. The protocols &lt;code&gt;http&lt;/code&gt;, &lt;code&gt;https&lt;/code&gt; and &lt;code&gt;file&lt;/code&gt; are supported.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="NewWorkspaceDetection">
+      <annotation>
+         <documentation>
+            Switch on/off the detection of new workspaces.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="detectNewWorkspaces" type="boolean" use="required">
+            <annotation>
+               <documentation>
+                  Set to &lt;em&gt;true&lt;/em&gt; to enable the new workspace detection.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <element name="JavaSystemPropertyReplacement">
+      <annotation>
+         <documentation>
+            A Java system propoery that is being replaced in the EPF file during the import of the EPF file.
+         </documentation>
+      </annotation>
+      <complexType>
+         <attribute name="systemProperty" type="string" use="required">
+            <annotation>
+               <documentation>
+                  The java system property name.
+               </documentation>
+            </annotation>
+         </attribute>
+      </complexType>
+   </element>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="since"/>
+      </appInfo>
+      <documentation>
+         3.0.2
+      </documentation>
+   </annotation>
+
+   <annotation>
+      <appInfo>
+         <meta.section type="examples"/>
+      </appInfo>
+      <documentation>
+         &lt;pre&gt;
+&lt;extension point=&quot;ch.netcetera.eclipse.workspace.defaultConfiguration&quot;&gt;
+  &lt;JavaSystemPropertyReplacement systemProperty=&quot;user.name&quot;&gt;
+  &lt;/JavaSystemPropertyReplacement&gt;
+
+  &lt;NewWorkspaceDetection newWorkspaceDetection=&quot;true&quot;&gt;
+  &lt;/NewWorkspaceDetection&gt;
+
+  &lt;EpfUrl url=&quot;http://foo.bar.com/some.epf&quot;&gt;
+  &lt;/EpfUrl&gt;
+      
+  &lt;EpfUrlProvider class=&quot;ch.netcetera.EpfUrlProviderImpl&quot;&gt;
+  &lt;/EpfUrlProvider&gt;      
+&lt;/extension&gt;
+&lt;/pre&gt;
+      </documentation>
+   </annotation>
+
+
+
+   <annotation>
+      <appInfo>
+         <meta.section type="copyright"/>
+      </appInfo>
+      <documentation>
+         Copyright (c) 2011 Netcetera AG and others. All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at &lt;a href=&quot;http://www.eclipse.org/legal/epl-v10.html&quot;&gt;http://www.eclipse.org/legal/epl-v10.html&lt;/a&gt;
+      </documentation>
+   </annotation>
+
+</schema>

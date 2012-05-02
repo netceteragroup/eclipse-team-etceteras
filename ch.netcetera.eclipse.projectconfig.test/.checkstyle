@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ Copyright (C) 2008 by Netcetera AG.
+ All rights reserved.
+ 
+ The copyright to the computer program(s) herein is the property of
+ Netcetera AG, Switzerland.  The program(s) may be used and/or copied
+ only with the written permission of Netcetera AG or in accordance
+ with the terms and conditions stipulated in the agreement/contract
+ under which the program(s) have been supplied.
+ 
+ @(#) $Id: .checkstyle,v 1.1 2009/08/09 18:27:43 mpellato Exp $
+-->
+
+<fileset-config file-format-version="1.2.0" simple-config="true">
+    <local-check-config name="netcetera-checks" location=".checkstyle-config.xml" type="project" description="Netcetera CheckStyle config">
+        <additional-data name="protect-config-file" value="false"/>
+    </local-check-config>
+    <fileset name="all" enabled="true" check-config-name="netcetera-checks" local="true">
+        <file-match-pattern match-pattern="." include-pattern="true"/>
+    </fileset>
+</fileset-config>

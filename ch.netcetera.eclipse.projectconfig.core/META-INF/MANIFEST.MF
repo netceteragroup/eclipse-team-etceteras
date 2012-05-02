@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %bundle.name
+Bundle-SymbolicName: ch.netcetera.eclipse.projectconfig.core
+Bundle-Version: 3.0.4.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Vendor: %bundle.provider
+Bundle-Localization: plugin
+Require-Bundle: ch.netcetera.eclipse.projectconfig.net;visibility:=reexport,
+ org.eclipse.equinox.ds;bundle-version="[1.1.0,2.0.0)";visibility:=reexport,
+ org.eclipse.core.resources;bundle-version="[3.5.2,4.0.0)";visibility:=reexport
+Export-Package: ch.netcetera.eclipse.projectconfig.core
+Service-Component: OSGI-INF/ProjectCofigurationService.xml
+Bundle-ActivationPolicy: lazy

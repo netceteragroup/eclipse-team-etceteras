@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %bundle.name
+Bundle-SymbolicName: ch.netcetera.eclipse.workspaceconfig.ui;singleton:=true
+Bundle-Version: 3.0.4.qualifier
+Bundle-Activator: ch.netcetera.eclipse.workspaceconfig.ui.WorkspaceConfigurationUIPlugin
+Bundle-Vendor: %bundle.provider
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
+Bundle-Localization: plugin
+Bundle-ClassPath: .
+Require-Bundle: ch.netcetera.eclipse.workspaceconfig.core;visibility:=reexport,
+ org.eclipse.core.expressions;bundle-version="[3.4.101,4.0.0)";visibility:=reexport
+Export-Package: ch.netcetera.eclipse.workspaceconfig.ui.preferences.api

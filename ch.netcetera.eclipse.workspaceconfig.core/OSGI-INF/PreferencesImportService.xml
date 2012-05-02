@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="ch.netcetera.eclipse.workspaceconfig.core">
+   <implementation class="ch.netcetera.eclipse.workspaceconfig.core.internal.PreferencesImportService"/>
+   <service>
+      <provide interface="ch.netcetera.eclipse.workspaceconfig.core.IPreferencesImportService"/>
+   </service>
+   <reference bind="bindClient" cardinality="1..1" interface="ch.netcetera.eclipse.workspaceconfig.net.IWorkspacePreferenceClient" name="IWorkspacePreferenceClient" policy="static" unbind="unbindClient"/>
+</scr:component>

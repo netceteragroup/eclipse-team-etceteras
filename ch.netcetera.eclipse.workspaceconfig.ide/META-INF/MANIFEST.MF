@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %bundle.name
+Bundle-SymbolicName: ch.netcetera.eclipse.workspaceconfig.ide
+Bundle-Version: 3.0.4.qualifier
+Bundle-Vendor: %bundle.provider
+Bundle-Localization: plugin
