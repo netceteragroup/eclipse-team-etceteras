@@ -4,138 +4,112 @@ headertitle: Eclipse Team Etceteras - Release Notes
 title: Release Notes 
 ---
 
-Version 3.0.4
+<h2>Version 3.0.4</h2>
+<ul>
+  <li>ETE-89 - New project configuration commands to add/remove natures to/from projects
+Version 3.0.3</li>
+</ul>
 
-no change in this part
-Version 3.0.3
+<h2>Version 3.0.3</h2>
+<ul>
+  <li>ETE-84 - Extension point schema does not get packaged into binary build</li>
+  <li>ETE-85 - Cleanup build.properties</li>
+  <li>ETE-86 - The table column containing the URLs in the import wizard is too narrow</li>
+  <li>ETE-88 - Make ETE install/run on the compatibility layer of Eclipse 4</li>
+  <li>This plugin was tested on Eclipse 3.8.M5 and 4.2.M5</li>
+</ul>
 
-Issues associated with this release
-ETE-84 - Extension point schema does not get packaged into binary build
-ETE-85 - Cleanup build.properties
-ETE-86 - The table column containing the URLs in the import wizard is too narrow
-ETE-88 - Make ETE install/run on the compatibility layer of Eclipse 4
-This plugin was tested on Eclipse 3.8.M5 and 4.2.M5
-Version 3.0.2
+<h2>Version 3.0.2</h2>
+<ul>
+ <li>ETE-83 - The restore button in the preference page renders the whole contents foobar</li>
+</ul>
 
-Issues associated with this release
-ETE-83 - The restore button in the preference page renders the whole contents foobar
-Version 3.0.1
+<h2>Version 3.0.1</h2>
+<ul>
+  <li>Due to an Eclipse Marketplace Client weirdness, the features had to be changed again. This means that an update from 3.0.0 might fail :-(</li>
+  <li>ETE-77 - Eclipse Marketplace: if one of the feature is installed, the MPC thinks the other is installed too</li>
+  <li>ETE-78 - New Workspace Detection should be silent in case no URL is configured</li>
+  <li>ETE-79 - clean up wizard and handler code</li>
+  <li>ETE-80 - Is the PropertyTester still needed?</li>
+  <li>ETE-82 - The preference initializer should ignore empty URLs provided by EpfUrlProviders</li>
+</ul>
 
-Due to an Eclipse Marketplace Client weirdness, the features had to be changed again. This means that an update from 3.0.0 might fail :-(
-Issues associated with this release
-ETE-77 - Eclipse Marketplace: if one of the feature is installed, the MPC thinks the other is installed too
-ETE-78 - New Workspace Detection should be silent in case no URL is configured
-ETE-79 - clean up wizard and handler code
-ETE-80 - Is the PropertyTester still needed?
-ETE-82 - The preference initializer should ignore empty URLs provided by EpfUrlProviders
-Version 3.0.0
-
-This is a major release that breaks compatibility with previous releases
-Any 2.x version must be uninstalled before this new 3.x release can be installed!
-The configuration of defaults using a property file is no longer supported
-Defaults are now configured using the extension point ch.netcetera.eclipse.workspace.defaultConfiguration
-EpfUrl: used to configure a single static URL to an EPF file (1:1 replacement of what was previously configured in the properties file)
-EpfUrlProvider: registers a class implemeneting IEpfUrlProvider that can be used to programmatically calculate/provide an URL to an EPF file.
-NewWorkspaceDetection: used to switch on/off the detection of new and unconfigured workspaces. true wins in case this setting is provided several times.
-JavaSystemPropertyReplacement: used to configure a Java system property replacement
+<h2>Version 3.0.0</h2>
+<ul>
+  <li>This is a major release that breaks compatibility with previous releases. Any 2.x version must be uninstalled before this new 3.x release can be installed!</li>
+  <li>The configuration of defaults using a property file is no longer supported</li>
+  <li>Defaults are now configured using the extension point ch.netcetera.eclipse.workspace.defaultConfiguration
+    <ul>
+      <li>EpfUrl: used to configure a single static URL to an EPF file (1:1 replacement of what was previously configured in the properties file)</li>
+      <li>EpfUrlProvider: registers a class implemeneting IEpfUrlProvider that can be used to programmatically calculate/provide an URL to an EPF file.</li>
+      <li>NewWorkspaceDetection: used to switch on/off the detection of new and unconfigured workspaces. true wins in case this setting is provided several times.</li>
+      <li>JavaSystemPropertyReplacement: used to configure a Java system property replacement
 Preferences of the old versions are not picked-up by the new version
-Issues associated with this release
-ETE-70 - jettison bundled help content to reduce complexity
-ETE-71 - Spin-off Transferrer into a separate project
-ETE-72 - update versions to 3.0
-ETE-73 - Replace defaults configuration by property file with an extension point
-ETE-74 - Replace preference squasher with structured xml
-ETE-75 - When importing multiple preference files, the import should not abort if an import fails
-Version 2.9.0
+    </ul>
+  <li>ETE-70 - jettison bundled help content to reduce complexity</li>
+  <li>ETE-71 - Spin-off Transferrer into a separate project</li>
+  <li>ETE-72 - update versions to 3.0</li>
+  <li>ETE-73 - Replace defaults configuration by property file with an extension point</li>
+  <li>ETE-74 - Replace preference squasher with structured xml</li>
+  <li>ETE-75 - When importing multiple preference files, the import should not abort if an import fails</li>
+</ul>
 
-No functional changes in this module
-Version 2.8.0
+<h2>Version 2.9.0</h2>
+<ul>
+  <li>Simple preference recorder function added</li>
+</ul>
 
-No functional changes in this module
-Version 2.7.0
+<h2>Version 2.8.0</h2>
+<ul>
+  <li>Technical release without functional changes</li>  
+</ul>
 
-Replace menu command File > Apply Remote Preferences with an import wizard
-New import wizard reachable at File > Import..." then General > Remote Preferences
-Allow for ad-hoc import of a single remote file without configuring it (offered by the wizard)
-Allow for a selection which of the configured EPF files are imported (offered by the wizard)
-Version 2.6.0
+<h2>Version 2.7.0</h2>
+ <ul>
+  <li>Replace menu command File > Apply Remote Preferences with an import wizard</li>
+  <li>New import wizard reachable at File > Import..." then General > Remote Preferences</li>
+  <li>Allow for ad-hoc import of a single remote file without configuring it (offered by the wizard)</li>
+  <li>Allow for a selection which of the configured EPF files are imported (offered by the wizard)</li>
+ </ul>
 
-Fixed outdated parts of the documentation.
-Support of multiple EPF file URLs
-Version 2.5.0
+<h2>Version 2.6.0</h2>
+ <ul>
+  <li>Fixed outdated parts of the documentation.</li>
+  <li>Support of multiple EPF file URLs</li>
+ </ul>
 
-Fixed: Automatic workspace configurer repeatedly asks for configuration on each startup
-Addes support for file://-URLs ot the preference page
-Version 2.4.0
+<h2>Version 2.5.0</h2>
+ <ul>
+  <li>Fixed: Automatic workspace configurer repeatedly asks for configuration on each startup</li>
+  <li>Adds support for file://-URLs ot the preference page</li>
+  <li>Use the network proxy configured in Eclipse</li>
+ </ul>
 
-Use the network proxy configured in Eclipse
-New update site URL
-Version 2.3.0
+<h2>Version 2.4.0</h2>
+ <ul>
+  <li>Use the network proxy configured in Eclipse</li>
+  <li>New update site URL</li>
+ </ul>
 
-unpublished
-Version 2.2.0
+<h2>Version 2.3.0</h2>
+ <ul>
+  <li>unpublished</li>
+ </ul>
 
-Reading installation defaults from a fragment bundle instead of system properties
-Java 6 is now required as execution environment (end of service life of Java 5 is 2009-10-30)
-Version 2.1.0
+<h2>Version 2.2.0</h2>
+<ul>
+  <li>Reading installation defaults from a fragment bundle instead of system properties Java 6 is now required as execution environment (end of service life of Java 5 is 2009-10-30)</li>
+  <li>Fixed a bug that rendered the download command useless</li>
+  <li>Reading installation defaults from a fragment bundle instead of system properties</li>
+</ul>
+<h2>Version 2.1.0</h2>
+<ul>
+  <li>Internal optimizations and refactorings</li>
+  <li>Support for multiple configuration script files</li>
+  <li>Support for file://-URLs to execute locally stored scripts</li>
+</ul>
 
-Internal optimizations and refactorings
-Release 2.0
-
-Initial public release under EPL v1.0
-
-
-<hr>
-Version 3.0.4
-
-ETE-89 - New project configuration commands to add/remove natures to/from projects
-Version 3.0.3
-
-Issues associated with this release
-ETE-88 - Make ETE install/run on the compatibility layer of Eclipse 4
-This plugin was tested on Eclipse 3.8.M5 and 4.2.M5
-Version 3.0.2
-
-No changes in this module
-Version 3.0.1
-
-No changes in this module
-Due to an Eclipse Marketplace Client weirdness, the features had to be changed again. This means that an update from 3.0.0 might fail :-(
-Version 3.0.0
-
-This is a major release that breaks compatibility with previous releases
-Any 2.x version must be uninstalled before this new 3.x release can be installed!
-No functional changes in this module
-Version 2.9.0
-
-Simple preference recorder function added
-Version 2.8.0
-
-No functional changes in this module
-Version 2.7.0
-
-No chnages in this module
-Version 2.6.0
-
-Documentation updated
-Version 2.5.0
-
-Use the network proxy configured in Eclipse
-Version 2.4.0
-
-New update site URL
-Version 2.3.0
-
-unpublished release
-Version 2.2.0
-
-Reading installation defaults from a fragment bundle instead of system properties
-Fixed a bug that rendered the download command useless
-Java 6 is now required as execution environment (end of service life of Java 5 is 2009-10-30)
-Version 2.1.0
-
-Support for multiple configuration script files
-Support for file://-URLs to execute locally stored scripts
-Release 2.0
-
-Initial public release under EPL v1.0
+<h2>Release 2.0</h2>
+<ul>
+  <li>Initial public release under EPL v1.0</li>
+</ul>
