@@ -3,94 +3,86 @@ layout: default
 headertitle: Eclipse Team Etceteras - Project Config Plug-in User's Guide
 title: Project Config Plug-in User's Guide
 ---
-Overview
+<h2>Overview</h2>
 
-Introduction
-
-The Remote Project Configuration Plug-in provides functionality to configure projects within the workspace using a a very simple, shell script like command file. This so called Eclipse Project Configuration Script (EPCS) file is fetched using a HTTP transfer or from a local file. The commands supported include creation of directories, deletion of directories and files and a file download.
-
-The plug-in was originally designed and built out of the need for a mechanism to distribute company-wide configurations to every new project like the CheckStyle or JRE settings. Later the plug-in was extended to be able to reconfigure existing projects in case the corporate settings were updated.
-
+<h3>Introduction</h3>
+<p>
+The Remote Project Configuration Plug-in provides functionality to configure projects within the workspace using a a very simple, shell script like command file. This so called Eclipse Project Configuration Script (EPCS) file is fetched using a HTTP transfer or from a local file. The commands supported include creation of directories, deletion of directories and files and a file download. The plug-in was originally designed and built out of the need for a mechanism to distribute company-wide configurations to every new project like the CheckStyle or JRE settings. Later the plug-in was extended to be able to reconfigure existing projects in case the corporate settings were updated.
+<p>
 This plug-in eases this configuration task of new and existing projects using centrally managed scripts to configure the projects. All the developer has to do is select the project in Eclipse's Package Explorer and run a command from the context menu.
+</p>
 
-Workflow
+<h2>Workflow</h2>
 
-
-
+<p>
 The project configuration process consists of two to three logical steps:
+  <ol>
+    <li>If multiple EPCS scripts are configured in the preferences or in the default configuration, the user is prompted to select to one to run.</li>
+    <li>Fetch the EPCS script from a web server using HTTP or a local file.</li>
+    <li>During the third step, the commands from the script file are applied to all selected projects. Depending on the commands used in the script, additional file transfers are initiated.</li>
+  </ol>
+</p>
 
-If multiple EPCS scripts are configured in the preferences or in the default configuration, the user is prompted to select to one to run.
-Fetch the EPCS script from a web server using HTTP or a local file.
-During the third step, the commands from the script file are applied to all selected projects.
-Depending on the commands used in the script, additional file transfers are initiated.
-Applying Remote Project Properties
-
+<h2>Applying Remote Project Properties</h2>
+<p>
 Provided at least one valid URL to a EPCS file is configured, the following steps initiate a project configuration:
+  <ul>
+    <li>Select one or more projects in the Package Explorer.</li>
+    <li>Run the command Apply Default Properties to Projectfrom the context menu.</li>
+    <li>If multiple scripts are configured, the user is prompted to select the one to execute.</li>
+  </ul>
+</p>
 
-Select one or more projects in the Package Explorer.
-Run the command Apply Default Properties to Projectfrom the context menu.
-If multiple scripts are configured, the user is prompted to select the one to execute.
-Creating a Project Configuration Configuration File
-
-Basics
-
+<h2>Creating a Project Configuration Configuration File</h2>
+<p>
 Eclipse Project Configuration Script (EPCS) files are plain text files that are organized in lines. A line may contain either a comment, nothing at all or exactly one command. The basic syntax can be seen in the following diagram and each command it is described in detail below: 
+</p>
 
-Supported Commands
+<img src="./img/epcs.png" alt="EPCS Commands"/>
 
-Comment
+<h3>Supported Commands</h3>
+<table>
+  <tr>
+    <th>Command</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>#</code></td>
+    <td>Lines starting with the character '#' are treated as comment.</td>
+  </tr>
+  <tr>
+    <td><code>mkdir DIRECTORY</code></td>
+    <td>Creates the DIRECTORY if it does not already exist. The path to the DIRECTORY is relative to the project root.</td>
+  </tr>
+  <tr>
+    <td><code>rm FILE</code></td>
+    <td>Deletes the FILE if it exists. The path to the FILE is relative to the project root. Directories must be deleted with the rmdir command.</td>
+  </tr>
+  <tr>
+    <td><code>rmdir DIRECTORY</code></td>
+    <td>Deletes the empty DIRECTORY if it exists. The path to the DIRECTORY is relative to the project root.</td>
+  </tr>
+  <tr>
+    <td><code>download [overwrite] SOURCE to FILE</code></td>
+    <td>Downloads the SOURCE to the FILE if the FILE does not already exist. The SOURCE must be a valid URL and FILE a filename relative to the project root. To replace a possibly existing FILE, use the optional overwrite parameter.</td>
+  </tr>
+  <tr>
+    <td><code>addnature NATUREID</code></td>
+    <td>Adds the nature defined by NATUREID to the projects.</td>
+  </tr>
+  <tr>
+    <td><code>removeature NATUREID</code></td>
+    <td>Removes the nature defined by NATUREID to the projects.</td>
+  </tr>
+</table>
 
-Command	 #
-Description	 Lines starting with the character '#' are treated as comment.
-Since	 2.0
-Example	 # a comment
-Create a Directory
 
-Command	 mkdir DIRECTORY
-Description	 Creates the DIRECTORY if it does not already exist. The path to the DIRECTORY is relative to the project root.
-Since	 2.0
-Example	 mkdir foo
-Delete a File
 
-Command	 rm FILE
-Description	 Deletes the FILE if it exists. The path to the FILE is relative to the project root. 
-Note: Directories must be deleted with the rmdir command.
-Since	 2.0
-Example	 rm /foo/bar.txt
-Delete a Directory
-
-Command	 rmdir DIRECTORY
-Description	 Deletes the empty DIRECTORY if it exists. The path to the DIRECTORY is relative to the project root.
-Since	 2.0
-Example	 rmdir foo
-Download a File
-
-Command	 download [overwrite] SOURCE to FILE
-Description	 Downloads the SOURCE to the FILE if the FILE does not already exist. The SOURCE must be a valid URL and FILE a filename relative to the project root. To replace a possibly existing FILE, use the optional overwrite parameter.
-Since	 2.0
-Example	 # downloads foo.txt only if it does not already exist
-download http://www.foo.com/foo.txt to foo.txt
-
-# downloads foo.txt regardless whether is already exists
-download overwrite http://www.foo.com/foo.txt to foo.txt
-Add a Nature
-
-Command	 addnature NATUREID
-Description	 Adds the nature defined by NATUREID to the projects.
-Since	 3.0.4
-Example	 # Adds the Checkstyle nature to the project:
-addnature net.sf.eclipsecs.core.CheckstyleNature
-Remove a Nature
-
-Command	 removeature NATUREID
-Description	 Removes the nature defined by NATUREID to the projects.
-Since	 3.0.4
-Example	 # Removes the Checkstyle nature from the project:
-remove net.sf.eclipsecs.core.CheckstyleNature
-Example File
-
+<h3>Example File</h3>
+<p>
 The following example EPCS file shows some cases used to test the plug-in:
-
+</p>
+<pre>
   # sample project configuration command (epcs) file
  
   # mkdir on not existing directory
@@ -116,32 +108,27 @@ The following example EPCS file shows some cases used to test the plug-in:
  
   # delete directory
   rmdir testdir
-Preferences
+</pre>
 
-Workspace Preferences
+<h2>Preferences</h2>
 
+<h3>Workspace Preferences</h3>
+<p>
 The behavior of the Remote Project Preference plug-in can be adjusted in the Eclipse preferences dialog. Open the dialog from the Window > Preferences menu. The settings are located on the General > Remote Project Properties page and contain the following options:
+</p>
+<p>
+List of project configuration script URLs: Add, remove or edit the URLs of the EPCS files to the list using the buttons to the right. The editing itself is done in a separate dialog that will pop up. The protocolls supported are http(s):// and file://. The URLs need to comply with the following rules:
+  <ul>
+    <li>Each URL may only be added once to the list</li>
+    <li>The URL must start with either 'http', 'https' or 'file'</li>
+    <li>The URL must not contain the hash-character '#'</li>
+  </ul>
+</p>
 
-List of project configuration script URLs
-
-Add, remove or edit the URLs of the EPCS files to the list using the buttons to the right. The editing itself is done in a separate dialog that will pop up. The protocolls supported are http(s):// and file://. The URLs need to comply with the following rules:
-
-Each URL may only be added once to the list
-The URL must start with either 'http', 'https' or 'file'
-The URL must not contain the hash-character '#'
-Default Settings
-
+<h3>Default Settings</h3>
+<p>
 There are no built-in default settings, but you may provide them by editing the property file '$ECLIPSE_HOME/plugins/ch.netcetera.eclipse.projectconfig.ui.fragment_$VERSION_/ch.netcetera.eclipse.projectconfig.ui.fragment/default.properties'. Make sure Eclipse is not running while editing this file. The property file already contains examples for all possible configuration options.
-
+</p>
+<p>
 Command File URL Configure a default using the property key 'project.config.url'. Multiple URLs are separated by the character '#' (see example below). The character '#' is not supported within URLs.
-
-Example
-
-  # List of URLs of the Eclipse Project Configuration Script (EPCS) files. Two types of URLs are 
-  # supported: file:// and http(s)://.
-  #
-  # The URLs must not contain the hash-character '#'. Use the hash-character '#' to separate the 
-  # different entries of the list:
-  #
-  project.config.url=http://www.foo.com/example1.epcs#file:///home/some-user/example2.epcs
-In this example, two configuration script file URLs are configured. The first one resides on a remote place and is reachable under the URL http://www.foo.com/example1.epcs and the second one is a local file located at /home/some-user/example2.epcs.
+</p>
