@@ -4,147 +4,154 @@ headertitle: Eclipse Team Etceteras - Remote Workspace Preferences Plug-in User 
 title: Remote Workspace Preferences Plug-in User Guide
 ---
 
-Overview
+<h2>Overview</h2>
 
-Introduction
-
+<h3>Introduction</h3>
+<p>
 The Remote Workspace Preferences Plug-in basically provides functionality to import Eclipse preference files (EPF) from remote locations accessible by HTTP. Besides that it is able to detect new or unconfigured Eclipse workspaces and a simple variable substitution mechanism allows for localization of the preferences.
-
+</p>
+<p>
 The plug-in was originally designed and built out of the need of a mechanism to distribute company-wide default settings to every developer's Eclipse workspace. The need came out of the fact, that not all settings can be configured on project level which required manual set-up steps when a new workspace was created. This plug-in eases this mundane manual task and it assures similar settings for some important preferences (like file encodings and cvs text modes) across a team or company.
+</p>
 
-Workflow
+<h3>Workflow</h3>
 
-
-
+<img src="./img/ws-process.png" alt="Workflow"/>
+<p>
 The import process consists of three logical steps which are executed for each EPF file sequentially:
+  <ul>
+    <li>Fetch the EPF file from a web server using HTTP.</li>
+    <li>During the second (optional) step, variables are substituted by Java system properties bearing the same name. This allows for example for correctly set user names in CVS repository URLs to be imported.</li>
+    <li>During the final step, the preferences are imported into the Eclipse workspace.</li>
+    <li>The URLs of the EPF files can be configured in the preferences dialog and defaults can be set using an extension point provided in a (fragment) bundle.</li>
+  </ul>
+</p>
 
-Fetch the EPF file from a web server using HTTP.
-During the second (optional) step, variables are substituted by Java system properties bearing the same name. This allows for example for correctly set user names in CVS repository URLs to be imported.
-During the final step, the preferences are imported into the Eclipse workspace.
-The URLs of the EPF files can be configured in the preferences dialog and defaults can be set using an extension point provided in a (fragment) bundle.
-
-Applying Remote Preferences
-
+<h2>Applying Remote Preferences</h2>
+<p>
 Provided valid URLs to a remote EPF file are configured, the remote preference import can be started either manually using the import wizard or the plug-in may detect not yet configured new workspaces.
+</p>
+<p>
 
-Manually applying the remote preferences
-
+<h3>Manually applying the remote preferences</h3>
+<p>
 To manually start the import process run File > Import... from the main menu. Then select General > Remote Preferences.
-
-
-
+</p>
+<p>
 The import wizard has two function modes:
+  <ul>
+    <li>Import from URL: Lets the user paste an URL to an EPF file into the text field and imports it. No variable substitutions are performed in this case.
+    <li>Import from configured URL: Presents all URLs configured in the preference dialog to the user and gives the choice select which ones shall be imported. Variable substitutions are performed as configured on the preference page.
+  </ul>
+</p>
 
-Import from URL: Lets the user paste an URL to an EPF file into the text field and imports it. No variable substitutions are performed in this case.
-Import from configured URL: Presents all URLs configured in the preference dialog to the user and gives the choice select which ones shall be imported. Variable substitutions are performed as configured on the preference page.
-Autodetect unconfigured workspaces
+<h3>Autodetect unconfigured workspaces</h3>
+<p>
+If enabled in the configuration, the plug-in detects unconfigured workspaces during the start-up. It will then show the following dialog giving the user three options.</li>
+  <ul>
+    <li>No: The remote preferences are not imported and you are no longer bothered. However, you may still choose to start the import manually (see above).</li>
+    <li>Ask again: The remote preferences are not imported, however the dialog will appear again next time the workspace is started.</li>
+    <li>Yes: The remote preferences are imported right now. After a few seconds another dialog will give you the result of the import.</li>
+  </ul>
+</p>
 
-If enabled in the configuration, the plug-in detects unconfigured workspaces during the start-up. It will then show the following dialog giving the user three options.
+<h2>Creating a Remote Preference File<h2>
 
+<h3>Create a reference Workspace</h3>
+<p>
+Create a reference workspace containing all the preferences as they are supposed to be including the code repository connections.It is recommended to use a separate workspace just for the reason of being the reference for all others. Do not checkout projects or work in this workspace regularly, as this might affect your well crafted reference preferences.
+</p>
 
+<h3>Export the preferences</h3>
+<p>
+Export the preferences of the workspace to a file using Eclipse's native export wizard. More information about this step can be found in the Eclipse Documentation.
+</p>
 
-No: The remote preferences are not imported and you are no longer bothered. However, you may still choose to start the import manually (see above).
-Ask again: The remote preferences are not imported, however the dialog will appear again next time the workspace is started.
-Yes: The remote preferences are imported right now. After a few seconds another dialog will give you the result of the import.
-Creating a Remote Preference File
-
-Create a reference Workspace
-
-Create a reference workspace containing all the preferences as they are supposed to be including the code repository connections.
-
-It is recommended to use a separate workspace just for the reason of being the reference for all others. Do not checkout projects or work in this workspace regularly, as this might affect your well crafted reference preferences.
-
-Export the preferences
-
-Export the preferences of the workspace to a file using Eclipse's native export wizard.
-
-More information about this step can be found in the Eclipse Documentation.
-
-Postprocess the preference file
-
+<h3>Postprocess the preference file</h3>
+<p>
 There are two reasons for postprocessing the exported (epf) file:
+</p>
 
-1. Pick only a few settings
-
-The Eclipse preferences export wizard exports every preference it can find in the workspace. If you just want to import some preferences, you will have to manually edit the epf file and remove all settings you don't want to distribute to other workspaces.
-
-While editing the epf file, make sure you keep all lines that start with an '@' character belonging to a plug-in of which you want to import preferences.
-
+<h4>1. Pick only a few settings</h4>
+<p>
+The Eclipse preferences export wizard exports every preference it can find in the workspace. If you just want to import some preferences, you will have to manually edit the epf file and remove all settings you don't want to distribute to other workspaces. While editing the epf file, make sure you keep all lines that start with an '@' character belonging to a plug-in of which you want to import preferences.
+</p>
+<p>
 Example:
-
- @org.eclipse.core.resources=3.4.0.v20080528-1613
- /instance/org.eclipse.core.resources/encoding=ISO-8859-1
+  <pre>
+    @org.eclipse.core.resources=3.4.0.v20080528-1613
+    /instance/org.eclipse.core.resources/encoding=ISO-8859-1
+  </pre>
 The example above shows a header line plus a setting belonging to it.
+</p>
 
-2. Do variable substitutions during the import process
-
+<h4>2. Do variable substitutions during the import process</h4>
+<p>
 During the import of the preference file, a variable substitution with Java system properties can be made. An example where this might be useful is to set the correct user names in CLASSPATH variables or code repository URLs.
-
+</p>
+<p>
 Find the character sequences that shall be set during the import and replace them with the Java system property that shall be inserted instead. Make sure you prepend the system property name with a '$' character.
-
+</p>
+<p>
 Example
-
- /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.classpathVariable.M2_REPO=c\:/Documents and Settings/$user.name/.m2/repository
+  <pre>
+    /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.classpathVariable.M2_REPO=c\:/Documents and Settings/$user.name/.m2/repository
+  </pre>
 In this example, the location of the Maven2 local repository is user dependent and the $user.name of the Eclipse classpath variable M2_REPO will be substituted with the user name set in the Java system property user.name. If the current user name is duke the value for the classpath variable imported is set to: M2_REPO=c\:/Documents and Settings/duke/.m2/repository
+</p>
+<p>
+Hint: Don't forget to configure the variable replacement in the plug-in's preferences or using the Java system property env.replacement.
+</p>
 
-Hint
-
-Don't forget to configure the variable replacement in the plug-in's preferences or using the Java system property env.replacement.
-
-Recorder
-
+<h3>Recorder</h3>
+<p>
 A very simple preference recorder/differ eases the task of picking the changed settings:
+  <ul>
+    <li>Hit <code>ctrl+3</code> and type recorder, select the start command</li>
+    <li>Open the preferences dialog and do all your changes</li>
+    <li>Again, hit <code>ctrl+3</code> and type recorder , this time select the stop command. The following dialog outlining all removed, added and changed preferences. The contents can be selected and copied to serve as starting point for your tailored EPF file.</li>
+  </ul>
+</p>
 
-Hit ctrl+3 and type recorder, select the start command
-
-
-Open the preferences dialog and do all your changes
-Again, hit ctrl+3 and type recorder , this time select the stop command. The following dialog outlining all removed, added and changed preferences. The contents can be selected and copied to serve as starting point for your tailored EPF file.
-
-
-Publish the file on a web server
-
+<h3>Publish the file on a web server</h3>
+<p>
 Publish the epf file on some web server to which all team members have access.
+</p>
+
 
 Getting the Configuration Status of a Workspace
 
 The configuration status including the date and time of the last configuration process can be seen in the Configuration Tab of the Installation Details Dialog available from the About Dialog.
 
 To open that dialog select Help > About Eclipse SDK, then hit the button Installation Details and finally select the tab Configuration.
-
+<p>
 Example:
+  <pre>
+    *** ! Remote Workspace Preferences Import Status:
+    Workspace configuration status: configured on 2009-08-10 22:39:15
+  </pre>
+</p>
 
- *** ! Remote Workspace Preferences Import Status:
- Workspace configuration status: configured on 2009-08-10 22:39:15
-Preferences
+<h2>Preferences</h2>
 
-Workspace Preferences
-
+<h3>Workspace Preferences</h3>
+<p>
 The behavior of the Remote Workspace Preference plug-in can be adjusted in the Eclipse preferences dialog. Open the dialog from the Window > Preferences menu. The settings are located on the General > Workspace > Remote Preferences page and contain the following options:
+  <ul>
+    <li>Remote Preference File URL: Enter thr URL to the remote preference file. If the URL us technically invalid, an error message is shown and in case the URL is currently not reachable, an info message is shown.</li>
+    <li>Remote preference file URLs: Enter the URLs to the remote preference files. If an URL us technically invalid, an error message is shown in the create/edit dialog. The URLs can be reordered and the files are imported sequentially top to down. Please be aware that files imported later may overwrite preferences set in a previous file in case they contain the same preference keys (last wins).</li>
+    <li>JRE system properties to replace during the import: This list contains all JRE system properties that are being replaced during the import. It is recommended to put all variables that occur in the remote property file into this list because the EPF file might be corrupted if these variables are not replaced before the actual import operation. Classpath variable entries are especially vulnerable in this regard. The variables you enter may not contain the character '#'.</li>
+    <li>Check for unconfigured workspace on startup: This option switches the automatic workspace configuration check on or off. Please note that the setting only applies to the current workspace and that the default settings (see below) can be used to switch the check on for all completely new workspaces.</li>
+  </ul>
+</p>
 
-Remote Preference File URL
-
-Enter thr URL to the remote preference file. If the URL us technically invalid, an error message is shown and in case the URL is currently not reachable, an info message is shown.
-
-Remote preference file URLs
-
-Enter the URLs to the remote preference files. If an URL us technically invalid, an error message is shown in the create/edit dialog. The URLs can be reordered and the files are imported sequentially top to down. Please be aware that files imported later may overwrite preferences set in a previous file in case they contain the same preference keys (last wins).
-
-JRE system properties to replace during the import
-
-This list contains all JRE system properties that are being replaced during the import. It is recommended to put all variables that occur in the remote property file into this list because the EPF file might be corrupted if these variables are not replaced before the actual import operation. Classpath variable entries are especially vulnerable in this regard.
-
-The variables you enter may not contain the character '#'.
-
-Check for unconfigured workspace on startup
-
-This option switches the automatic workspace configuration check on or off. Please note that the setting only applies to the current workspace and that the default settings (see below) can be used to switch the check on for all completely new workspaces.
-
-Default Settings
-
+<h3>Default Settings</h3>
+<p>
 There are no built-in default settings, but you may provide them using the extension point ch.netcetera.eclipse.workspace.defaultConfiguration. An exemplary fragment bundle with a sample configuration showing all options is provided in the SVN repository. The extension point supports the following configration elements:
-
-EpfUrl: used to configure a single static URL to an EPF file (1:1 replacement of what was previously configured in the properties file)
-EpfUrlProvider: registers a class implemeneting IEpfUrlProvider that can be used to programmatically calculate/provide an URL to an EPF file.
-NewWorkspaceDetection: used to switch on/off the detection of new and unconfigured workspaces. true wins in case this setting is provided several times.
-JavaSystemPropertyReplacement: used to configure a JRE system property replacement
+  <ul>
+    <li>EpfUrl: used to configure a single static URL to an EPF file (1:1 replacement of what was previously configured in the properties file)</li>
+    <li>EpfUrlProvider: registers a class implemeneting IEpfUrlProvider that can be used to programmatically calculate/provide an URL to an EPF file.</li>
+    <li>NewWorkspaceDetection: used to switch on/off the detection of new and unconfigured workspaces. true wins in case this setting is provided several times.</li>
+    <li>JavaSystemPropertyReplacement: used to configure a JRE system property replacement.</li>
+  </ul>
+</p>
