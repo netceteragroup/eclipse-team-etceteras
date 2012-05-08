@@ -7,19 +7,16 @@ title: Project Config Plug-in User's Guide
 
 <h3>Introduction</h3>
 <p>
-The Remote Project Configuration Plug-in provides functionality to configure projects within the workspace using a a very simple, shell script like command file. This so called Eclipse Project Configuration Script (EPCS) file is fetched using a HTTP transfer or from a local file. The commands supported include creation of directories, deletion of directories and files and a file download. The plug-in was originally designed and built out of the need for a mechanism to distribute company-wide configurations to every new project like the CheckStyle or JRE settings. Later the plug-in was extended to be able to reconfigure existing projects in case the corporate settings were updated.
-<p>
-This plug-in eases this configuration task of new and existing projects using centrally managed scripts to configure the projects. All the developer has to do is select the project in Eclipse's Package Explorer and run a command from the context menu.
+The Remote Project Configuration Plug-in provides functionality to configure projects within the workspace using a a very simple, shell script like command file. This so called Eclipse Project Configuration Script (EPCS) file is either fetched using a HTTP transfer or from a local file.
 </p>
 
 <h2>Workflow</h2>
-
 <p>
 The project configuration process consists of two to three logical steps:
   <ol>
-    <li>If multiple EPCS scripts are configured in the preferences or in the default configuration, the user is prompted to select to one to run.</li>
+    <li>If multiple EPCS scripts are configured, the user is prompted to select to one to run.</li>
     <li>Fetch the EPCS script from a web server using HTTP or a local file.</li>
-    <li>During the third step, the commands from the script file are applied to all selected projects. Depending on the commands used in the script, additional file transfers are initiated.</li>
+    <li>Execute the commands of the script file on the selected projects.</li>
   </ol>
 </p>
 
