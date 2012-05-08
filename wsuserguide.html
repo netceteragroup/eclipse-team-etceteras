@@ -130,7 +130,7 @@ Example:
 
 <h3>Workspace Preferences</h3>
 <p>
-The behavior of the Remote Workspace Preference plug-in can be configured in the Eclipse preferences dialog. Open the dialog from the <code>Window > Preferences</cde> menu. The settings are located on the <code>General > Workspace > Remote Preferences</code> page and contain the following options:
+The behavior of the Remote Workspace Preference plug-in can be configured in the Eclipse preferences dialog. Open the dialog from the <code>Window > Preferences</code> menu. The settings are located on the <code>General > Workspace > Remote Preferences</code> page and contain the following options:
   <ul>
     <li>Remote preference file URLs: Enter the URLs to the remote preference files.</li>
     <li>JRE system properties to replace during the import: This list contains all JRE system properties that are being replaced during the import. The variables you enter may not contain the character '#'.</li>
@@ -142,9 +142,9 @@ The behavior of the Remote Workspace Preference plug-in can be configured in the
 <p>
 There are no built-in default settings, but you may provide them using the extension point <code>ch.netcetera.eclipse.workspace.defaultConfiguration</code>. The extension point supports the following configration elements:
   <ul>
-    <li><code>EpfUrl</code>: used to configure a single static URL to an EPF file (1:1 replacement of what was previously configured in the properties file)</li>
-    <li><code>EpfUrlProvider</code>: registers a class implemeneting IEpfUrlProvider that can be used to programmatically calculate/provide an URL to an EPF file.</li>
-    <li><code>NewWorkspaceDetection</code>: used to switch on/off the detection of new and unconfigured workspaces. true wins in case this setting is provided several times.</li>
-    <li><code>JavaSystemPropertyReplacement</code>: used to configure a JRE system property replacement.</li>
+    <li><code>EpfUrl:</code> used to configure a single static URL to an EPF file (1:1 replacement of what was previously configured in the properties file)</li>
+    <li><code>EpfUrlProvider:</code> registers a class implemeneting IEpfUrlProvider that can be used to programmatically calculate/provide an URL to an EPF file.</li>
+    <li><code>NewWorkspaceDetection:</code> used to switch on/off the detection of new and unconfigured workspaces. true wins in case this setting is provided several times.</li>
+    <li><code>JavaSystemPropertyReplacement:</code> used to configure a JRE system property replacement.</li>
   </ul>
 </p>
