@@ -32,6 +32,9 @@ The URLs of the EPF files can be configured in the preferences dialog and defaul
 <p>
 To manually start the import process run <code>File > Import...</code> from the main menu. Then select <code>General > Remote Preferences</code>.
 </p>
+
+<img src="./img/import-wizard.png" alt="Remote Preferences Import Wizard">
+
 <p>
 The import wizard has two function modes:
   <ul>
@@ -71,12 +74,12 @@ There are two reasons for postprocessing the exported (epf) file:
 <p>
 The Eclipse preferences export wizard exports all preferences of the workspace. If you just want to import some preferences, you will have to manually edit the epf file and remove all settings you don't want to distribute to other workspaces.
 </p>
-<p>
+<pre>
 Example:
-  <pre>
-    /instance/org.eclipse.core.resources/encoding=ISO-8859-1
-  </pre>
-</p>
+ 
+  /instance/org.eclipse.core.resources/encoding=ISO-8859-1
+</pre>
+
 
 <h4>2. Do variable substitutions during the import process</h4>
 <p>
@@ -85,13 +88,18 @@ During the import of the preference file, variable substitutions with Java syste
 <p>
 Find the character sequences that shall be set during the import and replace them with the Java system property that shall be inserted instead. Make sure you prepend the system property name with a '$' character.
 </p>
+
+<pre>
+Example:
+
+  /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.classpathVariable. &crarr;
+    M2_REPO=c\:/Documents and Settings/$user.name/.m2/repository
+</pre>
+
 <p>
-Example
-  <pre>
-    /instance/org.eclipse.jdt.core/org.eclipse.jdt.core.classpathVariable.M2_REPO=c\:/Documents and Settings/$user.name/.m2/repository
-  </pre>
 In this example, the location of the Maven local repository is user dependent and the <code>$user.name</code> of the Eclipse classpath variable <code>M2_REPO</code> will be substituted with the user name set in the Java system property <code>user.name</code>.
 </p>
+
 <p>
 Hint: Don't forget to configure the variable replacement in the plug-in's preferences.
 </p>
@@ -118,13 +126,14 @@ Publish the epf file on some web server to which all team members have access.
 <p>
 The configuration status including the date and time of the last configuration process can be seen in the Configuration Tab of the Installation Details Dialog available from the About Dialog. To open that dialog select <code>Help > About Eclipse SDK</code>, then hit the button <code>Installation Details</code> and finally select the tab <code>Configuration</code>.
 </p>
-<p>
+
+<pre>
 Example:
-  <pre>
-    *** ! Remote Workspace Preferences Import Status:
-    Workspace configuration status: configured on 2009-08-10 22:39:15
-  </pre>
-</p>
+
+  *** ! Remote Workspace Preferences Import Status:
+  Workspace configuration status: configured on 2009-08-10 22:39:15
+</pre>
+
 
 <h2>Preferences</h2>
 

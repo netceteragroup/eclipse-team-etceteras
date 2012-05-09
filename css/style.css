@@ -4,19 +4,10 @@ body {
   background: #fafafa;
 }
 
-@media only screen and (max-width: 960px) {  
-  div#navigation {
-    width: 100%
-  }
-  div#container {
-    width: 100%;
-  }
-}
-
 div#container {
   background: #ffffff;
   text-align: left;
-  width: 936px;
+  width: 640px;
   margin-top: 12px;
   margin-left: auto;
   margin-right: auto;
@@ -30,7 +21,37 @@ div#container {
 
 header {
   text-align: left;
-  font-size: 1.8em;
-  font-style: bold;
+  font-size: 1.6em;
+  font-weight: bold;
   margin-top: 6px;
+  margin-bottom: 36px;
+}
+
+h2 {
+  text-align: left;
+  font-size: 1.4em;
+  font-weight: bold;
+  margin-top: 32px;
+  margin-bottom: 6px;
+}  
+
+h3 {
+  text-align: left;
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-top: 24px;
+  margin-bottom: 6px;
+}  
+
+p {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+ul {
+  margin-top: 4px;
+}
+
+li {
+  margin-top: 4px;
 }
