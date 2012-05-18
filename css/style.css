@@ -76,18 +76,23 @@ div#container {
 }
 
 header {
-  font-size: 2em;
+  font-size: 1.9em;
   font-weight: bold;
 }
 
+header img {
+  float: left;
+}
+
 p#claim {
-  font-size: 0.9em;
-  margin-top: -1px;
-  margin-left: 2px;
+  font-size: 0.85em;
+  margin-top: -3px;
+  margin-left: 61px;
 }
 
 h1 {
   margin-top: 0px;
+  font-size: 1.8em;
 }
 
 h2 {
