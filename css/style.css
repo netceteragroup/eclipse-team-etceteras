@@ -123,3 +123,14 @@ ul {
 li {
   margin-top: 4px;
 }
+
+footer {
+  clear: both;
+  width: 640px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-left: 242px;  
+  font-size: 0.8em;
+  margin-top: 5px;
+  text-align: center;
+}
