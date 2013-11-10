@@ -71,6 +71,15 @@
         <role>developer</role>
       </roles>
     </developer>
+    <developer>
+      <id>stadler</id>
+      <name>Jacques Stadler</name>
+      <email>jacque.stadler@gmail.com</email>
+      <timezone>+1</timezone>
+      <roles>
+        <role>developer</role>
+      </roles>
+    </developer>
   </developers>
   <licenses>
     <license>
