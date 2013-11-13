@@ -32,16 +32,18 @@ public abstract class AbstractTextAccessorUIPlugin extends AbstractUIPlugin impl
    */
   public abstract ResourceBundle getResourceBundle();
 
-  /** 
-   * {@inheritDoc} 
+  /**
+   * {@inheritDoc}
    */
+  @Override
   public String getText(String key) {
     return getText(key, null);
   }
 
-  /** 
-   * {@inheritDoc} 
+  /**
+   * {@inheritDoc}
    */
+  @Override
   public String getText(String key, Object[] arguments) {
     ResourceBundle resourceBundle = getResourceBundle();
     if (resourceBundle != null) {

@@ -43,9 +43,6 @@ public abstract class AbstractResourceBundlePreferenceInitializer extends
     String value = defaultValue;
     if (this.resourceBundle != null && this.resourceBundle.containsKey(key)) {
       value = this.resourceBundle.getString(key);
-      if (value == null) {
-        value = defaultValue;
-      }
     }
     return value;
   }

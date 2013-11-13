@@ -22,12 +22,11 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 
-import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.params.HttpMethodParams;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.ILog;
 import org.eclipse.core.runtime.IPath;
@@ -57,7 +56,9 @@ public class DownloadProjectConfigurationCommand extends AbstractProjectConfigur
    * @param pluginId the plugin id used for logging
    * @param log the log
    */
-  public DownloadProjectConfigurationCommand(List<String> argumentList, ITextAccessor textAccessor, String pluginId,
+  public DownloadProjectConfigurationCommand(List<String> argumentList,
+      ITextAccessor textAccessor,
+      String pluginId,
       ILog log) {
     super(argumentList, textAccessor, pluginId, log);
   }
@@ -82,10 +83,10 @@ public class DownloadProjectConfigurationCommand extends AbstractProjectConfigur
       }
     }
 
-     if (!status.isOK()) {
-       getLog().log(status);
-     }
-     return status;
+    if (!status.isOK()) {
+      getLog().log(status);
+    }
+    return status;
   }
 
   /**
@@ -114,10 +115,12 @@ public class DownloadProjectConfigurationCommand extends AbstractProjectConfigur
             IOUtil.closeSilently(inputStream);
           }
         } else {
-          status = createStatus(IStatus.ERROR, getTextAccessor().getText("error.cannot.read.local.file"));
+          status = createStatus(IStatus.ERROR,
+              getTextAccessor().getText("error.cannot.read.local.file"));
         }
       } else {
-        status = createStatus(IStatus.ERROR, getTextAccessor().getText("error.cannot.read.local.file"));
+        status = createStatus(IStatus.ERROR,
+            getTextAccessor().getText("error.cannot.read.local.file"));
       }
     } catch (IOException e) {
       status = createStatus(IStatus.ERROR, e.getLocalizedMessage(), e);
@@ -137,37 +140,32 @@ public class DownloadProjectConfigurationCommand extends AbstractProjectConfigur
   private IStatus downloadFileFromHTTP(String fileUrl, File targetFile) {
     IStatus status = Status.OK_STATUS;
 
-    HttpClient httpClient = new HttpClient();
-    GetMethod getMethod = new GetMethod(fileUrl);
-    getMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
-        new DefaultHttpMethodRetryHandler(3, false));
+    HttpClient httpClient = new DefaultHttpClient();
+    HttpGet httpGet = new HttpGet(fileUrl);
 
     int httpStatus;
 
     try {
-       httpStatus = httpClient.executeMethod(getMethod);
-    if (httpStatus != HttpStatus.SC_OK) {
-      status = createStatus(IStatus.ERROR, HttpStatus.getStatusText(httpStatus));
-    } else {
+      HttpResponse response = httpClient.execute(httpGet);
+      httpStatus = response.getStatusLine().getStatusCode();
+      if (httpStatus != HttpStatus.SC_OK) {
+        status = createStatus(IStatus.ERROR, response.getStatusLine().getReasonPhrase());
+      } else {
 
-      OutputStream outputStream = null;
-      InputStream inputStream = null;
-      try {
-        // write response to the file
-        outputStream = new FileOutputStream(targetFile);
-        inputStream = getMethod.getResponseBodyAsStream();
-        copyFile(inputStream, outputStream);
-      } finally {
-        IOUtil.closeSilently(outputStream);
-        IOUtil.closeSilently(inputStream);
+        OutputStream outputStream = null;
+        InputStream inputStream = null;
+        try {
+          // write response to the file
+          outputStream = new FileOutputStream(targetFile);
+          inputStream = response.getEntity().getContent();
+          copyFile(inputStream, outputStream);
+        } finally {
+          IOUtil.closeSilently(outputStream);
+          IOUtil.closeSilently(inputStream);
+        }
       }
-    }
-    } catch (HttpException e) {
-      status = createStatus(IStatus.ERROR, e.getLocalizedMessage(), e);
     } catch (IOException e) {
       status = createStatus(IStatus.ERROR, e.getLocalizedMessage(), e);
-    } finally {
-      getMethod.releaseConnection();
     }
     return status;
   }
@@ -190,8 +188,8 @@ public class DownloadProjectConfigurationCommand extends AbstractProjectConfigur
   /**
    * Finds out whether the command was called with the 'overwrite' directive.
    *
-   * @return <code>true</code> if the target file shall be overwritten if it
-   * exist or <code>false</code> if not.
+   * @return <code>true</code> if the target file shall be overwritten if it exist or
+   * <code>false</code> if not.
    */
   private boolean isOverwrite() {
     return getArgumentList().size() == 5 && SUBCOMMAND_OVERWRITE.equals(getArgumentList().get(1));
@@ -220,6 +218,7 @@ public class DownloadProjectConfigurationCommand extends AbstractProjectConfigur
    */
   @Override
   boolean isEnabled() {
-    return getArgumentList() != null && (getArgumentList().size() == 4 || getArgumentList().size() == 5);
+    return getArgumentList() != null
+        && (getArgumentList().size() == 4 || getArgumentList().size() == 5);
   }
 }

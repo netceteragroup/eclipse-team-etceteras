@@ -38,7 +38,7 @@ public final class UriInputValidator implements IInputValidator {
    */
   public UriInputValidator(List<String> uris, String itemToEdit, ITextAccessor textAccessor) {
     this.textAccessor = textAccessor;
-    this.itemList = new ArrayList<String>(uris.size());
+    this.itemList = new ArrayList<>(uris.size());
     this.itemList.addAll(uris);
 
     // remove the original item if an item is edited

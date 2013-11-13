@@ -157,8 +157,7 @@
         <artifactId>findbugs-maven-plugin</artifactId>
         <configuration>
           <xmlOutput>true</xmlOutput>
-          <includeFilterFile>.fb-includes.xml</includeFilterFile>
-          <excludeFilterFile>.fb-excludes.xml</excludeFilterFile>
+          <includeFilterFile>.settings/fb-includes.xml</includeFilterFile>
         </configuration>
         <executions>
           <execution>
@@ -211,6 +210,7 @@
       </plugins>
     </pluginManagement>
   </build>
+  
   <properties>
     <tycho-version>0.19.0</tycho-version>
     <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
@@ -218,4 +218,11 @@
     <source.version>1.6</source.version>
     <target.version>1.6</target.version>
   </properties>
+  <dependencies>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>2.0</version>
+    </dependency>
+  </dependencies>
 </project>

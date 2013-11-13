@@ -16,15 +16,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.http.HttpResponse;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
+import ch.netcetera.eclipse.common.io.IOUtil;
 import ch.netcetera.eclipse.common.net.AbstractHttpClient;
-import ch.netcetera.eclipse.projectconfig.net.IProjectConfigurationScriptData;
 import ch.netcetera.eclipse.projectconfig.net.IProjectConfigurationClient;
+import ch.netcetera.eclipse.projectconfig.net.IProjectConfigurationScriptData;
 
 /**
  * HTTP client to fetch project configuration scripts and files.
@@ -43,16 +44,16 @@ public class ProjectConfigurationClient extends AbstractHttpClient implements IP
       return bundle.getSymbolicName();
     }
   }
-  
+
   /**
    * {@inheritDoc}
    */
   @Override
-  public IProjectConfigurationScriptData getProjectConfiguationScriptFileData(String url, IProgressMonitor monitor) 
+  public IProjectConfigurationScriptData getProjectConfiguationScriptFileData(String url, IProgressMonitor monitor)
       throws CoreException {
     return this.executeGetRequest(url, new PreferenceFileResponseHandler(), monitor);
   }
-  
+
   /**
    * A response handler that parses the response.
    */
@@ -62,34 +63,36 @@ public class ProjectConfigurationClient extends AbstractHttpClient implements IP
      * {@inheritDoc}
      */
     @Override
-    public IProjectConfigurationScriptData handleResponse(HttpMethodBase method, IProgressMonitor monitor) 
+    public IProjectConfigurationScriptData handleResponse(HttpResponse response, IProgressMonitor monitor)
         throws IOException {
-      return ProjectConfigurationClient.this.handleResponse(method, monitor);
+      return ProjectConfigurationClient.this.handleResponse(response, monitor);
     }
   }
-  
+
   /**
    * Handles the HTTP response.
-   * 
-   * @param method the HTTP method
+   *
+   * @param response the HTTP response
    * @param monitor the progress monitor
    * @return the project configuration script data
    * @throws IOException on error
    */
-  protected IProjectConfigurationScriptData handleResponse(HttpMethodBase method, IProgressMonitor monitor) 
+  protected IProjectConfigurationScriptData handleResponse(HttpResponse response, IProgressMonitor monitor)
       throws IOException {
-    InputStream input = method.getResponseBodyAsStream();
+    InputStream input = response.getEntity().getContent();
+    ByteArrayOutputStream output = null;
     try {
       monitor.subTask("Transfering data from server..");
-      input = wrapResponseStream(method, input, monitor);
+      input = wrapResponseStream(response, input, monitor);
 
       monitor.subTask("Parsing data..");
 
-      ByteArrayOutputStream output = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);
+      output = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);
       copy(input, output);
       return new ProjectConfigurationScriptData(output.toByteArray());
     } finally {
-      closeQuietly(input);
+      IOUtil.closeSilently(input);
+      IOUtil.closeSilently(output);
     }
   }
 }

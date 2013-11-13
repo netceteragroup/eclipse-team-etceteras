@@ -12,33 +12,26 @@
  */
 package ch.netcetera.eclipse.common.net;
 
-import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.Proxy;
-import java.net.ProxySelector;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.SSLHandshakeException;
 
-import org.apache.commons.httpclient.Credentials;
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HostConfiguration;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpException;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.HttpMethodBase;
-import org.apache.commons.httpclient.HttpState;
-import org.apache.commons.httpclient.HttpStatus;
-import org.apache.commons.httpclient.ProxyHost;
-import org.apache.commons.httpclient.UsernamePasswordCredentials;
-import org.apache.commons.httpclient.auth.AuthScope;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.eclipse.core.net.proxy.IProxyData;
+import org.apache.http.Header;
+import org.apache.http.HttpException;
+import org.apache.http.HttpHost;
+import org.apache.http.HttpRequest;
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicHttpRequest;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 import org.eclipse.core.net.proxy.IProxyService;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -63,12 +56,12 @@ public abstract class AbstractHttpClient {
     /**
      * Handle a HTTP response.
      *
-     * @param method the method that was executed
+     * @param response the method that was executed
      * @param monitor the monitor to report progress on
      * @return the result of handling the response
      * @throws IOException if reading the response fails
      */
-    R handleResponse(HttpMethodBase method, IProgressMonitor monitor) throws IOException;
+    R handleResponse(HttpResponse response, IProgressMonitor monitor) throws IOException;
 
   }
 
@@ -177,105 +170,26 @@ public abstract class AbstractHttpClient {
     }
   }
 
-  /**
-   * Closes a {@link Closeable} silently.
-   * 
-   * @param closable the {@link Closeable} to close
-   */
-  protected static void closeQuietly(Closeable closable) {
-    if (closable != null) {
-      try {
-        closable.close();
-      } catch (IOException e) {
-        // ignore
-      }
-    }
-  }
-
-  private HostConfiguration createHostConfiguration(IProxyData proxyData, String url) throws IOException {
-    HostConfiguration configuration = new HostConfiguration();
-
-    if (proxyData != null) {
-      ProxyHost proxyHost = new ProxyHost(proxyData.getHost(), proxyData.getPort());
-      configuration.setProxyHost(proxyHost);
-    }
-
-    return configuration;
-  }
-
-  private HttpState createHttpSate(IProxyData proxyData) {
-    HttpState state = new HttpState();
-    if (proxyData != null && proxyData.isRequiresAuthentication()) {
-      Credentials credentials = new UsernamePasswordCredentials(proxyData.getUserId(), proxyData.getPassword());
-      state.setProxyCredentials(new AuthScope(proxyData.getHost(), proxyData.getPort()), credentials);
-    }
-    return state;
-  }
-
-  private IProxyData getProxyData(String url) throws CoreException {
-    if (getProxyService() != null && getProxyService().isProxiesEnabled()) {
-      try {
-        URI uri = new URI(url);
-        if (getProxyService().isSystemProxiesEnabled()) {
-          return getSystemProxyData(uri);
-        } else {
-          return getEclipseProxyData(getProxyService(), uri);
-        }
-      } catch (URISyntaxException e) {
-        IStatus status = new Status(IStatus.ERROR, getBundleSymbolicName(), "invlid URL" + url, e);
-        throw new CoreException(status); // NOPMD by michael on 11/20/10 2:22 PM
-      }
-    }
-    return null;
-  }
-
-  private IProxyData getEclipseProxyData(IProxyService service, URI uri) {
-    IProxyData[] proxies = service.select(uri);
-    if (proxies.length > 0) {
-      return proxies[0];
-    }
-    return null;
-  }
-
-  private IProxyData getSystemProxyData(URI uri) throws CoreException {
-    ProxySelector selector = ProxySelector.getDefault();
-    List<Proxy> proxies = selector.select(uri);
-    if (!proxies.isEmpty()) {
-      Proxy proxy = proxies.get(0);
-      if (proxy.type() != Proxy.Type.DIRECT) {
-        try {
-          return new NativeProxyData(proxy);
-        } catch (IllegalArgumentException e) {
-          /*
-           * This should really never happen because we just checked the proxy type
-           * and there are just Internet addresses.
-           */
-          IStatus status = new Status(IStatus.ERROR, getBundleSymbolicName(), "could not create proxy" + proxy, e);
-          throw new CoreException(status); // NOPMD 2010-11-20 pellaton: stack trace is preserved inside the status
-        }
-      }
-    }
-    return null;
-  }
-
-  private int executeMethod(HttpClient client, HttpMethod method, String url) throws IOException,
+  private HttpResponse executeMethod(HttpClient client, HttpRequestBase method) throws IOException,
   HttpException, CoreException {
 
-    IProxyData proxyData = this.getProxyData(method.getURI().getURI());
-    HostConfiguration hostConfiguration = this.createHostConfiguration(proxyData, url);
-    HttpState state = this.createHttpSate(proxyData);
-    return client.executeMethod(hostConfiguration, method, state);
+    HttpHost httpHost = new HttpHost(method.getURI().getHost());
+    HttpRequest request = new BasicHttpRequest(method.getRequestLine());
+    HttpContext context = new BasicHttpContext();
+    HttpResponse response = client.execute(httpHost, request, context);
+    return response;
   }
 
-  private <R> R executePreparedMethod(String url, IResponseHandler<R> handler, IProgressMonitor monitor,
-      HttpMethodBase method,
+  private <R> R executePreparedMethod(IResponseHandler<R> handler, IProgressMonitor monitor,
+      HttpRequestBase request,
       HttpClient client) throws CoreException {
     try {
-      int statusCode = this.executeMethod(client, method, url);
+      HttpResponse response = this.executeMethod(client, request);
+      int statusCode = response.getStatusLine().getStatusCode();
       if (statusCode == HttpStatus.SC_OK) {
-        return handler.handleResponse(method, monitor);
+        return handler.handleResponse(response, monitor);
       } else {
-        throw convertHttpStatusToException(statusCode, url);
+        throw convertHttpStatusToException(statusCode);
       }
     } catch (HttpException e) {
       throw wrapHttpException(e);
@@ -283,18 +197,12 @@ public abstract class AbstractHttpClient {
       throw wrapSslHandshakeException(e);
     } catch (IOException e) {
       throw wrapIoException(e);
-    } finally {
-      method.releaseConnection();
     }
-  }
-
-  private HttpClient createClient() {
-    return new HttpClient();
   }
 
   /**
    * Executes a HTTP get request.
-   * 
+   *
    * @param <R> the return type
    * @param url the url
    * @param handler the response handler
@@ -304,12 +212,10 @@ public abstract class AbstractHttpClient {
    */
   protected <R> R executeGetRequest(String url, IResponseHandler<R> handler, IProgressMonitor monitor)
   throws CoreException {
-    HttpClient client = this.createClient();
-    GetMethod get = new GetMethod(url);
-    get.addRequestHeader("Accept-Encoding", "gzip");
-    get.setFollowRedirects(true);
-
-    return executePreparedMethod(url, handler, monitor, get, client);
+    HttpClient client = new DefaultHttpClient();
+    HttpGet get = new HttpGet(url);
+    get.addHeader("Accept-Encoding", "gzip");
+    return executePreparedMethod(handler, monitor, get, client);
   }
 
   private CoreException wrapSslHandshakeException(SSLHandshakeException e) {
@@ -332,12 +238,12 @@ public abstract class AbstractHttpClient {
 
   /**
    * Gets the bundle symbolic name.
-   * 
+   *
    * @return the bundle symbolic name
    */
   protected abstract String getBundleSymbolicName();
 
-  private CoreException convertHttpStatusToException(int httpStatusCode, String baseUrl) {
+  private CoreException convertHttpStatusToException(int httpStatusCode) {
     IStatus status = new Status(IStatus.ERROR, getBundleSymbolicName(), "unexpected HTTP status code "
         + httpStatusCode);
     return new CoreException(status);
@@ -345,7 +251,7 @@ public abstract class AbstractHttpClient {
 
   /**
    * Copy bytes from an {@link InputStream} to an {@link OutputStream}.
-   * 
+   *
    * @param input  the {@link InputStream} to read from
    * @param output  the {@link OutputStream} to write to
    * @throws NullPointerException if the input or output is null
@@ -364,18 +270,18 @@ public abstract class AbstractHttpClient {
 
   /**
    * Wraps the response stream.
-   * 
-   * @param method the HTTP method
+   *
+   * @param response the HTTP response
    * @param stream the input stream
    * @param monitor the progress monitor
    * @return the wrapped input stream
    * @throws IOException on error
    */
-  protected InputStream wrapResponseStream(HttpMethodBase method, InputStream stream, IProgressMonitor monitor)
+  protected InputStream wrapResponseStream(HttpResponse response, InputStream stream, IProgressMonitor monitor)
       throws IOException {
     InputStream input = stream;
-    Header contentEncoding = method.getResponseHeader("Content-Encoding");
-    long contentLength = method.getResponseContentLength();
+    Header contentEncoding = response.getFirstHeader("Content-Encoding");
+    long contentLength = response.getEntity().getContentLength();
     if (contentLength != -1) {
       monitor.beginTask("Parsing Response", (int) contentLength);
       input = new ProgressReportingInputStream(input, monitor);
@@ -397,16 +303,14 @@ public abstract class AbstractHttpClient {
 
   /**
    * Unbinds the {@link IProxyService} service reference.
-   *
-   * @param proxyService the {@link IProxyService} service reference to unbind
    */
-  public void unbindProxyService(IProxyService proxyService) {
+  public void unbindProxyService() {
     this.proxyService = null;
   }
 
   /**
    * Gets the {@link IProxyService} instance.
-   * 
+   *
    * @return the {@link IProxyService} instance
    */
   protected IProxyService getProxyService() {

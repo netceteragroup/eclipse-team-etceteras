@@ -16,18 +16,19 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.commons.httpclient.HttpMethodBase;
+import org.apache.http.HttpResponse;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
+import ch.netcetera.eclipse.common.io.IOUtil;
 import ch.netcetera.eclipse.common.net.AbstractHttpClient;
 import ch.netcetera.eclipse.workspaceconfig.net.IPreferenceFileData;
 import ch.netcetera.eclipse.workspaceconfig.net.IWorkspacePreferenceClient;
 
 /**
- * HTTP client to fetch workspace preference files. 
+ * HTTP client to fetch workspace preference files.
  */
 public class WorkspacePreferenceClient extends AbstractHttpClient implements IWorkspacePreferenceClient {
 
@@ -43,7 +44,7 @@ public class WorkspacePreferenceClient extends AbstractHttpClient implements IWo
       return bundle.getSymbolicName();
     }
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -51,7 +52,7 @@ public class WorkspacePreferenceClient extends AbstractHttpClient implements IWo
   public IPreferenceFileData getPreferenceFileData(String url, IProgressMonitor monitor) throws CoreException {
     return this.executeGetRequest(url, new PreferenceFileResponseHandler(), monitor);
   }
-  
+
   /**
    * A response handler that parses the response.
    */
@@ -61,24 +62,24 @@ public class WorkspacePreferenceClient extends AbstractHttpClient implements IWo
      * {@inheritDoc}
      */
     @Override
-    public IPreferenceFileData handleResponse(HttpMethodBase method, IProgressMonitor monitor) throws IOException {
-      return WorkspacePreferenceClient.this.handleResponse(method, monitor);
+    public IPreferenceFileData handleResponse(HttpResponse response, IProgressMonitor monitor) throws IOException {
+      return WorkspacePreferenceClient.this.handleResponse(response, monitor);
     }
   }
-  
+
   /**
    * Handles the HTTP response.
-   * 
-   * @param method the HTTP method
+   *
+   * @param response the HTTP response
    * @param monitor the progress monitor
    * @return the preference file date
    * @throws IOException on error
    */
-  protected IPreferenceFileData handleResponse(HttpMethodBase method, IProgressMonitor monitor) throws IOException {
-    InputStream input = method.getResponseBodyAsStream();
+  protected IPreferenceFileData handleResponse(HttpResponse response, IProgressMonitor monitor) throws IOException {
+    InputStream input = response.getEntity().getContent();
     try {
       monitor.subTask("Transfering data from server...");
-      input = wrapResponseStream(method, input, monitor);
+      input = wrapResponseStream(response, input, monitor);
 
       monitor.subTask("Parsing data..");
 
@@ -86,7 +87,7 @@ public class WorkspacePreferenceClient extends AbstractHttpClient implements IWo
       copy(input, output);
       return new PreferenceFileData(output.toByteArray());
     } finally {
-      closeQuietly(input);
+      IOUtil.closeSilently(input);
     }
   }
 }

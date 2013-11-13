@@ -4,9 +4,9 @@ Bundle-Name: %bundle.name
 Bundle-SymbolicName: ch.netcetera.eclipse.projectconfig.test
 Bundle-Version: 3.0.4.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.junit4;visibility:=reexport,
- org.easymock;bundle-version="[2.4.0,3.0.0)";visibility:=reexport,
- org.hamcrest;bundle-version="1.1.0";visibility:=reexport
+Require-Bundle: org.easymock;bundle-version="[2.4.0,3.0.0)";visibility:=reexport,
+ org.hamcrest;bundle-version="1.1.0";visibility:=reexport,
+ org.junit;bundle-version="4.11.0"
 Bundle-Vendor: %bundle.provider
 Bundle-Localization: plugin
 Fragment-Host: ch.netcetera.eclipse.projectconfig.core

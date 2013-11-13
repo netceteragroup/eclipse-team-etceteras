@@ -116,7 +116,6 @@ public class LoginDialog extends TitleAreaDialog implements KeyListener {
     this.passwordText.addKeyListener(this);
     this.passwordText.setText(this.initPassword);
 
-    new Label(composite, SWT.LEFT);
     this.storePasswordCheckBox = new Button(composite, SWT.CHECK);
     this.storePasswordCheckBox.setText(this.textAccessor.getText("login.dialog.storepassword"));
 
@@ -130,7 +129,7 @@ public class LoginDialog extends TitleAreaDialog implements KeyListener {
   public void keyPressed(KeyEvent e) {
     Button okButton = getButton(IDialogConstants.OK_ID);
     if (okButton != null) {
-      okButton.setEnabled(this.nameText.getText().trim().length() > 0 
+      okButton.setEnabled(this.nameText.getText().trim().length() > 0
           && this.passwordText.getText().trim().length() > 0);
     }
   }
