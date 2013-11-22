@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
+import ch.netcetera.eclipse.common.io.IOUtil;
 import ch.netcetera.eclipse.common.net.AbstractHttpClient;
 import ch.netcetera.eclipse.projectconfig.net.IProjectConfigurationClient;
 import ch.netcetera.eclipse.projectconfig.net.IProjectConfigurationScriptData;
@@ -78,16 +79,21 @@ public class ProjectConfigurationClient extends AbstractHttpClient implements
    * @return the project configuration script data
    * @throws IOException on error
    */
-  protected IProjectConfigurationScriptData handleResponse(HttpResponse response,
-      IProgressMonitor monitor) throws IOException {
-    try (InputStream content = response.getEntity().getContent();
-        ByteArrayOutputStream output = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);) {
+  protected IProjectConfigurationScriptData handleResponse(HttpResponse response, IProgressMonitor monitor)
+      throws IOException {
+    InputStream input = response.getEntity().getContent();
+    ByteArrayOutputStream output = null;
+    try {
       monitor.subTask("Transfering data from server..");
-      try (InputStream input = wrapResponseStream(response, content, monitor);) {
-        monitor.subTask("Parsing data..");
-        copy(input, output);
-      }
+      input = wrapResponseStream(response, input, monitor);
+
+      monitor.subTask("Parsing data..");
+
+      output = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);
+      copy(input, output);
       return new ProjectConfigurationScriptData(output.toByteArray());
+    } finally {
+      IOUtil.closeSilently(input);
     }
   }
 }

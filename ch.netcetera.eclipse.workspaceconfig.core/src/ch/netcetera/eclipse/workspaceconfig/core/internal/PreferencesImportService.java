@@ -35,6 +35,7 @@ import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.osgi.framework.FrameworkUtil;
 
+import ch.netcetera.eclipse.common.io.IOUtil;
 import ch.netcetera.eclipse.workspaceconfig.core.IPreferencesImportService;
 import ch.netcetera.eclipse.workspaceconfig.net.IPreferenceFileData;
 import ch.netcetera.eclipse.workspaceconfig.net.IWorkspacePreferenceClient;
@@ -90,13 +91,15 @@ public class PreferencesImportService implements IPreferencesImportService {
   private IStatus importConfigFileFile(String url, List<String> systemPropertyReplacementList) {
     String bundleSymbolicName = FrameworkUtil.getBundle(this.getClass()).getSymbolicName();
     IStatus importStatus = Status.OK_STATUS;
+    InputStream inputStream = null;
 
     try {
       URI uri = new URI(url);
       if (uri.getAuthority() == null) {
         File sourceFile = new File(uri);
         if (sourceFile.canRead()) {
-          try (InputStream inputStream = new FileInputStream(sourceFile);) {
+          try {
+            inputStream = new FileInputStream(sourceFile);
             importConfigurationFromStream(inputStream, systemPropertyReplacementList);
           } catch (FileNotFoundException e) {
             importStatus = wrapExceptionInErrorStatus(e);
@@ -104,6 +107,8 @@ public class PreferencesImportService implements IPreferencesImportService {
             importStatus = wrapExceptionInErrorStatus(e);
           } catch (CoreException e) {
             importStatus = wrapExceptionInErrorStatus(e);
+          } finally {
+            IOUtil.closeSilently(inputStream);
           }
         } else {
           importStatus = new Status(IStatus.ERROR, bundleSymbolicName, "Could not read local file.");
@@ -118,6 +123,7 @@ public class PreferencesImportService implements IPreferencesImportService {
     }
     return importStatus;
   }
+
 
   /**
    * Imports a configuration from a http:// or https:// URL.
@@ -157,12 +163,11 @@ public class PreferencesImportService implements IPreferencesImportService {
       List<String> systemPropertyReplacementList) throws CoreException, IOException {
     IPreferenceFilter[] transfers = getPreferenceImportFilters();
     SystemPropertyReplacer replacer = new SystemPropertyReplacer(systemPropertyReplacementList);
-    try (BufferedReplacementInputStream input =
-        new BufferedReplacementInputStream(replacer, inputStream);) {
-      IPreferencesService service = Platform.getPreferencesService();
-      IExportedPreferences preferences = service.readPreferences(input);
-      service.applyPreferences(preferences, transfers);
-    }
+    @SuppressWarnings("resource")
+    BufferedReplacementInputStream input = new BufferedReplacementInputStream(replacer, inputStream);
+    IPreferencesService service = Platform.getPreferencesService();
+    IExportedPreferences preferences = service.readPreferences(input);
+    service.applyPreferences(preferences, transfers);
   }
 
   /**

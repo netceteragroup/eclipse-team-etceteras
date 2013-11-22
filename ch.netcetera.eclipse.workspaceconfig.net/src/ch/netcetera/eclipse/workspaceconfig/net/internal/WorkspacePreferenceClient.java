@@ -22,6 +22,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
+import ch.netcetera.eclipse.common.io.IOUtil;
 import ch.netcetera.eclipse.common.net.AbstractHttpClient;
 import ch.netcetera.eclipse.workspaceconfig.net.IPreferenceFileData;
 import ch.netcetera.eclipse.workspaceconfig.net.IWorkspacePreferenceClient;
@@ -77,16 +78,19 @@ public class WorkspacePreferenceClient extends AbstractHttpClient implements
    * @return the preference file date
    * @throws IOException on error
    */
-  protected IPreferenceFileData handleResponse(HttpResponse response, IProgressMonitor monitor)
-      throws IOException {
-    try (InputStream content = response.getEntity().getContent();
-        ByteArrayOutputStream output = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);) {
+  protected IPreferenceFileData handleResponse(HttpResponse response, IProgressMonitor monitor) throws IOException {
+    InputStream input = response.getEntity().getContent();
+    try {
       monitor.subTask("Transfering data from server...");
-      try (InputStream input = wrapResponseStream(response, content, monitor);) {
-        monitor.subTask("Parsing data..");
-        copy(input, output);
-      }
+      input = wrapResponseStream(response, input, monitor);
+
+      monitor.subTask("Parsing data..");
+
+      ByteArrayOutputStream output = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);
+      copy(input, output);
       return new PreferenceFileData(output.toByteArray());
+    } finally {
+      IOUtil.closeSilently(input);
     }
   }
 }
