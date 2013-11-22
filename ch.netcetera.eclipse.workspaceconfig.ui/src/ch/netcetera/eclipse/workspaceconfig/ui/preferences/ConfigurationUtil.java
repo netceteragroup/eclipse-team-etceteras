@@ -35,20 +35,20 @@ import org.osgi.framework.FrameworkUtil;
 public final class ConfigurationUtil {
 
   private static String bundleSymbolicName = FrameworkUtil.getBundle(ConfigurationUtil.class).getSymbolicName();
-  
+
   private static ConfigurationXMLMarshaler marshaler = new ConfigurationXMLMarshaler();
   private static ConfigurationXmlParser parser = new ConfigurationXmlParser();
-  
+
   /**
    * Not instantiable.
    */
   private ConfigurationUtil() {
     throw new AssertionError("Not instantiable.");
   }
-  
+
   /**
    * Saves the EPF URLs passed in the preference store.
-   * 
+   *
    * @param epfUrls the EPF URLs to store
    */
   static void saveEpfUrls(Collection<String> epfUrls) {
@@ -58,14 +58,14 @@ public final class ConfigurationUtil {
     } catch (IOException e) {
       // don't do anything...
     }
-    
+
     getPreferences().put(WorkspaceConfigurationConstants.CONFIG_URL, xml);
   }
-  
-  
+
+
   /**
    * Gets the EPF URLs from the preference store.
-   * 
+   *
    * @return the EPF URLs from the preference store
    */
   public static List<String> getEpfUrls() {
@@ -77,10 +77,10 @@ public final class ConfigurationUtil {
       return Collections.emptyList();
     }
   }
-  
+
   /**
    * Saves the JVM environment variables to substitute in the preference store.
-   * 
+   *
    * @param envReplacements the replacements to save
    */
   static void saveEnvReplacements(Collection<String> envReplacements) {
@@ -90,13 +90,13 @@ public final class ConfigurationUtil {
     } catch (IOException e) {
       // don't do anything...
     }
-    
+
     getPreferences().put(WorkspaceConfigurationConstants.CONFIG_ENV_REPLACEMENT_LIST, xml);
   }
-  
+
   /**
    * Gets JVM environment variables to substitute from the preference store.
-   * 
+   *
    * @return the JVM environment variables to substitute
    */
   public static List<String> getEnvReplacements() {
@@ -108,27 +108,27 @@ public final class ConfigurationUtil {
       return Collections.emptyList();
     }
   }
-  
+
   /**
    * Saves the new workspace detection flag in the preference store.
-   * 
+   *
    * @param newWorkspaceDetection the new workspace detection flag to save
    */
   static void saveNewWorkspaceDetection(boolean newWorkspaceDetection) {
     getPreferences().putBoolean(WorkspaceConfigurationConstants.CONFIG_STARTUP_CHECK, newWorkspaceDetection);
   }
-  
+
   /**
    * Finds out whether at least one EPF URL is configured.
-   * 
+   *
    * @return {@code true} if at least in eEPF URL is configured and {@code false} otherwise
    */
   public static boolean isEpfUrlConfigured() {
     return !getEpfUrls().isEmpty();
   }
-  
+
 
   private static IEclipsePreferences getPreferences() {
-    return new DefaultScope().getNode(FrameworkUtil.getBundle(ConfigurationUtil.class).getSymbolicName());
+    return DefaultScope.INSTANCE.getNode(FrameworkUtil.getBundle(ConfigurationUtil.class).getSymbolicName());
   }
 }

@@ -64,7 +64,7 @@ public class ProjectConfigurationScriptTest {
   }
 
   /**
-   * Tests {@link ProjectConfigurationScript#setCommands(IProjectConfigurationCommand[])}
+   * Tests {@link ProjectConfigurationScript#setCommands(List)}
    * and {@link ProjectConfigurationScript#getCommandList()}.
    */
   @Test

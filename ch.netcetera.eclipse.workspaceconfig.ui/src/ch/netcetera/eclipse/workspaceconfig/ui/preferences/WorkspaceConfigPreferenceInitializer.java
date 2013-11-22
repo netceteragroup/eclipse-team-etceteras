@@ -32,32 +32,32 @@ public class WorkspaceConfigPreferenceInitializer extends AbstractPreferenceInit
 
   private static final String EPF_URL = "EpfUrl";
   private static final String URL = "url";
-  
+
   private static final String EPF_URL_PROVIDER = "EpfUrlProvider";
   private static final String CLASS = "class";
-  
+
   private static final String NEW_WORKSPACE_DETECTION = "NewWorkspaceDetection";
   private static final String DETECT_NEW_WORKSPACES = "detectNewWorkspaces";
-  
+
   private static final String JAVA_SYSTEM_PROPERTY_REPLACEMENT = "JavaSystemPropertyReplacement";
   private static final String SYSTEM_PROPERTY = "systemProperty";
 
-  
+
   /**
    * {@inheritDoc}
    */
   @Override
   public void initializeDefaultPreferences() {
-    
+
     IConfigurationElement[] configElements = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_ID);
-    
-    Set<String> urls = new HashSet<String>();
-    Set<String> replacements = new HashSet<String>();
+
+    Set<String> urls = new HashSet<>();
+    Set<String> replacements = new HashSet<>();
     boolean newWorkspaceDetection = false;
-    
+
     for (IConfigurationElement configElement : configElements) {
       String elementName = configElement.getName();
-    
+
       if (EPF_URL.equals(elementName)) {
         String url = configElement.getAttribute(URL);
         if (url != null && !url.isEmpty()) {
@@ -74,14 +74,14 @@ public class WorkspaceConfigPreferenceInitializer extends AbstractPreferenceInit
         }
       }
     }
-    
+
     ConfigurationUtil.saveEpfUrls(urls);
     ConfigurationUtil.saveEnvReplacements(replacements);
     ConfigurationUtil.saveNewWorkspaceDetection(newWorkspaceDetection);
   }
-  
+
   private Collection<? extends String> handleEpfUrlProvider(IConfigurationElement configElement) {
-    Set<String> urls = new HashSet<String>();
+    Set<String> urls = new HashSet<>();
     try {
       Object executableExtension = configElement.createExecutableExtension(CLASS);
       if (executableExtension instanceof IEpfUrlProvider) {

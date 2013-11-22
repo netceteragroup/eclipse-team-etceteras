@@ -89,15 +89,15 @@ public class UriInputValidatorTest extends AbstractInputValidatorTest {
   }
 
   /**
-   * Tests {@link UrlInputValidString expected;ator#isValid(String)}.
+   * Tests {@link UriInputValidator#isValid(String)}.
    */
   @Test
   public void testIsValid() {
     assertEquals(this.expected, runIsValid(this.url, this.existingUrls, this.textKey, this.textValue, this.item));
   }
 
-  /** 
-   * {@inheritDoc} 
+  /**
+   * {@inheritDoc}
    */
   @Override
   IInputValidator getInputValidatorInstance(List<String> existingItems, String itemToEdit, ITextAccessor textAccessor) {

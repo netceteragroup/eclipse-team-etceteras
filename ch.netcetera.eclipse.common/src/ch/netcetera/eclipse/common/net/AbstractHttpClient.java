@@ -303,8 +303,10 @@ public abstract class AbstractHttpClient {
 
   /**
    * Unbinds the {@link IProxyService} service reference.
+   *
+   * @param proxyService the {@link IProxyService} service reference to unbind
    */
-  public void unbindProxyService() {
+  public void unbindProxyService(@SuppressWarnings("unused") IProxyService proxyService) {
     this.proxyService = null;
   }
 

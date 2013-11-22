@@ -30,6 +30,7 @@ public final class ProjectStettingsPropertyTester extends PropertyTester {
   /**
    * {@inheritDoc}
    */
+  @Override
   public boolean test(Object receiver, String property, Object[] args, Object expectedValue) {
     if (URL_CONFIGURED.equals(property)) {
       IPreferenceStore preferences = ProjectConfigurationUIPlugin.getDefault().getPreferenceStore();

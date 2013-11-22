@@ -30,7 +30,7 @@ import ch.netcetera.eclipse.common.validator.UriInputValidator;
 public class EditableUrlStringListFieldEditor extends AbstractEditableStringListFieldEditor {
 
   private ConfigurationXMLMarshaler marshaler = new ConfigurationXMLMarshaler();
-  
+
   /**
    * Constructor.
    *
@@ -84,7 +84,7 @@ public class EditableUrlStringListFieldEditor extends AbstractEditableStringList
       return item;
     }
   }
-  
+
   /** {@inheritDoc} */
   @Override
   protected List<String> parsePreferenceString(String preferenceString) {
@@ -94,7 +94,7 @@ public class EditableUrlStringListFieldEditor extends AbstractEditableStringList
   /** {@inheritDoc} */
   @Override
   protected String marshallPreferenceString(String[] items) {
-    List<String> epfUrlList = new ArrayList<String>(items.length);
+    List<String> epfUrlList = new ArrayList<>(items.length);
     for (String string : items) {
       epfUrlList.add(string);
     }

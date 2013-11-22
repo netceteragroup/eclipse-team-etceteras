@@ -35,7 +35,6 @@ import org.eclipse.core.runtime.preferences.IPreferencesService;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.osgi.framework.FrameworkUtil;
 
-import ch.netcetera.eclipse.common.io.IOUtil;
 import ch.netcetera.eclipse.workspaceconfig.core.IPreferencesImportService;
 import ch.netcetera.eclipse.workspaceconfig.net.IPreferenceFileData;
 import ch.netcetera.eclipse.workspaceconfig.net.IWorkspacePreferenceClient;
@@ -54,18 +53,16 @@ public class PreferencesImportService implements IPreferencesImportService {
   /**
    * Binds the {@link IWorkspacePreferenceClient} service reference.
    *
-   * @param client the client service reference to bind
+   * @param newClient the client service reference to bind
    */
-  public void bindClient(IWorkspacePreferenceClient client) {
-    this.client = client;
+  public void bindClient(IWorkspacePreferenceClient newClient) {
+    this.client = newClient;
   }
 
   /**
    * Unbinds the {@link IWorkspacePreferenceClient} service reference.
-   *
-   * @param client the client service reference to bind
    */
-  public void unbindClient(IWorkspacePreferenceClient client) {
+  public void unbindClient() {
     this.client = null;
   }
 
@@ -91,15 +88,13 @@ public class PreferencesImportService implements IPreferencesImportService {
   private IStatus importConfigFileFile(String url, List<String> systemPropertyReplacementList) {
     String bundleSymbolicName = FrameworkUtil.getBundle(this.getClass()).getSymbolicName();
     IStatus importStatus = Status.OK_STATUS;
-    InputStream inputStream = null;
 
     try {
       URI uri = new URI(url);
       if (uri.getAuthority() == null) {
         File sourceFile = new File(uri);
         if (sourceFile.canRead()) {
-          try {
-            inputStream = new FileInputStream(sourceFile);
+          try (InputStream inputStream = new FileInputStream(sourceFile);) {
             importConfigurationFromStream(inputStream, systemPropertyReplacementList);
           } catch (FileNotFoundException e) {
             importStatus = wrapExceptionInErrorStatus(e);
@@ -107,8 +102,6 @@ public class PreferencesImportService implements IPreferencesImportService {
             importStatus = wrapExceptionInErrorStatus(e);
           } catch (CoreException e) {
             importStatus = wrapExceptionInErrorStatus(e);
-          } finally {
-            IOUtil.closeSilently(inputStream);
           }
         } else {
           importStatus = new Status(IStatus.ERROR, bundleSymbolicName, "Could not read local file.");
@@ -135,7 +128,8 @@ public class PreferencesImportService implements IPreferencesImportService {
     if (this.client != null) {
       try {
         IPreferenceFileData file = this.client.getPreferenceFileData(url, new NullProgressMonitor());
-        importConfigurationFromStream(new ByteArrayInputStream(file.getData()), systemPropertyReplacementList);
+        importConfigurationFromStream(new ByteArrayInputStream(file.getData()),
+            systemPropertyReplacementList);
       } catch (CoreException e) {
         importStatus = wrapExceptionInErrorStatus(e);
       } catch (IOException e) {
@@ -143,7 +137,8 @@ public class PreferencesImportService implements IPreferencesImportService {
       }
     } else {
       String bundleSymbolicName = FrameworkUtil.getBundle(this.getClass()).getSymbolicName();
-      importStatus = new Status(IStatus.ERROR, bundleSymbolicName, "could not obtain client service.");
+      importStatus = new Status(IStatus.ERROR, bundleSymbolicName,
+          "could not obtain client service.");
     }
     return importStatus;
   }
@@ -156,19 +151,21 @@ public class PreferencesImportService implements IPreferencesImportService {
    * @throws CoreException on import errors
    * @throws IOException on IO errors
    */
-  private void importConfigurationFromStream(InputStream inputStream, List<String> systemPropertyReplacementList)
-      throws CoreException, IOException {
+  private void importConfigurationFromStream(InputStream inputStream,
+      List<String> systemPropertyReplacementList) throws CoreException, IOException {
     IPreferenceFilter[] transfers = getPreferenceImportFilters();
     SystemPropertyReplacer replacer = new SystemPropertyReplacer(systemPropertyReplacementList);
-    BufferedReplacementInputStream input = new BufferedReplacementInputStream(replacer, inputStream);
-    IPreferencesService service = Platform.getPreferencesService();
-    IExportedPreferences preferences = service.readPreferences(input);
-    service.applyPreferences(preferences, transfers);
+    try (BufferedReplacementInputStream input =
+        new BufferedReplacementInputStream(replacer, inputStream);) {
+      IPreferencesService service = Platform.getPreferencesService();
+      IExportedPreferences preferences = service.readPreferences(input);
+      service.applyPreferences(preferences, transfers);
+    }
   }
 
   /**
-   * Gets the preference filters. As all preferences of the remote file shall be imported, the filter
-   * only limits the import to the instance and configuration preference scopes.
+   * Gets the preference filters. As all preferences of the remote file shall be imported, the
+   * filter only limits the import to the instance and configuration preference scopes.
    *
    * @return the preference filters.
    */
@@ -180,7 +177,7 @@ public class PreferencesImportService implements IPreferencesImportService {
        */
       @Override
       public String[] getScopes() {
-        return new String[] {InstanceScope.SCOPE, ConfigurationScope.SCOPE};
+        return new String[]{InstanceScope.SCOPE, ConfigurationScope.SCOPE};
       }
 
       /**
@@ -192,11 +189,12 @@ public class PreferencesImportService implements IPreferencesImportService {
       }
     };
 
-    return new IPreferenceFilter[] {filter};
+    return new IPreferenceFilter[]{filter};
   }
 
   /**
-   * Wraps a {@link Throwable} in a {@link IStatus} instance with the status value {@link IStatus#ERROR}.
+   * Wraps a {@link Throwable} in a {@link IStatus} instance with the status value
+   * {@link IStatus#ERROR}.
    *
    * @param t the {@link Throwable} to wrap
    * @return the {@link IStatus} instance

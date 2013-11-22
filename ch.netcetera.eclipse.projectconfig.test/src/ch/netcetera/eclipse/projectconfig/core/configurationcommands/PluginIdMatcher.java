@@ -29,7 +29,7 @@ public final class PluginIdMatcher extends TypeSafeMatcher<IProjectConfiguration
   /**
    * Constructor.
    *
-   * @param instance the matcher for the plugin id
+   * @param pluginIdMatcher the matcher for the plugin id
    */
   private PluginIdMatcher(Matcher<? super String> pluginIdMatcher) {
     this.instance = pluginIdMatcher;

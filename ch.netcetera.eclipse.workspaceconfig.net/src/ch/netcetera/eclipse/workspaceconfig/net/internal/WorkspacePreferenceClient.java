@@ -22,7 +22,6 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.FrameworkUtil;
 
-import ch.netcetera.eclipse.common.io.IOUtil;
 import ch.netcetera.eclipse.common.net.AbstractHttpClient;
 import ch.netcetera.eclipse.workspaceconfig.net.IPreferenceFileData;
 import ch.netcetera.eclipse.workspaceconfig.net.IWorkspacePreferenceClient;
@@ -30,7 +29,8 @@ import ch.netcetera.eclipse.workspaceconfig.net.IWorkspacePreferenceClient;
 /**
  * HTTP client to fetch workspace preference files.
  */
-public class WorkspacePreferenceClient extends AbstractHttpClient implements IWorkspacePreferenceClient {
+public class WorkspacePreferenceClient extends AbstractHttpClient implements
+    IWorkspacePreferenceClient {
 
   /**
    * {@inheritDoc}
@@ -49,7 +49,8 @@ public class WorkspacePreferenceClient extends AbstractHttpClient implements IWo
    * {@inheritDoc}
    */
   @Override
-  public IPreferenceFileData getPreferenceFileData(String url, IProgressMonitor monitor) throws CoreException {
+  public IPreferenceFileData getPreferenceFileData(String url, IProgressMonitor monitor)
+      throws CoreException {
     return this.executeGetRequest(url, new PreferenceFileResponseHandler(), monitor);
   }
 
@@ -62,7 +63,8 @@ public class WorkspacePreferenceClient extends AbstractHttpClient implements IWo
      * {@inheritDoc}
      */
     @Override
-    public IPreferenceFileData handleResponse(HttpResponse response, IProgressMonitor monitor) throws IOException {
+    public IPreferenceFileData handleResponse(HttpResponse response, IProgressMonitor monitor)
+        throws IOException {
       return WorkspacePreferenceClient.this.handleResponse(response, monitor);
     }
   }
@@ -75,19 +77,16 @@ public class WorkspacePreferenceClient extends AbstractHttpClient implements IWo
    * @return the preference file date
    * @throws IOException on error
    */
-  protected IPreferenceFileData handleResponse(HttpResponse response, IProgressMonitor monitor) throws IOException {
-    InputStream input = response.getEntity().getContent();
-    try {
+  protected IPreferenceFileData handleResponse(HttpResponse response, IProgressMonitor monitor)
+      throws IOException {
+    try (InputStream content = response.getEntity().getContent();
+        ByteArrayOutputStream output = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);) {
       monitor.subTask("Transfering data from server...");
-      input = wrapResponseStream(response, input, monitor);
-
-      monitor.subTask("Parsing data..");
-
-      ByteArrayOutputStream output = new ByteArrayOutputStream(DEFAULT_BUFFER_SIZE);
-      copy(input, output);
+      try (InputStream input = wrapResponseStream(response, content, monitor);) {
+        monitor.subTask("Parsing data..");
+        copy(input, output);
+      }
       return new PreferenceFileData(output.toByteArray());
-    } finally {
-      IOUtil.closeSilently(input);
     }
   }
 }

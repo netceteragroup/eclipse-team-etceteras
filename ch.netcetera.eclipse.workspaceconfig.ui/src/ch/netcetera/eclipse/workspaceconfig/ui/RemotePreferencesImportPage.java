@@ -50,17 +50,17 @@ public class RemotePreferencesImportPage extends WizardPage {
   private ITextAccessor textAccessor;
   private TableColumn tableColumn;
 
-  
+
   /**
    * Default constructor.
    */
   protected RemotePreferencesImportPage() {
     this("remotePreferencesImportPage");
   }
-  
+
   /**
    * Constructor.
-   * 
+   *
    * @param pageName the page name
    */
   protected RemotePreferencesImportPage(String pageName) {
@@ -69,7 +69,7 @@ public class RemotePreferencesImportPage extends WizardPage {
     setTitle(this.textAccessor.getText("import.wizard.title"));
     setDescription(this.textAccessor.getText("import.wizard.description"));
   }
-  
+
 
   /** {@inheritDoc} */
   @Override
@@ -78,12 +78,12 @@ public class RemotePreferencesImportPage extends WizardPage {
     Composite composite = new Composite(parent, SWT.NULL);
     composite.setLayout(new GridLayout());
     composite.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_FILL | GridData.HORIZONTAL_ALIGN_FILL));
-    
+
     // first option: direct URL input
     Button directImportRadioButton = new Button(composite, SWT.RADIO);
     directImportRadioButton.setText(this.textAccessor.getText("import.wizard.fromurl"));
     directImportRadioButton.addSelectionListener(new SelectionAdapter() {
-      
+
       /** {@inheritDoc} */
       @Override
       public void widgetSelected(SelectionEvent e) {
@@ -93,12 +93,12 @@ public class RemotePreferencesImportPage extends WizardPage {
         validateUrl();
       }
     });
-    
+
     this.urlText = new Text(composite, SWT.BORDER);
     this.urlText.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.FILL_HORIZONTAL));
     this.urlText.setEnabled(false);
     this.urlText.addKeyListener(new KeyAdapter() {
-      
+
       /** {@inheritDoc} */
       @Override
       public void keyReleased(KeyEvent e) {
@@ -106,13 +106,13 @@ public class RemotePreferencesImportPage extends WizardPage {
         validateUrl();
       }
     });
-    
+
     // second option: list of configured URLs
     Button importConfiguredRadioButton = new Button(composite, SWT.RADIO);
     importConfiguredRadioButton.setText(this.textAccessor.getText("import.wizard.fromlist"));
     importConfiguredRadioButton.setSelection(true);
     importConfiguredRadioButton.addSelectionListener(new SelectionAdapter() {
-      
+
       /** {@inheritDoc} */
       @Override
       public void widgetSelected(SelectionEvent e) {
@@ -122,13 +122,13 @@ public class RemotePreferencesImportPage extends WizardPage {
         validateTableSelection();
       }
     });
-    
+
     this.table = new Table(composite, SWT.BORDER | SWT.CHECK);
     GridData tgd = new GridData(GridData.GRAB_HORIZONTAL | GridData.FILL_BOTH);
     tgd.heightHint = 200;
     this.table.setLayoutData(tgd);
     this.table.addSelectionListener(new SelectionAdapter() {
-      
+
       /** {@inheritDoc} */
       @Override
       public void widgetSelected(SelectionEvent e) {
@@ -136,7 +136,7 @@ public class RemotePreferencesImportPage extends WizardPage {
         validateTableSelection();
       }
     });
-    
+
     tableColumn = new TableColumn(this.table, SWT.LEFT);
     table.addControlListener(new ControlAdapter() {
       @Override
@@ -144,7 +144,7 @@ public class RemotePreferencesImportPage extends WizardPage {
         resiseTableColumnWidth();
       }
     });
-    
+
     loadTableItems();
     setControl(composite);
     Dialog.applyDialogFont(composite);
@@ -160,7 +160,7 @@ public class RemotePreferencesImportPage extends WizardPage {
   private void resiseTableColumnWidth() {
     tableColumn.setWidth(table.getSize().x - 40);
   }
-  
+
   /**
    * Validates the contents of the URL text field to be a valid URL.
    */
@@ -170,7 +170,7 @@ public class RemotePreferencesImportPage extends WizardPage {
     setErrorMessage(message);
     calculatePageComplete();
   }
-  
+
   /**
    * Validates that at least one table item is checked.
    */
@@ -201,7 +201,7 @@ public class RemotePreferencesImportPage extends WizardPage {
       item.setChecked(true);
     }
   }
-  
+
   /**
    * Gets the list of URLs that need to be imported when this wizard page finishes.
    * <p>
@@ -209,7 +209,7 @@ public class RemotePreferencesImportPage extends WizardPage {
    * sole item. In case the user opted to select from the configured URLs, all
    * checked URLs are returned.
    * </p>
-   * 
+   *
    * @return the list of URLs that need to be imported
    */
   List<String> getImportUrlList() {
@@ -218,10 +218,10 @@ public class RemotePreferencesImportPage extends WizardPage {
     }
     return getCheckedTableItemsAsString();
   }
-  
+
   /**
    * Finds out whether system variable substitutions shall be performed during the import.
-   * 
+   *
    * @return {@code true} if variable substitutions shall be performed and {@code false} otherwise
    */
   boolean doVariableSubstitution() {
@@ -230,11 +230,11 @@ public class RemotePreferencesImportPage extends WizardPage {
 
   /**
    * Gets a list containing all URLs belonging to checked items of the table.
-   * 
+   *
    * @return a list containing all URLs belonging to checked items of the table
    */
   private List<String> getCheckedTableItemsAsString() {
-    List<String> checkedTableItems = new ArrayList<String>();
+    List<String> checkedTableItems = new ArrayList<>();
     for (TableItem tableItem : this.table.getItems()) {
       if (tableItem.getChecked()) {
         checkedTableItems.add(tableItem.getText());

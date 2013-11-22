@@ -43,12 +43,12 @@ public class CommentProjectConfigurationCommandTest {
     final ITextAccessor textAccessor = EasyMock.createMock(ITextAccessor.class);
     EasyMock.expect(textAccessor.getText(textKey)).andReturn(textValue);
     EasyMock.replay(textAccessor);
-    this.command = new CommentProjectConfigurationCommand(Collections.<String>emptyList(), textAccessor, "plugin", 
+    this.command = new CommentProjectConfigurationCommand(Collections.<String>emptyList(), textAccessor, "plugin",
         null);
   }
 
   /**
-   * Tests {@link CommentProjectConfigurationCommand#execute()}.
+   * Tests {@link CommentProjectConfigurationCommand#execute(java.util.List)}.
    */
   @Test
   public void testExecute() {
@@ -56,7 +56,7 @@ public class CommentProjectConfigurationCommandTest {
   }
 
   /**
-   * Tests {@link CommentProjectConfigurationCommand#execute()}.
+   * Tests {@link CommentProjectConfigurationCommand#execute(java.util.List)}.
    */
   @Test
   public void testExecuteOnProject() {
@@ -64,7 +64,7 @@ public class CommentProjectConfigurationCommandTest {
   }
 
   /**
-   * Tests {@link CommentProjectConfigurationCommand#execute()}.
+   * Tests {@link CommentProjectConfigurationCommand#execute(java.util.List)}.
    */
   @Test
   public void testIsEnabled() {

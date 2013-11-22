@@ -52,15 +52,15 @@ public class RemoveNatureProjectConfigurationCommand extends AbstractNatureProje
   @Override
   IStatus executeOnProject(IProject project) {
     IStatus status = Status.OK_STATUS;
-    
+
     try {
       String removeNatureID = getArgumentList().get(1);
       if (!projectHasNature(project, removeNatureID)) {
         return status;
       }
-      
+
       IProjectDescription projectDescription = project.getDescription();
-      List<String> natureIDs = new ArrayList<String>(Arrays.asList(projectDescription.getNatureIds()));
+      List<String> natureIDs = new ArrayList<>(Arrays.asList(projectDescription.getNatureIds()));
       natureIDs.remove(removeNatureID);
       projectDescription.setNatureIds(natureIDs.toArray(new String[natureIDs.size()]));
       project.setDescription(projectDescription, null);

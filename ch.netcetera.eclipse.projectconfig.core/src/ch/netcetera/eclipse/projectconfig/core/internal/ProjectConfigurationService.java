@@ -43,33 +43,31 @@ import ch.netcetera.eclipse.projectconfig.net.IProjectConfigurationScriptData;
  * Service that imports the remote workspace preferences.
  */
 public class ProjectConfigurationService implements IProjectConfigurationService {
- 
+
   private static final String PROTOCOL_PREFIX_FILE = "file";
   private static final String PROTOCOL_PREFIX_HTTP = "http";
-  
+
   private volatile IProjectConfigurationClient client;
 
   /**
    * Binds the {@link IProjectConfigurationClient} service reference.
    *
-   * @param client the client service reference to bind
+   * @param newClient the client service reference to bind
    */
-  public void bindClient(IProjectConfigurationClient client) {
-    this.client = client;
+  public void bindClient(IProjectConfigurationClient newClient) {
+    this.client = newClient;
   }
 
   /**
    * Unbinds the {@link IProjectConfigurationClient} service reference.
-   *
-   * @param client the client service reference to bind
    */
-  public void unbindClient(IProjectConfigurationClient client) {
+  public void unbindClient() {
     this.client = null;
   }
-  
-  
-  /** 
-   * {@inheritDoc} 
+
+
+  /**
+   * {@inheritDoc}
    */
   @Override
   public IStatus runConfigurationScript(List<IProject> projectList, String scriptUrl,
@@ -83,7 +81,7 @@ public class ProjectConfigurationService implements IProjectConfigurationService
     return status;
   }
 
-  private IStatus getProjectPropertiesScript(ProjectConfigurationScript script, ITextAccessor textAccessor, 
+  private IStatus getProjectPropertiesScript(ProjectConfigurationScript script, ITextAccessor textAccessor,
       String pluginId, ILog log) {
     IStatus status = Status.OK_STATUS;
     String commandFileUrl = script.getUrl();
@@ -124,7 +122,7 @@ public class ProjectConfigurationService implements IProjectConfigurationService
         importStatus = new Status(IStatus.ERROR, bundleSymbolicName, "Could not read local file.");
       }
     } catch (IOException e) {
-      
+
       importStatus = new Status(IStatus.ERROR, bundleSymbolicName, e.getLocalizedMessage(), e);
     } catch (URISyntaxException e) {
       importStatus = new Status(IStatus.ERROR, bundleSymbolicName, e.getLocalizedMessage(), e);
@@ -140,12 +138,12 @@ public class ProjectConfigurationService implements IProjectConfigurationService
    */
   private IStatus getProjectConfigurationScriptFromHTTP(ProjectConfigurationScript script,
       ITextAccessor textAccessor, String pluginId, ILog log) {
-    
+
     IStatus importStatus = Status.OK_STATUS;
-    
+
     if (this.client != null) {
       try {
-        IProjectConfigurationScriptData file = this.client.getProjectConfiguationScriptFileData(script.getUrl(), 
+        IProjectConfigurationScriptData file = this.client.getProjectConfiguationScriptFileData(script.getUrl(),
             new NullProgressMonitor());
         ProjectConfigurationParser.parse(script, new ByteArrayInputStream(file.getData()), textAccessor, pluginId, log);
       } catch (CoreException e) {
@@ -187,16 +185,16 @@ public class ProjectConfigurationService implements IProjectConfigurationService
     }
     return status;
   }
-  
+
   /**
    * Wraps a {@link Throwable} in a {@link IStatus} instance with the status value {@link IStatus#ERROR}.
-   * 
+   *
    * @param t the {@link Throwable} to wrap
    * @return the {@link IStatus} instance
    */
   private IStatus wrapExceptionInErrorStatus(Throwable t) {
     String bundleSymbolicName = FrameworkUtil.getBundle(this.getClass()).getSymbolicName();
-    return new Status(IStatus.ERROR, bundleSymbolicName, t.getLocalizedMessage(), t); 
+    return new Status(IStatus.ERROR, bundleSymbolicName, t.getLocalizedMessage(), t);
   }
 
 }

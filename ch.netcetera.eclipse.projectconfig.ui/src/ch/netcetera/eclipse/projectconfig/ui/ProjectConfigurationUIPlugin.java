@@ -37,18 +37,18 @@ public class ProjectConfigurationUIPlugin extends AbstractTextAccessorUIPlugin {
 
   private static ProjectConfigurationUIPlugin plugin;
 
-  private ServiceTracker tracker;
+  private ServiceTracker<IProjectConfigurationService, Object> tracker;
   private IProjectConfigurationService service;
 
-  
+
 
   /** {@inheritDoc} */
   @Override
   public void start(BundleContext context) throws Exception {
     super.start(context);
     plugin = this;
-    
-    this.tracker = new ServiceTracker(context, IProjectConfigurationService.class.getName(), null);
+
+    this.tracker = new ServiceTracker<>(context, IProjectConfigurationService.class.getName(), null);
     this.tracker.open();
     this.service = (IProjectConfigurationService) this.tracker.getService();
   }
@@ -75,10 +75,10 @@ public class ProjectConfigurationUIPlugin extends AbstractTextAccessorUIPlugin {
   public ResourceBundle getResourceBundle() {
     return ResourceBundle.getBundle(RESOURCE_BUNDLE_NAME, Locale.ENGLISH);
   }
-  
+
   /**
    * Gets the {@link IProjectConfigurationService} instance.
-   * 
+   *
    * @return the {@link IProjectConfigurationService} instance
    */
   public IProjectConfigurationService getProjectConfigurationService() {

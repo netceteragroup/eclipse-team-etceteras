@@ -33,7 +33,7 @@ public class WorkspaceConfigurationUIPlugin extends AbstractTextAccessorUIPlugin
 
   private static WorkspaceConfigurationUIPlugin plugin;
 
-  private ServiceTracker tracker;
+  private ServiceTracker<IPreferencesImportService, Object> tracker;
   private IPreferencesImportService service;
 
   /**
@@ -43,8 +43,8 @@ public class WorkspaceConfigurationUIPlugin extends AbstractTextAccessorUIPlugin
   public void start(BundleContext context) throws Exception {
     super.start(context);
     plugin = this;
-    
-    this.tracker = new ServiceTracker(context, IPreferencesImportService.class.getName(), null);
+
+    this.tracker = new ServiceTracker<>(context, IPreferencesImportService.class.getName(), null);
     this.tracker.open();
     this.service = (IPreferencesImportService) this.tracker.getService();
   }
@@ -95,10 +95,10 @@ public class WorkspaceConfigurationUIPlugin extends AbstractTextAccessorUIPlugin
   public ResourceBundle getResourceBundle() {
     return ResourceBundle.getBundle(plugin.getBundle().getSymbolicName() + PROPERTY_FILEEXT, Locale.ENGLISH);
   }
-  
+
   /**
    * Gets the {@link IPreferencesImportService} instance.
-   * 
+   *
    * @return the {@link IPreferencesImportService} instance
    */
   public IPreferencesImportService getPreferencesImportService() {

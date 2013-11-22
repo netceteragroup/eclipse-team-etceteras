@@ -55,7 +55,7 @@ public class ProjectConfigPreferenceInitializer extends AbstractResourceBundlePr
    */
   @Override
   public void initializeDefaultPreferences() {
-    IEclipsePreferences preferences = new DefaultScope().getNode(ProjectConfigurationUIPlugin.PLUGIN_ID);
+    IEclipsePreferences preferences = DefaultScope.INSTANCE.getNode(ProjectConfigurationUIPlugin.PLUGIN_ID);
 
     preferences.put(ProjectConfigurationUIPlugin.CONFIG_CMDFILE_URL, getConfigValue(PROP_KEY_CMDFILE_URL, DEFAULT));
   }
