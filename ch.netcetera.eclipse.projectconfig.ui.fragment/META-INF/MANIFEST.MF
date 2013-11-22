@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %bundle.name
 Bundle-Vendor: %bundle.provider
 Bundle-SymbolicName: ch.netcetera.eclipse.projectconfig.ui.fragment
-Bundle-Version: 3.0.4.qualifier
+Bundle-Version: 3.1.0.qualifier
 Fragment-Host: ch.netcetera.eclipse.projectconfig.ui;bundle-version="[3.0.0,4.0.0)"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Localization: plugin

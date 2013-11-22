@@ -2,8 +2,8 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %bundle.name
 Bundle-SymbolicName: ch.netcetera.eclipse.workspaceconfig.core
-Bundle-Version: 3.0.4.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-Version: 3.1.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: ch.netcetera.eclipse.workspaceconfig.net;visibility:=reexport,
  org.eclipse.equinox.ds;bundle-version="[1.1.0,2.0.0)";visibility:=reexport
 Bundle-Vendor: %bundle.provider
