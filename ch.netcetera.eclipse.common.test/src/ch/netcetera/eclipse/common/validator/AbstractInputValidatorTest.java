@@ -14,6 +14,7 @@ package ch.netcetera.eclipse.common.validator;
 
 import java.util.List;
 
+import org.easymock.EasyMock;
 import org.eclipse.jface.dialogs.IInputValidator;
 
 import ch.netcetera.eclipse.common.text.ITextAccessor;

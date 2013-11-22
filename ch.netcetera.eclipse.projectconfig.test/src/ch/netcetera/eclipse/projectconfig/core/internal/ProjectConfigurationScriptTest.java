@@ -15,6 +15,8 @@ package ch.netcetera.eclipse.projectconfig.core.internal;
 import java.util.Arrays;
 import java.util.List;
 
+import org.hamcrest.core.Is;
+import org.hamcrest.core.IsCollectionContaining;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,8 +25,6 @@ import ch.netcetera.eclipse.projectconfig.core.configurationcommands.CommentProj
 import ch.netcetera.eclipse.projectconfig.core.configurationcommands.IProjectConfigurationCommand;
 
 import static ch.netcetera.eclipse.projectconfig.core.configurationcommands.PluginIdMatcher.hasPluginId;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 
@@ -73,7 +73,7 @@ public class ProjectConfigurationScriptTest {
         (IProjectConfigurationCommand) new CommentProjectConfigurationCommand(null, null, "plugin1", null),
         (IProjectConfigurationCommand) new CommentProjectConfigurationCommand(null, null, "plugin2", null));
     this.script.setCommands(commands);
-    assertThat(this.script.getCommandList().size(), is(2));
-    assertThat(this.script.getCommandList(), hasItem(hasPluginId("plugin1")));
+    assertThat(this.script.getCommandList().size(), Is.is(2));
+    assertThat(this.script.getCommandList(), IsCollectionContaining.hasItem(hasPluginId("plugin1")));
   }
 }
