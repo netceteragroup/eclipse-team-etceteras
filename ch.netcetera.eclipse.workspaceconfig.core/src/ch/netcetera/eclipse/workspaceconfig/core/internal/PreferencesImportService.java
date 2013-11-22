@@ -53,16 +53,18 @@ public class PreferencesImportService implements IPreferencesImportService {
   /**
    * Binds the {@link IWorkspacePreferenceClient} service reference.
    *
-   * @param newClient the client service reference to bind
+   * @param client the client service reference to bind
    */
-  public void bindClient(IWorkspacePreferenceClient newClient) {
-    this.client = newClient;
+  public void bindClient(IWorkspacePreferenceClient client) {
+    this.client = client;
   }
 
   /**
    * Unbinds the {@link IWorkspacePreferenceClient} service reference.
+   *
+   * @param client the client service reference to bind
    */
-  public void unbindClient() {
+  public void unbindClient(IWorkspacePreferenceClient client) {
     this.client = null;
   }
 

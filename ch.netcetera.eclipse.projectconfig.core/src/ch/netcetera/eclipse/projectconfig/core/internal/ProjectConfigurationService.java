@@ -52,16 +52,18 @@ public class ProjectConfigurationService implements IProjectConfigurationService
   /**
    * Binds the {@link IProjectConfigurationClient} service reference.
    *
-   * @param newClient the client service reference to bind
+   * @param client the client service reference to bind
    */
-  public void bindClient(IProjectConfigurationClient newClient) {
-    this.client = newClient;
+  public void bindClient(IProjectConfigurationClient client) {
+    this.client = client;
   }
 
   /**
    * Unbinds the {@link IProjectConfigurationClient} service reference.
+   *
+   * @param client the client service reference to bind
    */
-  public void unbindClient() {
+  public void unbindClient(IProjectConfigurationClient client) {
     this.client = null;
   }
 
