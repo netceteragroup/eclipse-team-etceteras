@@ -158,7 +158,7 @@
         <artifactId>findbugs-maven-plugin</artifactId>
         <configuration>
           <xmlOutput>true</xmlOutput>
-          <includeFilterFile>.settings/fb-includes.xml</includeFilterFile> 
+          <includeFilterFile>.settings/fb-includes.xml</includeFilterFile>
         </configuration>
         <executions>
           <execution>
@@ -219,5 +219,13 @@
     <source.version>7</source.version>
     <target.version>7</target.version>
   </properties>
-  
+
+  <dependencies>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>3.2</version>
+    </dependency>
+  </dependencies>
+
 </project>

@@ -9,4 +9,12 @@
   </parent>
   <artifactId>ch.netcetera.eclipse.common.test</artifactId>
   <packaging>eclipse-plugin</packaging>
+  
+  <dependencies>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>3.2</version>
+    </dependency>
+  </dependencies>
 </project>
