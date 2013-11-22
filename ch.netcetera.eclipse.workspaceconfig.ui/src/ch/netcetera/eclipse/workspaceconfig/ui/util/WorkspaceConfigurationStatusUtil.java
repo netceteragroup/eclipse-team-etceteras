@@ -32,7 +32,6 @@ import ch.netcetera.eclipse.workspaceconfig.ui.preferences.WorkspaceConfiguratio
 public final class WorkspaceConfigurationStatusUtil {
 
   private static final String DATEFORMAT_PATTERN = "yyyy-MM-dd HH:mm:ss";
-  private static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat(DATEFORMAT_PATTERN, Locale.US);
   private static final String NO_CONFIG = "NO_CONFIG";
   private static final String ERROR = "ERROR ";
 
@@ -96,7 +95,7 @@ public final class WorkspaceConfigurationStatusUtil {
    * @param value the value to set
    */
   private static void writeConfiguredAttribute(String value) {
-    IEclipsePreferences rootNode = new InstanceScope().getNode(
+    IEclipsePreferences rootNode = InstanceScope.INSTANCE.getNode(
         FrameworkUtil.getBundle(WorkspaceConfigurationStatusUtil.class).getSymbolicName());
     if (rootNode != null) {
       rootNode.put(WorkspaceConfigurationConstants.CONFIG_CONFIGURED, value);
@@ -111,7 +110,7 @@ public final class WorkspaceConfigurationStatusUtil {
    */
   public static boolean isUnconfiguredWorkspace() {
     String value = getConfigurationAttribute();
-    return (value != null && value.equals(NO_CONFIG));
+    return value != null && value.equals(NO_CONFIG);
   }
 
   /**
@@ -133,7 +132,9 @@ public final class WorkspaceConfigurationStatusUtil {
    */
   public static boolean isConfiguredWorkspace() {
     String value = getConfigurationAttribute();
-    return (value != null && !isErrorDuringConfiguration() && !value.equals(NO_CONFIG));
+    return value != null
+        && !isErrorDuringConfiguration()
+        && !value.equals(NO_CONFIG);
   }
 
   /**
@@ -144,7 +145,7 @@ public final class WorkspaceConfigurationStatusUtil {
    */
   public static boolean isErrorDuringConfiguration() {
     String value = getConfigurationAttribute();
-    return (value != null && value.startsWith(ERROR));
+    return value != null && value.startsWith(ERROR);
   }
 
   /**
@@ -171,6 +172,6 @@ public final class WorkspaceConfigurationStatusUtil {
    * @return a formatted timestamp
    */
   private static String getFormattedTimestamp() {
-    return DATEFORMAT.format(new Date());
+    return new SimpleDateFormat(DATEFORMAT_PATTERN, Locale.US).format(new Date());
   }
 }

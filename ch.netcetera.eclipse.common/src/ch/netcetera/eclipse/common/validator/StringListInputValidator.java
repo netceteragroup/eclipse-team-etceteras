@@ -36,7 +36,7 @@ public final class StringListInputValidator implements IInputValidator {
    */
   public StringListInputValidator(List<String> variableList, String itemToEdit, ITextAccessor textAccessor) {
     this.textAccessor = textAccessor;
-    this.itemList = new ArrayList<String>(variableList);
+    this.itemList = new ArrayList<>(variableList);
 
     // remove the original item if an item is edited
     if (itemToEdit != null) {

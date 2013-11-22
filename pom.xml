@@ -3,7 +3,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ch.netcetera.eclipse</groupId>
   <artifactId>ete-parent</artifactId>
-  <version>3.0.4-SNAPSHOT</version>
+  <version>3.1.1-SNAPSHOT</version>
   <name>Eclipse Team Etceteras</name>
   <description>The Eclipse Team Etceteras projects offers free Eclipse plug-ins that ease the usage of the IDE in enterprises and teams.</description>
   <url>https://github.com/netceteragroup/eclipse-team-etceteras</url>
@@ -33,6 +33,7 @@
     <url>https://github.com/netceteragroup/eclipse-team-etceteras</url>
     <connection>scm:git:https://github.com/netceteragroup/eclipse-team-etceteras.git</connection>
     <developerConnection>scm:git:https://github.com/netceteragroup/eclipse-team-etceteras.git</developerConnection>
+    <tag>HEAD</tag>
   </scm>
   <ciManagement>
     <system>BuildHive</system>
@@ -90,9 +91,9 @@
   </licenses>
   <repositories>
     <repository>
-      <id>galileo</id>
+      <id>juno</id>
       <layout>p2</layout>
-      <url>http://download.eclipse.org/releases/galileo</url>
+      <url>http://download.eclipse.org/releases/juno</url>
     </repository>
   </repositories>
   <build>
@@ -205,7 +206,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>2.10</version>
+          <version>2.11</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -214,7 +215,16 @@
     <tycho-version>0.19.0</tycho-version>
     <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-    <source.version>1.6</source.version>
-    <target.version>1.6</target.version>
+    <source.version>7</source.version>
+    <target.version>7</target.version>
   </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.easymock</groupId>
+      <artifactId>easymock</artifactId>
+      <version>3.2</version>
+    </dependency>
+  </dependencies>
+
 </project>

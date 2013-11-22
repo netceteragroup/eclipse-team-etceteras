@@ -25,6 +25,7 @@ public class ProjectConfigPreferencePage extends FieldEditorPreferencePage imple
     IWorkbenchPreferencePage {
 
   /** {@inheritDoc} */
+  @Override
   public void init(IWorkbench workbench) {
     setPreferenceStore(ProjectConfigurationUIPlugin.getDefault().getPreferenceStore());
   }

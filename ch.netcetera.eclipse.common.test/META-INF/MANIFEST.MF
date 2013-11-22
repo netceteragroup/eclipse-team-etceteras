@@ -2,11 +2,11 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %bundle.name
 Bundle-SymbolicName: ch.netcetera.eclipse.common.test
-Bundle-Version: 3.0.4.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Require-Bundle: org.junit4;visibility:=reexport,
- ch.netcetera.eclipse.common;visibility:=reexport,
- org.easymock;bundle-version="[2.4.0,3.0.0)";visibility:=reexport
+Bundle-Version: 3.1.1.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Require-Bundle: ch.netcetera.eclipse.common;visibility:=reexport,
+ org.junit,
+ org.easymock;bundle-version="[3.0.0,4.0.0)"
 Bundle-Vendor: %bundle.provider
 Bundle-Localization: plugin
 

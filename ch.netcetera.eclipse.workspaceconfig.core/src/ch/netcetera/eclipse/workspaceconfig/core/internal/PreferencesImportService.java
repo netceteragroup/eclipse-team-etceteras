@@ -45,10 +45,10 @@ import ch.netcetera.eclipse.workspaceconfig.net.IWorkspacePreferenceClient;
  * Service that imports the remote workspace preferences.
  */
 public class PreferencesImportService implements IPreferencesImportService {
- 
+
   private static final String PROTOCOL_PREFIX_FILE = "file";
   private static final String PROTOCOL_PREFIX_HTTP = "http";
-  
+
   private volatile IWorkspacePreferenceClient client;
 
   /**
@@ -68,7 +68,7 @@ public class PreferencesImportService implements IPreferencesImportService {
   public void unbindClient(IWorkspacePreferenceClient client) {
     this.client = null;
   }
-  
+
   /**
    * {@inheritDoc}
    */
@@ -82,10 +82,10 @@ public class PreferencesImportService implements IPreferencesImportService {
     }
     return importStatus;
   }
-  
+
   /**
    * Imports a configuration from a file:// URL.
-   * 
+   *
    * @param systemPropertyReplacementList the system property replacements to do duringthe import
    */
   private IStatus importConfigFileFile(String url, List<String> systemPropertyReplacementList) {
@@ -109,10 +109,10 @@ public class PreferencesImportService implements IPreferencesImportService {
             importStatus = wrapExceptionInErrorStatus(e);
           } finally {
             IOUtil.closeSilently(inputStream);
-          } 
+          }
         } else {
           importStatus = new Status(IStatus.ERROR, bundleSymbolicName, "Could not read local file.");
-        }   
+        }
       } else {
         importStatus = new Status(IStatus.ERROR, bundleSymbolicName, "The file url is invalid.");
       }
@@ -123,19 +123,21 @@ public class PreferencesImportService implements IPreferencesImportService {
     }
     return importStatus;
   }
-  
+
+
   /**
    * Imports a configuration from a http:// or https:// URL.
-   * 
+   *
    * @param systemPropertyReplacementList the system property replacements to do during the import
    */
   private IStatus importConfigFileHttp(String url, List<String> systemPropertyReplacementList) {
     IStatus importStatus = Status.OK_STATUS;
-    
+
     if (this.client != null) {
       try {
         IPreferenceFileData file = this.client.getPreferenceFileData(url, new NullProgressMonitor());
-        importConfigurationFromStream(new ByteArrayInputStream(file.getData()), systemPropertyReplacementList);
+        importConfigurationFromStream(new ByteArrayInputStream(file.getData()),
+            systemPropertyReplacementList);
       } catch (CoreException e) {
         importStatus = wrapExceptionInErrorStatus(e);
       } catch (IOException e) {
@@ -143,34 +145,35 @@ public class PreferencesImportService implements IPreferencesImportService {
       }
     } else {
       String bundleSymbolicName = FrameworkUtil.getBundle(this.getClass()).getSymbolicName();
-      importStatus = new Status(IStatus.ERROR, bundleSymbolicName, "could not obtain client service.");
+      importStatus = new Status(IStatus.ERROR, bundleSymbolicName,
+          "could not obtain client service.");
     }
     return importStatus;
   }
-  
+
   /**
    * Imports a configuration from the {@link InputStream} passed.
-   * 
+   *
    * @param inputStream the {@link InputStream} to read the configuration from
    * @param systemPropertyReplacementList the replacement list
-   * @return the configuration status
    * @throws CoreException on import errors
    * @throws IOException on IO errors
    */
-  private void importConfigurationFromStream(InputStream inputStream, List<String> systemPropertyReplacementList) 
-      throws CoreException, IOException {
+  private void importConfigurationFromStream(InputStream inputStream,
+      List<String> systemPropertyReplacementList) throws CoreException, IOException {
     IPreferenceFilter[] transfers = getPreferenceImportFilters();
-    BufferedReplacementInputStream input = new BufferedReplacementInputStream(
-        new SystemPropertyReplacer(systemPropertyReplacementList), inputStream);
+    SystemPropertyReplacer replacer = new SystemPropertyReplacer(systemPropertyReplacementList);
+    @SuppressWarnings("resource")
+    BufferedReplacementInputStream input = new BufferedReplacementInputStream(replacer, inputStream);
     IPreferencesService service = Platform.getPreferencesService();
     IExportedPreferences preferences = service.readPreferences(input);
     service.applyPreferences(preferences, transfers);
   }
 
   /**
-   * Gets the preference filters. As all preferences of the remote file shall be imported, the filter
-   * only limits the import to the instance and configuration preference scopes.
-   * 
+   * Gets the preference filters. As all preferences of the remote file shall be imported, the
+   * filter only limits the import to the instance and configuration preference scopes.
+   *
    * @return the preference filters.
    */
   private IPreferenceFilter[] getPreferenceImportFilters() {
@@ -181,30 +184,30 @@ public class PreferencesImportService implements IPreferencesImportService {
        */
       @Override
       public String[] getScopes() {
-        return new String[] {InstanceScope.SCOPE, ConfigurationScope.SCOPE};
+        return new String[]{InstanceScope.SCOPE, ConfigurationScope.SCOPE};
       }
 
       /**
        * {@inheritDoc}
        */
-      @SuppressWarnings("rawtypes")
       @Override
       public Map getMapping(String scope) {
         return null;
       }
     };
-    
-    return new IPreferenceFilter[] {filter};
+
+    return new IPreferenceFilter[]{filter};
   }
-  
+
   /**
-   * Wraps a {@link Throwable} in a {@link IStatus} instance with the status value {@link IStatus#ERROR}.
-   * 
+   * Wraps a {@link Throwable} in a {@link IStatus} instance with the status value
+   * {@link IStatus#ERROR}.
+   *
    * @param t the {@link Throwable} to wrap
    * @return the {@link IStatus} instance
    */
   private IStatus wrapExceptionInErrorStatus(Throwable t) {
     String bundleSymbolicName = FrameworkUtil.getBundle(this.getClass()).getSymbolicName();
-    return new Status(IStatus.ERROR, bundleSymbolicName, t.getLocalizedMessage(), t); 
+    return new Status(IStatus.ERROR, bundleSymbolicName, t.getLocalizedMessage(), t);
   }
 }

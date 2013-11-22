@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,13 +59,14 @@ final class ProjectConfigurationParser {
    */
   static void parse(ProjectConfigurationScript script, InputStream inputStream,
       ITextAccessor textAccessor, String pluginId, ILog log) throws IOException {
-    List<IProjectConfigurationCommand> commandList = new ArrayList<IProjectConfigurationCommand>();
+    List<IProjectConfigurationCommand> commandList = new ArrayList<>();
 
-    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+    Charset charset = Charset.forName("ISO-8859-1");
+    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, charset));
 
     try {
       String line;
-      while ((line = bufferedReader.readLine()) != null) { //NOPMD pellaton 2010-11-20 ok
+      while ((line = bufferedReader.readLine()) != null) {
         List<String> split = splitLine(line);
         if (!split.isEmpty()) {
           String command = split.get(0);
@@ -101,9 +103,9 @@ final class ProjectConfigurationParser {
    */
   static List<String> splitLine(String line) {
     String[] split = line.trim().split(" ");
-    List<String> list = new ArrayList<String>(split.length);
-    for (int i = 0; i < split.length; i++) {
-      String element = split[i].trim();
+    List<String> list = new ArrayList<>(split.length);
+    for (String element2 : split) {
+      String element = element2.trim();
       if (element.length() > 0) {
         list.add(element);
       }

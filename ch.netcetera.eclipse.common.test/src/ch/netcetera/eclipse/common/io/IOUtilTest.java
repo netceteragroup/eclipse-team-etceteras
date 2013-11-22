@@ -35,6 +35,7 @@ public class IOUtilTest {
    */
   @Test
   public void testClieseSilentlyCloseableAlreadyClosed() {
+    @SuppressWarnings("resource")
     Closeable closeable = new Closeable() {
       @Override
       public void close() throws IOException {
@@ -49,6 +50,7 @@ public class IOUtilTest {
    */
   @Test
   public void testClieseSilentlyAllFine() {
+    @SuppressWarnings("resource")
     Closeable closeable = new Closeable() {
       @Override
       public void close() throws IOException {

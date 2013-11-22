@@ -26,6 +26,7 @@ import ch.netcetera.eclipse.workspaceconfig.ui.util.WorkspaceConfigurationStatus
 public class WorkspaceConfigurationStatusAboutSection implements ISystemSummarySection {
 
   /** {@inheritDoc} */
+  @Override
   public void write(PrintWriter writer) {
     String status = "";
     if (WorkspaceConfigurationStatusUtil.isNewWorkspace()) {

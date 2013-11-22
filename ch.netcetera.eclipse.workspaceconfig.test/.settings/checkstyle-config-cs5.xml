@@ -144,7 +144,7 @@
       <property name="illegalClassNames" value="java.lang.Error,java.lang.Throwable" />
     </module>
     <module name="IllegalThrows">
-      <property name="illegalClassNames" value="java.lang.Exception,java.lang.Error,java.lang.Throwable" />
+      <property name="illegalClassNames" value="java.lang.Error,java.lang.Throwable" />
     </module>
     <module name="PackageDeclaration"/>
     <module name="PackageAnnotation"/>

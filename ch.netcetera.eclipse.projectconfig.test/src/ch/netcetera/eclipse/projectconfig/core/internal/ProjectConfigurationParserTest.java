@@ -17,17 +17,16 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.eclipse.core.runtime.ILog;
+import org.hamcrest.core.IsCollectionContaining;
+import org.hamcrest.core.IsNot;
+import org.hamcrest.core.StringContains;
 import org.junit.Test;
 
-import ch.netcetera.eclipse.common.io.IOUtil;
 import ch.netcetera.eclipse.common.text.ITextAccessor;
 import ch.netcetera.eclipse.projectconfig.core.ProjectConfigurationScript;
 import ch.netcetera.eclipse.projectconfig.core.configurationcommands.IProjectConfigurationCommand;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.not;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
@@ -44,13 +43,16 @@ public class ProjectConfigurationParserTest {
     final String line = " a  b c   d    ";
     List<String> elements = ProjectConfigurationParser.splitLine(line);
     assertEquals(4, elements.size());
-    assertThat(elements, hasItem("a"));
-    assertThat(elements, not(hasItem(" ")));
-    assertThat(elements, not(hasItem(containsString(" "))));
+    assertThat(elements, IsCollectionContaining.hasItem("a"));
+    assertThat(elements, IsNot.not(IsCollectionContaining.hasItem(" ")));
+    assertThat(elements,
+        IsNot.not(IsCollectionContaining.hasItem(StringContains.containsString(" "))));
   }
 
   /**
-   * Tests {@link ProjectConfigurationParser#parse()}.
+   * Tests
+   * {@link ProjectConfigurationParser# parse(ProjectConfigurationScript, InputStream, ITextAccessor, String, ILog)}
+   * .
    *
    * @throws IOException on error
    */
@@ -62,20 +64,17 @@ public class ProjectConfigurationParserTest {
     final String pluginId = null;
     final ILog log = null;
 
-    InputStream epcsInputStream = getClass().getResourceAsStream("test.epcs");
-    if (epcsInputStream != null) {
-      try {
+    try (InputStream epcsInputStream = getClass().getResourceAsStream("test.epcs");) {
+      if (epcsInputStream != null) {
+
         ProjectConfigurationParser.parse(script, epcsInputStream, textAccessor, pluginId, log);
 
         // six commands (download is duplicated)
         List<IProjectConfigurationCommand> commands = script.getCommandList();
         assertEquals(6, commands.size());
-
-      } finally {
-        IOUtil.closeSilently(epcsInputStream);
+      } else {
+        fail("Could not open test epcs file.");
       }
-    } else {
-      fail("Could not open test epcs file.");
     }
   }
 }

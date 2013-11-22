@@ -15,11 +15,12 @@ package ch.netcetera.eclipse.workspaceconfig.core.replacer;
 import ch.netcetera.eclipse.workspaceconfig.core.internal.IReplacer;
 
 /**
- * Null {@link IReplacer} implementation used in unit tests. 
+ * Null {@link IReplacer} implementation used in unit tests.
  */
 public class TestNullReplacer implements IReplacer {
 
   /** {@inheritDoc} */
+  @Override
   public String replace(String line) {
     return line;
   }

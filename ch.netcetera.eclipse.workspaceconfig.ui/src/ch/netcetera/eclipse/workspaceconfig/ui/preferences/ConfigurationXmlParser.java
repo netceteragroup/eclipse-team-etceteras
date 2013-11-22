@@ -34,7 +34,7 @@ import static ch.netcetera.eclipse.workspaceconfig.ui.preferences.ConfigurationX
 public class ConfigurationXmlParser {
 
   private static final String ENCODING = "ISO-8859-1";
-  
+
   private final XMLInputFactory factory;
 
   /**
@@ -52,7 +52,7 @@ public class ConfigurationXmlParser {
 
   /**
    * Parses the XML representation of the EPF URL list.
-   * 
+   *
    * @param xml the XML to parse
    * @return the EPF URL list
    * @throws IOException on error
@@ -63,7 +63,7 @@ public class ConfigurationXmlParser {
 
   /**
    * Parses the XML representation of the environment variable list.
-   * 
+   *
    * @param xml the XML to parse
    * @return the environment variable list
    * @throws IOException on error
@@ -71,18 +71,18 @@ public class ConfigurationXmlParser {
   public List<String> parseEnvVarList(String xml) throws IOException {
     return parseList(XML_ENVVARS, XML_ENVVAR, xml);
   }
-  
-  
+
+
   private List<String> parseList(String rootElement, String listElement, String xml) throws IOException {
     try {
-      InputStream inputStream = new ByteArrayInputStream(xml.getBytes());
+      InputStream inputStream = new ByteArrayInputStream(xml.getBytes(ENCODING));
       XMLStreamReader reader = this.factory.createXMLStreamReader(inputStream, ENCODING);
-      
-      List<String> envVarList = new ArrayList<String>();
-      
+
+      List<String> envVarList = new ArrayList<>();
+
       while (reader.hasNext()) {
         int event = reader.next();
-        
+
         if (event == XMLStreamConstants.START_ELEMENT) {
           String localName = reader.getLocalName();
           if (rootElement.equals(localName)) {
@@ -103,7 +103,7 @@ public class ConfigurationXmlParser {
       throw new IOException("could not parse XML", e);
     }
   }
-  
+
   private String getContent(XMLStreamReader reader) throws XMLStreamException {
     StringBuilder builder = new StringBuilder();
     while (reader.hasNext()) {

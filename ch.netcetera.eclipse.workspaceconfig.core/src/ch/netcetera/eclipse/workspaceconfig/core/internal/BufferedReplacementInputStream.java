@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 
 import ch.netcetera.eclipse.common.io.IOUtil;
 
@@ -27,13 +28,14 @@ import ch.netcetera.eclipse.common.io.IOUtil;
  */
 public class BufferedReplacementInputStream extends InputStream {
 
+  private static final Charset ENCODING = Charset.forName("ISO-8859-1");
   private final StringBuffer buffer = new StringBuffer(); // NOPMD pellaton 2010-11-23 ok
   private int pos = 0;
   private final IReplacer replacer;
-  
+
   /**
    * Constructor.
-   * 
+   *
    * @param replacer the {@link IReplacer} instance to use
    * @param stream the stream to read the data from
    * @throws IOException on reading errors
@@ -41,7 +43,7 @@ public class BufferedReplacementInputStream extends InputStream {
   public BufferedReplacementInputStream(IReplacer replacer, InputStream stream) throws IOException {
     this.replacer = replacer;
     if (stream != null) {
-      BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
+      BufferedReader reader = new BufferedReader(new InputStreamReader(stream, ENCODING));
       try {
         String line = reader.readLine();
         while (line != null) {
@@ -57,7 +59,7 @@ public class BufferedReplacementInputStream extends InputStream {
 
   /**
    * Does the call-back to the {@link IReplacer} instance if set.
-   * 
+   *
    * @param line the line to pass on to the {@link IReplacer}
    * @return the new line
    */

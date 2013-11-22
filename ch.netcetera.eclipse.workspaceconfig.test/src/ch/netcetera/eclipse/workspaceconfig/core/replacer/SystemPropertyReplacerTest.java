@@ -40,10 +40,10 @@ public class SystemPropertyReplacerTest {
   private final Map<String, String> replacementMap;
   private final String input;
   private IReplacer replacer;
-  
+
   /**
    * Constructor.
-   * 
+   *
    * @param expected the expected result
    * @param replacementMap the replacements to be made
    * @param input the input
@@ -56,7 +56,7 @@ public class SystemPropertyReplacerTest {
 
   /**
    * Gets the test data.
-   * 
+   *
    * @return the test data
    */
   @Parameters
@@ -68,13 +68,13 @@ public class SystemPropertyReplacerTest {
             "$junit1 $junit2"},
         new Object[]{"$foo", new HashMap<String, String>() { { put("junit2", "v1"); } }, "$foo"}); // NOPMD
   }
-  
+
   /**
    * Initializes the test data and sets up the system properties used for the test.
    */
   @Before
   public void setUp() {
-    replacer = new SystemPropertyReplacer(new ArrayList<String>(replacementMap.keySet()));
+    replacer = new SystemPropertyReplacer(new ArrayList<>(replacementMap.keySet()));
 
     for (String sysPropName : replacementMap.keySet()) {
 
@@ -97,7 +97,7 @@ public class SystemPropertyReplacerTest {
       System.clearProperty(sysPropName);
     }
   }
-  
+
   /**
    * Tests {@link SystemPropertyReplacer#replace(String)}.
    */

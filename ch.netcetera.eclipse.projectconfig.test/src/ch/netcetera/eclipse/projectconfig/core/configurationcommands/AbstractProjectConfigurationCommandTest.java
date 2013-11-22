@@ -143,7 +143,7 @@ public class AbstractProjectConfigurationCommandTest {
       }
 
       @Override
-      public void log(IStatus status) {
+      public void log(IStatus astatus) {
         // nop
       }
 

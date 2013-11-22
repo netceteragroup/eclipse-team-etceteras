@@ -91,7 +91,7 @@ public class ComboSelectionDialog extends Dialog {
     this.fSelection = combo.getItem(combo.getSelectionIndex());
     GridData gd = new GridData();
     int widthHint = convertWidthInCharsToPixels(getMaxStringLength()) + 21;
-    gd.widthHint = (widthHint <= getParentShell().getSize().x ? widthHint : getParentShell().getSize().x - 42);
+    gd.widthHint = widthHint <= getParentShell().getSize().x ? widthHint : getParentShell().getSize().x - 42;
     combo.setLayoutData(gd);
     combo.addSelectionListener(new SelectionAdapter() {
 

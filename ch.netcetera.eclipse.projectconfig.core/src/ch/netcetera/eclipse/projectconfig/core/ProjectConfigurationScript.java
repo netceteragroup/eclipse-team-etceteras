@@ -26,7 +26,7 @@ public class ProjectConfigurationScript {
   /** Key of the script version metadata tag. */
   public static final String SCRIPT_METADATA_KEY_VERSION = "version";
 
-  private List<IProjectConfigurationCommand> commandList = new ArrayList<IProjectConfigurationCommand>();
+  private List<IProjectConfigurationCommand> commandList = new ArrayList<>();
   private String url = "";
 
   /**

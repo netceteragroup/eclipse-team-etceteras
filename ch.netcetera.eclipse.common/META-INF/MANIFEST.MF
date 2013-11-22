@@ -2,18 +2,18 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin.name
 Bundle-SymbolicName: ch.netcetera.eclipse.common
-Bundle-Version: 3.0.4.qualifier
+Bundle-Version: 3.1.1.qualifier
 Bundle-Vendor: %plugin.provider
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.ui;bundle-version="[3.5.0,4.0.0)";visibility:=reexport,
- org.eclipse.core.runtime;bundle-version="[3.5.0,4.0.0)";visibility:=reexport,
- org.apache.commons.httpclient;bundle-version="[3.0.1,4.0.0)";visibility:=reexport,
- org.eclipse.core.net;bundle-version="[1.2.0,2.0.0)";visibility:=reexport,
- org.apache.commons.httpclient;bundle-version="[3.1.0,4.0.0)";visibility:=reexport,
+Require-Bundle: org.eclipse.ui;bundle-version="[3.5.0,5.0.0)";visibility:=reexport,
+ org.eclipse.core.runtime;bundle-version="[3.5.0,5.0.0)";visibility:=reexport,
+ org.eclipse.core.net;bundle-version="[1.2.0,3.0.0)";visibility:=reexport,
  org.eclipse.equinox.security;bundle-version="1.0.100";visibility:=reexport,
  org.apache.commons.logging;bundle-version="[1.0.4,2.0.0)";visibility:=reexport,
- org.apache.commons.codec;bundle-version="[1.3.0,2.0.0)";visibility:=reexport
+ org.apache.commons.codec;bundle-version="[1.3.0,2.0.0)";visibility:=reexport,
+ org.apache.httpcomponents.httpclient;bundle-version="[4.0.0,5.0.0)";visibility:=reexport,
+ org.apache.httpcomponents.httpcore;bundle-version="[4.0.0,5.0.0)";visibility:=reexport
 Export-Package: ch.netcetera.eclipse.common.dialog,
  ch.netcetera.eclipse.common.fieldeditor,
  ch.netcetera.eclipse.common.io,
@@ -21,7 +21,6 @@ Export-Package: ch.netcetera.eclipse.common.dialog,
  ch.netcetera.eclipse.common.plugin,
  ch.netcetera.eclipse.common.preference,
  ch.netcetera.eclipse.common.scheduling,
- ch.netcetera.eclipse.common.security,
  ch.netcetera.eclipse.common.squasher,
  ch.netcetera.eclipse.common.text,
  ch.netcetera.eclipse.common.validator

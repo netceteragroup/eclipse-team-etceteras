@@ -31,7 +31,7 @@ import ch.netcetera.eclipse.workspaceconfig.ui.WorkspaceConfigurationUIPlugin;
 public class EditableStringListFieldEditor extends AbstractEditableStringListFieldEditor {
 
   private ConfigurationXMLMarshaler marshaler = new ConfigurationXMLMarshaler();
-  
+
   /**
    * Constructor.
    *
@@ -82,7 +82,7 @@ public class EditableStringListFieldEditor extends AbstractEditableStringListFie
   /** {@inheritDoc} */
   @Override
   protected String marshallPreferenceString(String[] items) {
-    List<String> envVarList = new ArrayList<String>(items.length);
+    List<String> envVarList = new ArrayList<>(items.length);
     for (String string : items) {
       envVarList.add(string);
     }

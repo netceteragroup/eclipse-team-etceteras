@@ -58,11 +58,10 @@ public final class PreferenceListSquasher {
    * @return the list items
    */
   public static List<String> splitListItemsToStringArray(String preferenceString) {
-    List<String> resultList = new ArrayList<String>();
+    List<String> resultList = new ArrayList<>();
     if (preferenceString != null) {
       String[] splitArray = preferenceString.split(SEPARATOR);
-      for (int i = 0; i < splitArray.length; i++) {
-        String item = splitArray[i];
+      for (String item : splitArray) {
         if (item.length() > 0) {
           resultList.add(item);
         }

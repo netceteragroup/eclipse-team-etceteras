@@ -16,8 +16,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
-
-import static org.hamcrest.Matchers.equalTo;
+import org.hamcrest.core.IsEqual;
 
 /**
  * A matcher for the plugin id of an {@link AbstractProjectConfigurationCommand}
@@ -29,8 +28,8 @@ public final class PluginIdMatcher extends TypeSafeMatcher<IProjectConfiguration
 
   /**
    * Constructor.
-   * 
-   * @param instance the matcher for the plugin id
+   *
+   * @param pluginIdMatcher the matcher for the plugin id
    */
   private PluginIdMatcher(Matcher<? super String> pluginIdMatcher) {
     this.instance = pluginIdMatcher;
@@ -39,19 +38,19 @@ public final class PluginIdMatcher extends TypeSafeMatcher<IProjectConfiguration
   /**
    * Factory method that returns a new {@link TypeSafeMatcher} of
    * {@link AbstractProjectConfigurationCommand} for the given plugin id .
-   * 
+   *
    * @param pluginId the plugin id
    * @return a new matcher.
    */
   @Factory
   public static TypeSafeMatcher<IProjectConfigurationCommand> hasPluginId(String pluginId) {
-    return new PluginIdMatcher(equalTo(pluginId));
+    return new PluginIdMatcher(IsEqual.equalTo(pluginId));
   }
 
   /**
    * Factory method that returns a new {@link TypeSafeMatcher} of
    * {@link AbstractProjectConfigurationCommand} for the given plugin id .
-   * 
+   *
    * @param pluginIdMatcher the pluginIdMatcher instance
    * @return a new matcher
    */

@@ -34,7 +34,7 @@ public abstract class AbstractInputValidatorTest {
    * @param itemToEdit the item to edit
    * @return the validation result
    */
-  String runIsValid(String url, List<String> existingItems, String textLookupKey, String textLookupValue, 
+  String runIsValid(String url, List<String> existingItems, String textLookupKey, String textLookupValue,
       String itemToEdit) {
     ITextAccessor textAccessor = EasyMock.createMock(ITextAccessor.class);
     if (textLookupKey.length() > 0) {
@@ -55,6 +55,6 @@ public abstract class AbstractInputValidatorTest {
    * @param textAccessor the {@link ITextAccessor}
    * @return the instance
    */
-  abstract IInputValidator getInputValidatorInstance(List<String> existingItems, String itemToEdit, 
+  abstract IInputValidator getInputValidatorInstance(List<String> existingItems, String itemToEdit,
       ITextAccessor textAccessor);
 }

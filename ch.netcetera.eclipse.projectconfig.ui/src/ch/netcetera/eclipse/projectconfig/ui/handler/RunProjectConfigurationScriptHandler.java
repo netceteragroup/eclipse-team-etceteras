@@ -92,9 +92,8 @@ public class RunProjectConfigurationScriptHandler extends AbstractHandler {
    * @param selection the current selection
    * @return the selected projects
    */
-  @SuppressWarnings("unchecked")
   private List<IProject> getProjectsFromSelection(ISelection selection) {
-    List<IProject> projectList = new ArrayList<IProject>();
+    List<IProject> projectList = new ArrayList<>();
 
     if (selection instanceof IStructuredSelection) {
       IStructuredSelection currentSelection = (IStructuredSelection) selection;

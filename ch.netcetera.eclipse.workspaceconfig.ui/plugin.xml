@@ -20,8 +20,7 @@
             class="ch.netcetera.eclipse.workspaceconfig.ui.preferences.WorkspaceConfigPreferenceInitializer">
       </initializer>
    </extension>
-   <extension
-         point="org.eclipse.ui.preferencePages">
+   <extension point="org.eclipse.ui.preferencePages">
       <page
             category="org.eclipse.ui.preferencePages.Workspace"
             class="ch.netcetera.eclipse.workspaceconfig.ui.preferences.WorkspaceConfigPreferencePage"

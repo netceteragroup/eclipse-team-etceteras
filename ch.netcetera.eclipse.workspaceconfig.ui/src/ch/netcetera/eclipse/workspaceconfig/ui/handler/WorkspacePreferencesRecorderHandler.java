@@ -36,7 +36,7 @@ import ch.netcetera.eclipse.workspaceconfig.ui.dialog.WorkspacePrefercensRecorde
 
 /**
  * Handler start and stop the preference recorder.
- * 
+ *
  * @author Michael Pellaton
  */
 public class WorkspacePreferencesRecorderHandler extends AbstractHandler {
@@ -46,14 +46,14 @@ public class WorkspacePreferencesRecorderHandler extends AbstractHandler {
   private static final String EOL = "\n";
   private static final String HASH = "#";
   private static final String AT = "@";
-  
+
   private final ITextAccessor textAccessor = WorkspaceConfigurationUIPlugin.getDefault();
   private final ILog log = WorkspaceConfigurationUIPlugin.getDefault().getLog();
   private final String bundleId = WorkspaceConfigurationUIPlugin.getDefault().getBundle().getSymbolicName();
-  
+
   private boolean isRecording = false;
-  private Map<String, String> beforeMap = new HashMap<String, String>();
-  
+  private Map<String, String> beforeMap = new HashMap<>();
+
 
   /** {@inheritDoc} */
   @Override
@@ -86,26 +86,26 @@ public class WorkspacePreferencesRecorderHandler extends AbstractHandler {
     this.isRecording = false;
     Map<String, String> afterMap = getPreferencesMap();
     StringBuilder preferencesDelta = new StringBuilder();
-    
+
     // detect removed preferences
     preferencesDelta.append(this.textAccessor.getText("recorder.result.removed")).append(EOL);
-    Set<String> removedKeySet = new HashSet<String>(this.beforeMap.keySet());
+    Set<String> removedKeySet = new HashSet<>(this.beforeMap.keySet());
     removedKeySet.removeAll(afterMap.keySet());
     for (String string : removedKeySet) {
       preferencesDelta.append(string).append(EQUAL).append(beforeMap.get(string)).append(EOL);
     }
-    
+
     // detect added preferences
     preferencesDelta.append(EOL).append(this.textAccessor.getText("recorder.result.added")).append(EOL);
-    Set<String> addedKeySet = new HashSet<String>(afterMap.keySet());
+    Set<String> addedKeySet = new HashSet<>(afterMap.keySet());
     addedKeySet.removeAll(this.beforeMap.keySet());
     for (String string : addedKeySet) {
       preferencesDelta.append(string).append(EQUAL).append(afterMap.get(string)).append(EOL);
     }
-    
+
     // detect changed preferences
     preferencesDelta.append(EOL).append(this.textAccessor.getText("recorder.result.changed")).append(EOL);
-    Set<String> possiblyChangedKeySet = new HashSet<String>(afterMap.keySet());
+    Set<String> possiblyChangedKeySet = new HashSet<>(afterMap.keySet());
     possiblyChangedKeySet.retainAll(this.beforeMap.keySet());
     for (String string : possiblyChangedKeySet) {
       String newValue = afterMap.get(string);
@@ -113,14 +113,14 @@ public class WorkspacePreferencesRecorderHandler extends AbstractHandler {
         preferencesDelta.append(string).append(EQUAL).append(newValue).append(EOL);
       }
     }
-    
+
     new WorkspacePrefercensRecorderResultDialog(null, this.textAccessor, preferencesDelta.toString()).open();
   }
 
-  
+
   private Map<String, String> getPreferencesMap() {
     String[] split = getPreferencesArray();
-    Map<String, String> prefMap = new HashMap<String, String>(split.length);
+    Map<String, String> prefMap = new HashMap<>(split.length);
     for (String string : split) {
       if (!string.startsWith(AT) && !string.startsWith(HASH)) {
         String[] keyvalue = string.split(EQUAL, 2);
@@ -129,8 +129,8 @@ public class WorkspacePreferencesRecorderHandler extends AbstractHandler {
     }
     return prefMap;
   }
-  
-  
+
+
   private String[] getPreferencesArray() {
     IPreferencesService service = Platform.getPreferencesService();
     IEclipsePreferences node = (IEclipsePreferences) service.getRootNode().node(InstanceScope.SCOPE);
@@ -145,7 +145,7 @@ public class WorkspacePreferencesRecorderHandler extends AbstractHandler {
     }
     return new String[0];
   }
-  
+
   private void logError(Throwable e) {
     this.log.log(new Status(IStatus.ERROR, this.bundleId, this.textAccessor.getText("recorder.error.message"), e));
   }
