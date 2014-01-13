@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- * - Eclipse Team Etceteras - http://ete.kenai.com
+ * - Eclipse Team Etceteras - http://netceteragroup.github.io/eclipse-team-etceteras/
  */
 package ch.netcetera.eclipse.common.dialog;
 

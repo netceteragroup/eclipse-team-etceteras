@@ -45,13 +45,9 @@
   </issueManagement>
   <distributionManagement>
     <repository>
-      <id>contrails-releases</id>
-      <url>https://contrails.ch/nexus/content/repositories/releases</url>
+        <id>repo</id>
+        <url>https://github.com/netceteragroup/eclipse-team-etceteras/raw/gh-pages/downloads</url>
     </repository>
-    <site>
-      <id>contrails-site</id>
-      <url>dav:https://contrails.ch/nexus/content/repositories/site</url>
-    </site>
   </distributionManagement>
   <developers>
     <developer>
