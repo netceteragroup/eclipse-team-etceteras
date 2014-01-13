@@ -60,7 +60,7 @@ public class AddNatureProjectConfigurationCommand extends AbstractNatureProjectC
       }
 
       IProjectDescription projectDescription = project.getDescription();
-      List<String> natureIDs = new ArrayList<>(Arrays.asList(projectDescription.getNatureIds()));
+      List<String> natureIDs = new ArrayList<String>(Arrays.asList(projectDescription.getNatureIds()));
       natureIDs.add(newNatureID);
       projectDescription.setNatureIds(natureIDs.toArray(new String[natureIDs.size()]));
       project.setDescription(projectDescription, null);

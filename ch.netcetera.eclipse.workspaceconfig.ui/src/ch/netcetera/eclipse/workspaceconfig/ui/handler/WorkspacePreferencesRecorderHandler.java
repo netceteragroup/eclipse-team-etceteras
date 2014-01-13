@@ -52,7 +52,7 @@ public class WorkspacePreferencesRecorderHandler extends AbstractHandler {
   private final String bundleId = WorkspaceConfigurationUIPlugin.getDefault().getBundle().getSymbolicName();
 
   private boolean isRecording = false;
-  private Map<String, String> beforeMap = new HashMap<>();
+  private Map<String, String> beforeMap = new HashMap<String, String>();
 
 
   /** {@inheritDoc} */
@@ -89,7 +89,7 @@ public class WorkspacePreferencesRecorderHandler extends AbstractHandler {
 
     // detect removed preferences
     preferencesDelta.append(this.textAccessor.getText("recorder.result.removed")).append(EOL);
-    Set<String> removedKeySet = new HashSet<>(this.beforeMap.keySet());
+    Set<String> removedKeySet = new HashSet<String>(this.beforeMap.keySet());
     removedKeySet.removeAll(afterMap.keySet());
     for (String string : removedKeySet) {
       preferencesDelta.append(string).append(EQUAL).append(beforeMap.get(string)).append(EOL);
@@ -97,7 +97,7 @@ public class WorkspacePreferencesRecorderHandler extends AbstractHandler {
 
     // detect added preferences
     preferencesDelta.append(EOL).append(this.textAccessor.getText("recorder.result.added")).append(EOL);
-    Set<String> addedKeySet = new HashSet<>(afterMap.keySet());
+    Set<String> addedKeySet = new HashSet<String>(afterMap.keySet());
     addedKeySet.removeAll(this.beforeMap.keySet());
     for (String string : addedKeySet) {
       preferencesDelta.append(string).append(EQUAL).append(afterMap.get(string)).append(EOL);
@@ -105,7 +105,7 @@ public class WorkspacePreferencesRecorderHandler extends AbstractHandler {
 
     // detect changed preferences
     preferencesDelta.append(EOL).append(this.textAccessor.getText("recorder.result.changed")).append(EOL);
-    Set<String> possiblyChangedKeySet = new HashSet<>(afterMap.keySet());
+    Set<String> possiblyChangedKeySet = new HashSet<String>(afterMap.keySet());
     possiblyChangedKeySet.retainAll(this.beforeMap.keySet());
     for (String string : possiblyChangedKeySet) {
       String newValue = afterMap.get(string);
@@ -120,7 +120,7 @@ public class WorkspacePreferencesRecorderHandler extends AbstractHandler {
 
   private Map<String, String> getPreferencesMap() {
     String[] split = getPreferencesArray();
-    Map<String, String> prefMap = new HashMap<>(split.length);
+    Map<String, String> prefMap = new HashMap<String, String>(split.length);
     for (String string : split) {
       if (!string.startsWith(AT) && !string.startsWith(HASH)) {
         String[] keyvalue = string.split(EQUAL, 2);

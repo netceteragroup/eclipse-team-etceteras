@@ -234,7 +234,7 @@ public class RemotePreferencesImportPage extends WizardPage {
    * @return a list containing all URLs belonging to checked items of the table
    */
   private List<String> getCheckedTableItemsAsString() {
-    List<String> checkedTableItems = new ArrayList<>();
+    List<String> checkedTableItems = new ArrayList<String>();
     for (TableItem tableItem : this.table.getItems()) {
       if (tableItem.getChecked()) {
         checkedTableItems.add(tableItem.getText());

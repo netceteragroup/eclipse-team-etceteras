@@ -59,7 +59,7 @@ final class ProjectConfigurationParser {
    */
   static void parse(ProjectConfigurationScript script, InputStream inputStream,
       ITextAccessor textAccessor, String pluginId, ILog log) throws IOException {
-    List<IProjectConfigurationCommand> commandList = new ArrayList<>();
+    List<IProjectConfigurationCommand> commandList = new ArrayList<IProjectConfigurationCommand>();
 
     Charset charset = Charset.forName("ISO-8859-1");
     BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream, charset));
@@ -103,7 +103,7 @@ final class ProjectConfigurationParser {
    */
   static List<String> splitLine(String line) {
     String[] split = line.trim().split(" ");
-    List<String> list = new ArrayList<>(split.length);
+    List<String> list = new ArrayList<String>(split.length);
     for (String element2 : split) {
       String element = element2.trim();
       if (element.length() > 0) {

@@ -94,7 +94,7 @@ public class EditableUrlStringListFieldEditor extends AbstractEditableStringList
   /** {@inheritDoc} */
   @Override
   protected String marshallPreferenceString(String[] items) {
-    List<String> epfUrlList = new ArrayList<>(items.length);
+    List<String> epfUrlList = new ArrayList<String>(items.length);
     for (String string : items) {
       epfUrlList.add(string);
     }

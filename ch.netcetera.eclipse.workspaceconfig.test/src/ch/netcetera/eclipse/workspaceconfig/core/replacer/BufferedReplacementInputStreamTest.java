@@ -22,6 +22,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
+import ch.netcetera.eclipse.common.io.IOUtil;
 import ch.netcetera.eclipse.workspaceconfig.core.internal.BufferedReplacementInputStream;
 import ch.netcetera.eclipse.workspaceconfig.core.internal.IReplacer;
 
@@ -77,14 +78,19 @@ public class BufferedReplacementInputStreamTest {
    *
    * @throws IOException on error
    */
+  @SuppressWarnings("resource")
   @Test
   public void testConstructorNullArguments() throws IOException {
-    try (BufferedReplacementInputStream bris = new BufferedReplacementInputStream(replacer,
-        new ByteArrayInputStream(new StringBuffer(input).toString().getBytes(ENCODING)));) {
+    BufferedReplacementInputStream bris = null;
+    try {
+      bris = new BufferedReplacementInputStream(replacer,
+          new ByteArrayInputStream(new StringBuffer(input).toString().getBytes(ENCODING)));
       byte[] result = new byte[BUFFER_SIZE];
       int read = bris.read(result);
-      String stringResult = new String(result, ENCODING).substring(0, read == -1 ? 0 : read);
+      String stringResult = new String(result, ENCODING).substring(0, Math.max(0, read));
       assertEquals(expected, stringResult);
+    } finally {
+      IOUtil.closeSilently(bris);
     }
   }
 }

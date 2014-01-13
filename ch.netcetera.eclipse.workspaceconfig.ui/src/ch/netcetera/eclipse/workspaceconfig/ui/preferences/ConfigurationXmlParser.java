@@ -78,7 +78,7 @@ public class ConfigurationXmlParser {
       InputStream inputStream = new ByteArrayInputStream(xml.getBytes(ENCODING));
       XMLStreamReader reader = this.factory.createXMLStreamReader(inputStream, ENCODING);
 
-      List<String> envVarList = new ArrayList<>();
+      List<String> envVarList = new ArrayList<String>();
 
       while (reader.hasNext()) {
         int event = reader.next();

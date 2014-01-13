@@ -74,7 +74,7 @@ public class SystemPropertyReplacerTest {
    */
   @Before
   public void setUp() {
-    replacer = new SystemPropertyReplacer(new ArrayList<>(replacementMap.keySet()));
+    replacer = new SystemPropertyReplacer(new ArrayList<String>(replacementMap.keySet()));
 
     for (String sysPropName : replacementMap.keySet()) {
 

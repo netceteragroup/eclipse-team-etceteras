@@ -8,7 +8,7 @@ Bundle-Vendor: %bundle.provider
 Require-Bundle: org.eclipse.core.expressions;visibility:=reexport,
  org.eclipse.jdt.core;visibility:=reexport,
  ch.netcetera.eclipse.projectconfig.core;visibility:=reexport
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
 

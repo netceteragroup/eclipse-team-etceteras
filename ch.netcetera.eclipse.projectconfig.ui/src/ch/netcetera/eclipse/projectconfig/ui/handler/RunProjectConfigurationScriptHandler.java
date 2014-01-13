@@ -93,7 +93,7 @@ public class RunProjectConfigurationScriptHandler extends AbstractHandler {
    * @return the selected projects
    */
   private List<IProject> getProjectsFromSelection(ISelection selection) {
-    List<IProject> projectList = new ArrayList<>();
+    List<IProject> projectList = new ArrayList<IProject>();
 
     if (selection instanceof IStructuredSelection) {
       IStructuredSelection currentSelection = (IStructuredSelection) selection;

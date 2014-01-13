@@ -82,7 +82,7 @@ public class EditableStringListFieldEditor extends AbstractEditableStringListFie
   /** {@inheritDoc} */
   @Override
   protected String marshallPreferenceString(String[] items) {
-    List<String> envVarList = new ArrayList<>(items.length);
+    List<String> envVarList = new ArrayList<String>(items.length);
     for (String string : items) {
       envVarList.add(string);
     }

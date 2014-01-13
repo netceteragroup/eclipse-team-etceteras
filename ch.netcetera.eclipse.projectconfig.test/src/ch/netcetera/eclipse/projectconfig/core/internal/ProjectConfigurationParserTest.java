@@ -22,6 +22,7 @@ import org.hamcrest.core.IsNot;
 import org.hamcrest.core.StringContains;
 import org.junit.Test;
 
+import ch.netcetera.eclipse.common.io.IOUtil;
 import ch.netcetera.eclipse.common.text.ITextAccessor;
 import ch.netcetera.eclipse.projectconfig.core.ProjectConfigurationScript;
 import ch.netcetera.eclipse.projectconfig.core.configurationcommands.IProjectConfigurationCommand;
@@ -56,6 +57,7 @@ public class ProjectConfigurationParserTest {
    *
    * @throws IOException on error
    */
+  @SuppressWarnings("resource")
   @Test
   public void testParse() throws IOException {
     final String scriptUrl = "scriptUrl";
@@ -64,17 +66,20 @@ public class ProjectConfigurationParserTest {
     final String pluginId = null;
     final ILog log = null;
 
-    try (InputStream epcsInputStream = getClass().getResourceAsStream("test.epcs");) {
+    InputStream epcsInputStream = getClass().getResourceAsStream("test.epcs");
       if (epcsInputStream != null) {
+        try {
+          ProjectConfigurationParser.parse(script, epcsInputStream, textAccessor, pluginId, log);
 
-        ProjectConfigurationParser.parse(script, epcsInputStream, textAccessor, pluginId, log);
+          // six commands (download is duplicated)
+          List<IProjectConfigurationCommand> commands = script.getCommandList();
+          assertEquals(6, commands.size());
 
-        // six commands (download is duplicated)
-        List<IProjectConfigurationCommand> commands = script.getCommandList();
-        assertEquals(6, commands.size());
+        } finally {
+          IOUtil.closeSilently(epcsInputStream);
+        }
       } else {
         fail("Could not open test epcs file.");
       }
-    }
   }
 }

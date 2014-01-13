@@ -44,7 +44,8 @@ public class WorkspaceConfigurationUIPlugin extends AbstractTextAccessorUIPlugin
     super.start(context);
     plugin = this;
 
-    this.tracker = new ServiceTracker<>(context, IPreferencesImportService.class.getName(), null);
+    this.tracker = new ServiceTracker<IPreferencesImportService, Object>(context,
+        IPreferencesImportService.class.getName(), null);
     this.tracker.open();
     this.service = (IPreferencesImportService) this.tracker.getService();
   }

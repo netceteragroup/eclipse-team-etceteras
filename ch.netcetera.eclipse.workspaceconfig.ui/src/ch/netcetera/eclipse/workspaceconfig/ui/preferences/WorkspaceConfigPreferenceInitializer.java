@@ -51,8 +51,8 @@ public class WorkspaceConfigPreferenceInitializer extends AbstractPreferenceInit
 
     IConfigurationElement[] configElements = Platform.getExtensionRegistry().getConfigurationElementsFor(EXTENSION_ID);
 
-    Set<String> urls = new HashSet<>();
-    Set<String> replacements = new HashSet<>();
+    Set<String> urls = new HashSet<String>();
+    Set<String> replacements = new HashSet<String>();
     boolean newWorkspaceDetection = false;
 
     for (IConfigurationElement configElement : configElements) {
@@ -81,7 +81,7 @@ public class WorkspaceConfigPreferenceInitializer extends AbstractPreferenceInit
   }
 
   private Collection<? extends String> handleEpfUrlProvider(IConfigurationElement configElement) {
-    Set<String> urls = new HashSet<>();
+    Set<String> urls = new HashSet<String>();
     try {
       Object executableExtension = configElement.createExecutableExtension(CLASS);
       if (executableExtension instanceof IEpfUrlProvider) {

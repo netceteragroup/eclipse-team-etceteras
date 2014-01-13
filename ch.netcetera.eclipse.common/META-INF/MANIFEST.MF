@@ -4,7 +4,7 @@ Bundle-Name: %plugin.name
 Bundle-SymbolicName: ch.netcetera.eclipse.common
 Bundle-Version: 3.1.1.qualifier
 Bundle-Vendor: %plugin.provider
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui;bundle-version="[3.5.0,5.0.0)";visibility:=reexport,
  org.eclipse.core.runtime;bundle-version="[3.5.0,5.0.0)";visibility:=reexport,

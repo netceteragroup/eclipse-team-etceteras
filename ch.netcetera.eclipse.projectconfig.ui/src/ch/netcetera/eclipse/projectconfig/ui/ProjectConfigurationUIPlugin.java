@@ -48,7 +48,8 @@ public class ProjectConfigurationUIPlugin extends AbstractTextAccessorUIPlugin {
     super.start(context);
     plugin = this;
 
-    this.tracker = new ServiceTracker<>(context, IProjectConfigurationService.class.getName(), null);
+    this.tracker = new ServiceTracker<IProjectConfigurationService, Object>(context,
+        IProjectConfigurationService.class.getName(), null);
     this.tracker.open();
     this.service = (IProjectConfigurationService) this.tracker.getService();
   }
