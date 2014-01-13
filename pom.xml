@@ -43,12 +43,6 @@
     <system>github</system>
     <url>https://github.com/netceteragroup/eclipse-team-etceteras/issues</url>
   </issueManagement>
-  <distributionManagement>
-    <repository>
-        <id>repo</id>
-        <url>https://github.com/netceteragroup/eclipse-team-etceteras/raw/gh-pages/downloads</url>
-    </repository>
-  </distributionManagement>
   <developers>
     <developer>
       <id>pellaton</id>
