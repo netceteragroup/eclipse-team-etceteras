@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <description name="Eclipse Team Etceteras" url="https://www.contrails.ch/ete/updatesite/">
+   <description name="Eclipse Team Etceteras" url="http://netceteragroup.github.io/eclipse-team-etceteras/updatesite/">
       The Eclipse Team Etceteras projects offers free Eclipse plug-ins that ease the usage of the IDE in enterprises or large teams.
    </description>
    <feature url="features/ch.netcetera.eclipse.workspaceconfig.feature_3.1.1.qualifier.jar" id="ch.netcetera.eclipse.workspaceconfig.feature" version="3.1.1.qualifier">
