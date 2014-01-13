@@ -27,7 +27,7 @@
     <module>ch.netcetera.eclipse.workspaceconfig.net</module>
     <module>ch.netcetera.eclipse.workspaceconfig.ui</module>
     <module>ch.netcetera.eclipse.workspaceconfig.ui.fragment</module>
-    <module>com.kenai.ete.updatesite</module>
+    <module>ch.netcetera.eclipse.ete.updatesite</module>
   </modules>
   <scm>
     <url>https://github.com/netceteragroup/eclipse-team-etceteras</url>
