@@ -209,9 +209,10 @@ public abstract class AbstractHttpClient {
         && getProxyService().getProxyData().length > 0) {
       String requestScheme = get.getURI().getScheme();
       for (IProxyData proxyData : getProxyService().getProxyData()) {
-        if (proxyData != null && proxyData.getHost() != null
+        if (proxyData != null
+            && proxyData.getHost() != null
             && proxyData.getType().equalsIgnoreCase(requestScheme)) {
-          HttpHost proxy = new HttpHost(proxyData.getHost(), proxyData.getPort());
+          HttpHost proxy = new HttpHost(proxyData.getHost(), proxyData.getPort(), requestScheme);
           client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
           break;
         }
