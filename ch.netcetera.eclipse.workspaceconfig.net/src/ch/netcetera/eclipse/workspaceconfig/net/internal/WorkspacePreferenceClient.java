@@ -33,9 +33,6 @@ import ch.netcetera.eclipse.workspaceconfig.net.IWorkspacePreferenceClient;
 public class WorkspacePreferenceClient extends AbstractHttpClient implements
     IWorkspacePreferenceClient {
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected String getBundleSymbolicName() {
     final Bundle bundle = FrameworkUtil.getBundle(this.getClass());
@@ -78,6 +75,7 @@ public class WorkspacePreferenceClient extends AbstractHttpClient implements
    * @return the preference file date
    * @throws IOException on error
    */
+  @SuppressWarnings("resource")
   protected IPreferenceFileData handleResponse(HttpResponse response, IProgressMonitor monitor) throws IOException {
     InputStream input = response.getEntity().getContent();
     try {

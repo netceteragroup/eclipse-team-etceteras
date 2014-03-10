@@ -33,9 +33,6 @@ import ch.netcetera.eclipse.projectconfig.net.IProjectConfigurationScriptData;
 public class ProjectConfigurationClient extends AbstractHttpClient implements
     IProjectConfigurationClient {
 
-  /**
-   * {@inheritDoc}
-   */
   @Override
   protected String getBundleSymbolicName() {
     final Bundle bundle = FrameworkUtil.getBundle(this.getClass());
@@ -79,6 +76,7 @@ public class ProjectConfigurationClient extends AbstractHttpClient implements
    * @return the project configuration script data
    * @throws IOException on error
    */
+  @SuppressWarnings("resource")
   protected IProjectConfigurationScriptData handleResponse(HttpResponse response, IProgressMonitor monitor)
       throws IOException {
     InputStream input = response.getEntity().getContent();

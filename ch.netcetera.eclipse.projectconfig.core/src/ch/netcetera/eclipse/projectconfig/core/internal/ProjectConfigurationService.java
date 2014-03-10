@@ -63,7 +63,7 @@ public class ProjectConfigurationService implements IProjectConfigurationService
    *
    * @param client the client service reference to bind
    */
-  public void unbindClient(IProjectConfigurationClient client) {
+  public void unbindClient(@SuppressWarnings("unused") IProjectConfigurationClient client) {
     this.client = null;
   }
 

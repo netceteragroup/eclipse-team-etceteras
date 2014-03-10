@@ -65,7 +65,7 @@ public class PreferencesImportService implements IPreferencesImportService {
    *
    * @param client the client service reference to bind
    */
-  public void unbindClient(IWorkspacePreferenceClient client) {
+  public void unbindClient(@SuppressWarnings("unused") IWorkspacePreferenceClient client) {
     this.client = null;
   }
 
@@ -88,6 +88,7 @@ public class PreferencesImportService implements IPreferencesImportService {
    *
    * @param systemPropertyReplacementList the system property replacements to do duringthe import
    */
+  @SuppressWarnings("resource")
   private IStatus importConfigFileFile(String url, List<String> systemPropertyReplacementList) {
     String bundleSymbolicName = FrameworkUtil.getBundle(this.getClass()).getSymbolicName();
     IStatus importStatus = Status.OK_STATUS;
