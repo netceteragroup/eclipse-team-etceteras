@@ -2,7 +2,7 @@
 <feature
       id="ch.netcetera.eclipse.workspaceconfig.feature"
       label="%feature.name"
-      version="3.1.2.qualifier"
+      version="3.1.2"
       provider-name="%feature.provider"
       plugin="ch.netcetera.eclipse.workspaceconfig.ide">
 
