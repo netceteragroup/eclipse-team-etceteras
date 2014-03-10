@@ -143,6 +143,7 @@
           <autoVersionSubmodules>true</autoVersionSubmodules>
         </configuration>
       </plugin>
+      <!-- Too slow and checked by eclipse 
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>findbugs-maven-plugin</artifactId>
@@ -157,14 +158,14 @@
             </goals>
           </execution>
         </executions>
-      </plugin>
+      </plugin> 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <configuration>
           <configLocation>.checkstyle</configLocation>
         </configuration>
-      </plugin>
+      </plugin>-->
     </plugins>
     <pluginManagement>
       <plugins>
