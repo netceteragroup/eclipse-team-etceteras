@@ -3,10 +3,10 @@
    <description name="Eclipse Team Etceteras" url="http://netceteragroup.github.io/eclipse-team-etceteras/updatesite/">
       The Eclipse Team Etceteras projects offers free Eclipse plug-ins that ease the usage of the IDE in enterprises or large teams.
    </description>
-   <feature url="features/ch.netcetera.eclipse.workspaceconfig.feature_3.1.0.jar" id="ch.netcetera.eclipse.workspaceconfig.feature" version="3.1.0">
+   <feature url="features/ch.netcetera.eclipse.workspaceconfig.feature_3.1.1.jar" id="ch.netcetera.eclipse.workspaceconfig.feature" version="3.1.1">
       <category name="Remote Workspace Preferences"/>
    </feature>
-   <feature url="features/ch.netcetera.eclipse.projectconfig.feature_3.1.0.jar" id="ch.netcetera.eclipse.projectconfig.feature" version="3.1.0">
+   <feature url="features/ch.netcetera.eclipse.projectconfig.feature_3.1.1.jar" id="ch.netcetera.eclipse.projectconfig.feature" version="3.1.1">
       <category name="Remote Project Properties"/>
    </feature>
    <category-def name="Remote Project Properties" label="Remote Project Properties"/>
