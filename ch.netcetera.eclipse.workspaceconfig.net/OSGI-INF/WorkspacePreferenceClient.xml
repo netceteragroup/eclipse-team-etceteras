@@ -4,5 +4,5 @@
    <service>
       <provide interface="ch.netcetera.eclipse.workspaceconfig.net.IWorkspacePreferenceClient"/>
    </service>
-   <reference bind="bindProxyService" cardinality="0..1" interface="org.eclipse.core.net.proxy.IProxyService" name="IProxyService" policy="dynamic" unbind="unbindProxyService"/>
+   <reference bind="bindProxyService" cardinality="1..1" interface="org.eclipse.core.net.proxy.IProxyService" name="IProxyService" policy="static" unbind="unbindProxyService"/>
 </scr:component>
