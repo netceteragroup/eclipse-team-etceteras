@@ -4,7 +4,7 @@
   <parent>
     <groupId>ch.netcetera.eclipse</groupId>
     <artifactId>ete-parent</artifactId>
-    <version>3.1.2</version>
+    <version>3.1.3-SNAPSHOT</version>
   </parent>
   <artifactId>ch.netcetera.eclipse.workspaceconfig.feature</artifactId>
   <packaging>eclipse-feature</packaging>
