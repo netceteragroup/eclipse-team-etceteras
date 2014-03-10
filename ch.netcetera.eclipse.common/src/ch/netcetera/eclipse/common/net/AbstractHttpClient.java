@@ -15,6 +15,7 @@ package ch.netcetera.eclipse.common.net;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.SSLHandshakeException;
@@ -189,7 +190,7 @@ public abstract class AbstractHttpClient {
       if (statusCode == HttpStatus.SC_OK) {
         return handler.handleResponse(response, monitor);
       } else {
-        throw convertHttpStatusToException(statusCode);
+        throw convertHttpStatusToException(statusCode, request.getURI());
       }
     } catch (HttpException e) {
       throw wrapHttpException(e);
@@ -243,9 +244,9 @@ public abstract class AbstractHttpClient {
    */
   protected abstract String getBundleSymbolicName();
 
-  private CoreException convertHttpStatusToException(int httpStatusCode) {
-    IStatus status = new Status(IStatus.ERROR, getBundleSymbolicName(), "unexpected HTTP status code "
-        + httpStatusCode);
+  private CoreException convertHttpStatusToException(int httpStatusCode, URI uri) {
+    IStatus status = new Status(IStatus.ERROR, getBundleSymbolicName(), "ETE received an unexpected HTTP status code "
+        + httpStatusCode + " while connecting to " + uri);
     return new CoreException(status);
   }
 
