@@ -18,21 +18,19 @@ import java.io.OutputStream;
 import java.net.URI;
 import java.util.zip.GZIPInputStream;
 
-import javax.net.ssl.SSLHandshakeException;
-
 import org.apache.http.Header;
-import org.apache.http.HttpException;
 import org.apache.http.HttpHost;
-import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpRequestBase;
+import org.apache.http.conn.params.ConnRoutePNames;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicHttpRequest;
-import org.apache.http.protocol.BasicHttpContext;
-import org.apache.http.protocol.HttpContext;
+import org.eclipse.core.net.proxy.IProxyData;
 import org.eclipse.core.net.proxy.IProxyService;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
@@ -67,10 +65,11 @@ public abstract class AbstractHttpClient {
   }
 
   /**
-   * An {@link InputStream} that wraps a {@link IProgressMonitor}. Reading from
-   * the stream will report progress.
+   * An {@link InputStream} that wraps a {@link IProgressMonitor}. Reading from the stream will
+   * report progress.
    */
   protected static final class ProgressReportingInputStream extends InputStream {
+
     private final InputStream stream;
     private final IProgressMonitor monitor;
 
@@ -171,36 +170,6 @@ public abstract class AbstractHttpClient {
     }
   }
 
-  private HttpResponse executeMethod(HttpClient client, HttpRequestBase method) throws IOException,
-  HttpException, CoreException {
-
-    HttpHost httpHost = new HttpHost(method.getURI().getHost());
-    HttpRequest request = new BasicHttpRequest(method.getRequestLine());
-    HttpContext context = new BasicHttpContext();
-    HttpResponse response = client.execute(httpHost, request, context);
-    return response;
-  }
-
-  private <R> R executePreparedMethod(IResponseHandler<R> handler, IProgressMonitor monitor,
-      HttpRequestBase request,
-      HttpClient client) throws CoreException {
-    try {
-      HttpResponse response = this.executeMethod(client, request);
-      int statusCode = response.getStatusLine().getStatusCode();
-      if (statusCode == HttpStatus.SC_OK) {
-        return handler.handleResponse(response, monitor);
-      } else {
-        throw convertHttpStatusToException(statusCode, request.getURI());
-      }
-    } catch (HttpException e) {
-      throw wrapHttpException(e);
-    } catch (SSLHandshakeException e) {
-      throw wrapSslHandshakeException(e);
-    } catch (IOException e) {
-      throw wrapIoException(e);
-    }
-  }
-
   /**
    * Executes a HTTP get request.
    *
@@ -211,24 +180,54 @@ public abstract class AbstractHttpClient {
    * @return the response
    * @throws CoreException on error
    */
-  protected <R> R executeGetRequest(String url, IResponseHandler<R> handler, IProgressMonitor monitor)
-  throws CoreException {
+  protected <R> R executeGetRequest(String url,
+      IResponseHandler<R> handler,
+      IProgressMonitor monitor) throws CoreException {
+
     HttpClient client = new DefaultHttpClient();
     HttpGet get = new HttpGet(url);
     get.addHeader("Accept-Encoding", "gzip");
-    return executePreparedMethod(handler, monitor, get, client);
+    configureProxySettings(client, get);
+    configureSslHandling(client);
+
+    try {
+      HttpResponse response = client.execute(get);
+      int statusCode = response.getStatusLine().getStatusCode();
+      if (statusCode == HttpStatus.SC_OK) {
+        return handler.handleResponse(response, monitor);
+      } else {
+        throw convertHttpStatusToException(statusCode, get.getURI());
+      }
+    } catch (IOException e) {
+      throw wrapIoException(e);
+    }
   }
 
-  private CoreException wrapSslHandshakeException(SSLHandshakeException e) {
-    IStatus status = new Status(IStatus.ERROR, getBundleSymbolicName(), e.getLocalizedMessage(), e);
-    return new CoreException(status);
+  private void configureProxySettings(HttpClient client, HttpGet get) {
+    if (getProxyService() != null
+        && getProxyService().getProxyData() != null
+        && getProxyService().getProxyData().length > 0) {
+      String requestScheme = get.getURI().getScheme();
+      for (IProxyData proxyData : getProxyService().getProxyData()) {
+        if (proxyData != null && proxyData.getHost() != null
+            && proxyData.getType().equalsIgnoreCase(requestScheme)) {
+          HttpHost proxy = new HttpHost(proxyData.getHost(), proxyData.getPort());
+          client.getParams().setParameter(ConnRoutePNames.DEFAULT_PROXY, proxy);
+          break;
+        }
+      }
+    }
+  }
+
+  private void configureSslHandling(HttpClient httpClient) throws CoreException {
+    Scheme http = new Scheme("http", 80, PlainSocketFactory.getSocketFactory());
+    Scheme https = new Scheme("https", 443, SSLSocketFactory.getSocketFactory());
+    SchemeRegistry sr = httpClient.getConnectionManager().getSchemeRegistry();
+    sr.register(http);
+    sr.register(https);
   }
 
   private CoreException wrapIoException(IOException e) {
-    return this.wrapGenericException(e);
-  }
-
-  private CoreException wrapHttpException(HttpException e) {
     return this.wrapGenericException(e);
   }
 
@@ -238,27 +237,27 @@ public abstract class AbstractHttpClient {
   }
 
   /**
-   * Gets the bundle symbolic name.
-   *
    * @return the bundle symbolic name
    */
   protected abstract String getBundleSymbolicName();
 
   private CoreException convertHttpStatusToException(int httpStatusCode, URI uri) {
-    IStatus status = new Status(IStatus.ERROR, getBundleSymbolicName(), "ETE received an unexpected HTTP status code "
-        + httpStatusCode + " while connecting to " + uri);
+    IStatus status = new Status(IStatus.WARNING, getBundleSymbolicName(),
+        "ETE received an unexpected HTTP status code " + httpStatusCode
+        + " while connecting to " + uri);
     return new CoreException(status);
   }
 
   /**
    * Copy bytes from an {@link InputStream} to an {@link OutputStream}.
    *
-   * @param input  the {@link InputStream} to read from
-   * @param output  the {@link OutputStream} to write to
+   * @param input the {@link InputStream} to read from
+   * @param output the {@link OutputStream} to write to
    * @throws NullPointerException if the input or output is null
    * @throws IOException if an I/O error occurs
    */
-  protected static void copy(InputStream input, OutputStream output) throws IOException, NullPointerException {
+  protected static void copy(InputStream input, OutputStream output) throws IOException,
+      NullPointerException {
     // taken from Commons IO 1.3
     byte[] buffer = new byte[DEFAULT_BUFFER_SIZE];
     int n = 0;
@@ -278,8 +277,9 @@ public abstract class AbstractHttpClient {
    * @return the wrapped input stream
    * @throws IOException on error
    */
-  protected InputStream wrapResponseStream(HttpResponse response, InputStream stream, IProgressMonitor monitor)
-      throws IOException {
+  protected InputStream wrapResponseStream(HttpResponse response,
+      InputStream stream,
+      IProgressMonitor monitor) throws IOException {
     InputStream input = stream;
     Header contentEncoding = response.getFirstHeader("Content-Encoding");
     long contentLength = response.getEntity().getContentLength();
