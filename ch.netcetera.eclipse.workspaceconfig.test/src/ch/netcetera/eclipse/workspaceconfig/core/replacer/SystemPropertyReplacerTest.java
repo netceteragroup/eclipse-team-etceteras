@@ -81,7 +81,7 @@ public class SystemPropertyReplacerTest {
       // only set system properties that do not exist yet
       if (System.getProperty(sysPropName) != null) {
         throw new IllegalArgumentException(
-            "Tests shall only be conducted with non existin system properties (property '"
+            "Tests shall only be conducted with non existing system properties (property '"
                 + sysPropName + "' exists)");
       }
       System.setProperty(sysPropName, replacementMap.get(sysPropName));
