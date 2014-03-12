@@ -78,17 +78,17 @@ public class ProjectConfiurationJob extends Job {
    */
   private IStatus runConfigurationScript() throws ExecutionException {
     IStatus status = Status.OK_STATUS;
-    
+
     if (this.scriptUrl != null && this.scriptUrl.trim().length() > 0) {
       IProjectConfigurationService service = ProjectConfigurationUIPlugin.getDefault().getProjectConfigurationService();
-      
+
       if (service != null) {
         status = service.runConfigurationScript(this.projectList, this.scriptUrl, this.textAccessor, this.pluginId,
             this.log);
         refreshProjects();
       } else {
         status = new Status(IStatus.ERROR, this.pluginId,
-            "could not obtain service reference of IPreferencesImportService");
+            "ProjectConfiurationJob could not obtain service reference of IProjectConfigurationService");
       }
     }
     return status;
