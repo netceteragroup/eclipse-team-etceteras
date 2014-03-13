@@ -143,6 +143,7 @@
           <autoVersionSubmodules>true</autoVersionSubmodules>
           <goals>install</goals>
           <pushChanges>false</pushChanges>
+          <localCheckout>true</localCheckout>
         </configuration>
       </plugin>
     </plugins>
