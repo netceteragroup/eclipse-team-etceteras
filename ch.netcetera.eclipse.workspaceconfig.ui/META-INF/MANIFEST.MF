@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %bundle.name
 Bundle-SymbolicName: ch.netcetera.eclipse.workspaceconfig.ui;singleton:=true
-Bundle-Version: 3.1.3
+Bundle-Version: 3.1.4.qualifier
 Bundle-Activator: ch.netcetera.eclipse.workspaceconfig.ui.WorkspaceConfigurationUIPlugin
 Bundle-Vendor: %bundle.provider
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
