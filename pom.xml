@@ -65,8 +65,16 @@
   </issueManagement>
   
   <distributionManagement>
-    <repository>https://oss.sonatype.org/service/local/staging/deploy/maven2</repository>
-    <snapshotRepository>https://oss.sonatype.org/content/repositories/snapshots</snapshotRepository>
+    <repository>
+      <id>maven-central-staging</id>
+      <name>Maven Central Staging Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
+    </repository>
+    <snapshotRepository>
+      <id>maven-central-snapshot</id>
+      <name>Maven Central Snapshot Repository</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <developers>
