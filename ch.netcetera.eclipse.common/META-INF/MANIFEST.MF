@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin.name
 Bundle-SymbolicName: ch.netcetera.eclipse.common
-Bundle-Version: 3.1.4.qualifier
+Bundle-Version: 3.1.4
 Bundle-Vendor: %plugin.provider
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Localization: plugin
@@ -14,13 +14,9 @@ Require-Bundle: org.eclipse.ui;bundle-version="[3.5.0,5.0.0)";visibility:=reexpo
  org.apache.commons.codec;bundle-version="[1.3.0,2.0.0)";visibility:=reexport,
  org.apache.httpcomponents.httpclient;bundle-version="[4.0.0,5.0.0)";visibility:=reexport,
  org.apache.httpcomponents.httpcore;bundle-version="[4.0.0,5.0.0)";visibility:=reexport
-Export-Package: ch.netcetera.eclipse.common.dialog,
- ch.netcetera.eclipse.common.fieldeditor,
- ch.netcetera.eclipse.common.io,
- ch.netcetera.eclipse.common.net,
- ch.netcetera.eclipse.common.plugin,
- ch.netcetera.eclipse.common.preference,
- ch.netcetera.eclipse.common.scheduling,
- ch.netcetera.eclipse.common.squasher,
- ch.netcetera.eclipse.common.text,
- ch.netcetera.eclipse.common.validator
+Export-Package: ch.netcetera.eclipse.common.dialog,ch.netcetera.eclips
+ e.common.fieldeditor,ch.netcetera.eclipse.common.io,ch.netcetera.ecli
+ pse.common.net,ch.netcetera.eclipse.common.plugin,ch.netcetera.eclips
+ e.common.preference,ch.netcetera.eclipse.common.scheduling,ch.netcete
+ ra.eclipse.common.squasher,ch.netcetera.eclipse.common.text,ch.netcet
+ era.eclipse.common.validator
