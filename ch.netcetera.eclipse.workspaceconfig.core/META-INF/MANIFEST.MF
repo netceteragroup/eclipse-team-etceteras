@@ -2,13 +2,14 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %bundle.name
 Bundle-SymbolicName: ch.netcetera.eclipse.workspaceconfig.core
-Bundle-Version: 3.1.4.qualifier
+Bundle-Version: 3.1.5.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: ch.netcetera.eclipse.workspaceconfig.net;visibility:=reexport,
  org.eclipse.equinox.ds;bundle-version="[1.1.0,2.0.0)";visibility:=reexport
 Bundle-Vendor: %bundle.provider
 Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
-Export-Package: ch.netcetera.eclipse.workspaceconfig.core,
- ch.netcetera.eclipse.workspaceconfig.core.internal;x-friends:="ch.netcetera.eclipse.workspaceconfig.test"
+Export-Package: ch.netcetera.eclipse.workspaceconfig.core,ch.netcetera
+ .eclipse.workspaceconfig.core.internal;x-friends:="ch.netcetera.eclip
+ se.workspaceconfig.test"
 Service-Component: OSGI-INF/PreferencesImportService.xml

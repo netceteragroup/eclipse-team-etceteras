@@ -4,7 +4,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>ch.netcetera.eclipse</groupId>
   <artifactId>ete-parent</artifactId>
-  <version>3.1.4-SNAPSHOT</version>
+  <version>3.1.5-SNAPSHOT</version>
   <name>Eclipse Team Etceteras</name>
   <description>The Eclipse Team Etceteras projects offers free Eclipse plug-ins that ease the usage of the IDE in enterprises and teams.</description>
   <url>http://netceteragroup.github.io/eclipse-team-etceteras/</url>
