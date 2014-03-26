@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>ch.netcetera.eclipse</groupId>
   <artifactId>ete-parent</artifactId>
@@ -12,7 +13,7 @@
   <prerequisites>
     <maven>3.0</maven>
   </prerequisites>
-  
+
   <properties>
     <tycho-version>0.20.0</tycho-version>
     <maven-release-plugin.version>2.5</maven-release-plugin.version>
@@ -21,13 +22,14 @@
     <maven-javadoc-plugin.version>2.9.1</maven-javadoc-plugin.version>
     <maven-resources-plugin.version>2.6</maven-resources-plugin.version>
     <maven-source-plugin.version>2.2.1</maven-source-plugin.version>
+    <maven-gpg-plugin.version>1.5</maven-gpg-plugin.version>
     <org.easymock.version>3.2</org.easymock.version>
     <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
     <source.version>1.6</source.version>
     <target.version>1.6</target.version>
   </properties>
-  
+
   <modules>
     <module>ch.netcetera.eclipse.common</module>
     <module>ch.netcetera.eclipse.common.feature</module>
@@ -45,23 +47,28 @@
     <module>ch.netcetera.eclipse.workspaceconfig.ui.fragment</module>
     <module>ch.netcetera.eclipse.ete.updatesite</module>
   </modules>
-  
+
   <scm>
     <url>https://github.com/netceteragroup/eclipse-team-etceteras</url>
     <connection>scm:git:git@github.com:netceteragroup/eclipse-team-etceteras.git</connection>
     <developerConnection>scm:git:git@github.com:netceteragroup/eclipse-team-etceteras.git</developerConnection>
   </scm>
-  
+
   <ciManagement>
     <system>BuildHive</system>
     <url>https://buildhive.cloudbees.com/job/netceteragroup/job/eclipse-team-etceteras/</url>
   </ciManagement>
-  
+
   <issueManagement>
     <system>github</system>
     <url>https://github.com/netceteragroup/eclipse-team-etceteras/issues</url>
   </issueManagement>
   
+  <distributionManagement>
+    <repository>https://oss.sonatype.org/service/local/staging/deploy/maven2</repository>
+    <snapshotRepository>https://oss.sonatype.org/content/repositories/snapshots</snapshotRepository>
+  </distributionManagement>
+
   <developers>
     <developer>
       <id>pellaton</id>
@@ -91,7 +98,7 @@
       </roles>
     </developer>
   </developers>
-  
+
   <licenses>
     <license>
       <name>Eclipse Public License</name>
@@ -99,7 +106,7 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
-  
+
   <repositories>
     <repository>
       <id>juno</id>
@@ -107,7 +114,7 @@
       <url>http://download.eclipse.org/releases/juno</url>
     </repository>
   </repositories>
-  
+
   <dependencies>
     <dependency>
       <groupId>org.easymock</groupId>
@@ -115,7 +122,7 @@
       <version>${org.easymock.version}</version>
     </dependency>
   </dependencies>
-  
+
   <build>
     <plugins>
       <plugin>
@@ -176,8 +183,21 @@
           <localCheckout>true</localCheckout>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-gpg-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>sign-artifacts</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>sign</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
-    
+
     <pluginManagement>
       <plugins>
         <plugin>
@@ -199,6 +219,11 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-release-plugin</artifactId>
           <version>${maven-release-plugin.version}</version>
+          <configuration>
+            <mavenExecutorId>forked-path</mavenExecutorId>
+            <useReleaseProfile>false</useReleaseProfile>
+            <arguments>${arguments} -Psonatype-oss-release</arguments>
+          </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
@@ -224,6 +249,11 @@
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
           <version>${maven-source-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>${maven-gpg-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
