@@ -4,5 +4,5 @@
    <service>
       <provide interface="ch.netcetera.eclipse.projectconfig.core.IProjectConfigurationService"/>
    </service>
-   <reference bind="bindClient" cardinality="1..1" interface="ch.netcetera.eclipse.projectconfig.net.IProjectConfigurationClient" name="IProjectConfigurationClient" policy="static" unbind="unbindClient"/>
+   <reference bind="bindClient" cardinality="1..1" interface="ch.netcetera.eclipse.projectconfig.net.IProjectConfigurationClient" name="IProjectConfigurationClient" policy="dynamic" unbind="unbindClient"/>
 </scr:component>
