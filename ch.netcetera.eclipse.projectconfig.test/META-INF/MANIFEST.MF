@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %bundle.name
 Bundle-SymbolicName: ch.netcetera.eclipse.projectconfig.test
-Bundle-Version: 3.1.4.qualifier
+Bundle-Version: 3.1.5.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Require-Bundle: org.junit;bundle-version="4.11.0",
  org.easymock;bundle-version="[3.2.0,4.0.0)",
