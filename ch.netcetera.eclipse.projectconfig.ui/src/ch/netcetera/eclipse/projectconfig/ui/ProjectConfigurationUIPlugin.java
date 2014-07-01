@@ -37,8 +37,7 @@ public class ProjectConfigurationUIPlugin extends AbstractTextAccessorUIPlugin {
 
   private static ProjectConfigurationUIPlugin plugin;
 
-  private ServiceTracker<IProjectConfigurationService, Object> tracker;
-  private IProjectConfigurationService service;
+  private ServiceTracker<?, IProjectConfigurationService> tracker;
 
 
 
@@ -48,10 +47,9 @@ public class ProjectConfigurationUIPlugin extends AbstractTextAccessorUIPlugin {
     super.start(context);
     plugin = this;
 
-    this.tracker = new ServiceTracker<IProjectConfigurationService, Object>(context,
+    this.tracker = new ServiceTracker<IProjectConfigurationService, IProjectConfigurationService>(context,
         IProjectConfigurationService.class.getName(), null);
     this.tracker.open();
-    this.service = (IProjectConfigurationService) this.tracker.getService();
   }
 
   /** {@inheritDoc} */
@@ -83,6 +81,6 @@ public class ProjectConfigurationUIPlugin extends AbstractTextAccessorUIPlugin {
    * @return the {@link IProjectConfigurationService} instance
    */
   public IProjectConfigurationService getProjectConfigurationService() {
-    return this.service;
+    return this.tracker.getService();
   }
 }
